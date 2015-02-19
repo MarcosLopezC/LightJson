@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JsonArray.cs" />
+    <Compile Include="JsonObject.cs" />
+    <Compile Include="JsonValue.cs" />
     <Compile Include="JsonValueType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
