@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace LightJson
 {
+	[DebuggerDisplay("Count = {Count}")]
+	[DebuggerTypeProxy(typeof(JsonObjectDebugView))]
 	public sealed class JsonObject : IEnumerable<KeyValuePair<string, JsonValue>>
 	{
 		private IDictionary<string, JsonValue> properties;
@@ -63,6 +66,79 @@ namespace LightJson
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return this.GetEnumerator();
+		}
+
+		internal class JsonObjectDebugView
+		{
+			private JsonObject jsonObject;
+
+			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+			public KeyValuePair[] Keys
+			{
+				get
+				{
+					var keys = new KeyValuePair[jsonObject.Count];
+
+					var i = 0;
+					foreach (var property in jsonObject)
+					{
+						keys[i] = new KeyValuePair(property.Key, property.Value);
+						i += 1;
+					}
+
+					return keys;
+				}
+			}
+
+			public JsonObjectDebugView(JsonObject jsonObject)
+			{
+				this.jsonObject = jsonObject;
+			}
+
+			[DebuggerDisplay("{value.ToString(),nq}", Name = "{key}", Type = "{Type,nq}")]
+			internal class KeyValuePair
+			{
+				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+				private string key;
+
+				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+				private JsonValue value;
+
+				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+				private string Type
+				{
+					get
+					{
+						return typeof(JsonValue).ToString();
+					}
+				}
+
+				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+				public dynamic View
+				{
+					get
+					{
+						if (this.value.IsObject)
+						{
+							return (JsonObject)this.value;
+						}
+						else if (this.value.IsArray)
+						{
+							return (JsonArray)this.value;
+						}
+						else
+						{
+							return this.value;
+						}
+					}
+				}
+
+				public KeyValuePair(string key, JsonValue value)
+				{
+					this.key = key;
+					this.value = value;
+				}
+			}
 		}
 	}
 }

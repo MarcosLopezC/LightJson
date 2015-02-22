@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace LightJson
 {
+	[DebuggerDisplay("Count = {Count}")]
+	[DebuggerTypeProxy(typeof(JsonArrayDebugView))]
 	public sealed class JsonArray : IEnumerable<JsonValue>
 	{
 		private IList<JsonValue> items;
@@ -72,6 +75,32 @@ namespace LightJson
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return this.GetEnumerator();
+		}
+
+		internal class JsonArrayDebugView
+		{
+			private JsonArray jsonArray;
+
+			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+			public JsonValue[] Items
+			{
+				get
+				{
+					var items = new JsonValue[this.jsonArray.Count];
+
+					for (int i = 0; i < this.jsonArray.Count; i += 1)
+					{
+						items[i] = this.jsonArray[i];
+					}
+
+					return items;
+				}
+			}
+
+			public JsonArrayDebugView(JsonArray jsonArray)
+			{
+				this.jsonArray = jsonArray;
+			}
 		}
 	}
 }

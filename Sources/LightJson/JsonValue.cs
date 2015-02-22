@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace LightJson
 {
+	[DebuggerDisplay("{ToString(),nq}")]
+	[DebuggerTypeProxy(typeof(JsonValueDebugView))]
 	public struct JsonValue
 	{
 		private readonly JsonValueType type;
@@ -283,16 +286,42 @@ namespace LightJson
 					return this.value.ToString();
 
 				case JsonValueType.String:
-					return this.value;
+					return string.Format("\"{0}\"", this.value);
 
 				case JsonValueType.Object:
-					return "[Object]";
+					return string.Format("Object[{0}]", this.value.Count);
 
 				case JsonValueType.Array:
-					return "[Array]";
+					return string.Format("Array[{0}]", this.value.Count);
 
 				default:
 					throw new InvalidProgramException("Invalid value type.");
+			}
+		}
+
+		internal class JsonValueDebugView
+		{
+			private JsonValue jsonValue;
+
+			public JsonValueType Type
+			{
+				get
+				{
+					return jsonValue.Type;
+				}
+			}
+
+			public dynamic Value
+			{
+				get
+				{
+					return jsonValue.value;
+				}
+			}
+
+			public JsonValueDebugView(JsonValue jsonValue)
+			{
+				this.jsonValue = jsonValue;
 			}
 		}
 	}
