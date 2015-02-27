@@ -58,6 +58,13 @@ namespace LightJson
 			return this.properties.ContainsKey(key);
 		}
 
+		public string Serialize(bool pretty = false)
+		{
+			var writer = new JsonWriter(pretty);
+
+			return writer.Serialize(this);
+		}
+
 		public IEnumerator<KeyValuePair<string, JsonValue>> GetEnumerator()
 		{
 			return this.properties.GetEnumerator();
