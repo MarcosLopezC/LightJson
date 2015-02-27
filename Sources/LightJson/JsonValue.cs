@@ -272,6 +272,42 @@ namespace LightJson
 			}
 		}
 
+		public static bool operator ==(JsonValue a, JsonValue b)
+		{
+			return a.Type == b.type && a.value == b.value;
+		}
+
+		public static bool operator !=(JsonValue a, JsonValue b)
+		{
+			return !(a == b);
+		}
+
+		public override bool Equals(object obj)
+		{
+			var jsonValue = obj as JsonValue?;
+
+			if (jsonValue == null)
+			{
+				return this.IsNull;
+			}
+			else
+			{
+				return this == jsonValue.Value;
+			}
+		}
+
+		public override int GetHashCode()
+		{
+			if (this.IsNull)
+			{
+				return this.Type.GetHashCode();
+			}
+			else
+			{
+				return this.Type.GetHashCode() ^ this.value.GetHashCode();
+			}
+		}
+
 		public override string ToString()
 		{
 			switch (this.Type)
