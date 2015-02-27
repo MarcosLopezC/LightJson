@@ -131,9 +131,33 @@ namespace LightJson
 			return new JsonValue(JsonValueType.Boolean, value);
 		}
 
+		public static implicit operator JsonValue(bool? value)
+		{
+			if (value == null)
+			{
+				return JsonValue.Null;
+			}
+			else
+			{
+				return value.Value;
+			}
+		}
+
 		public static implicit operator JsonValue(double value)
 		{
 			return new JsonValue(JsonValueType.Number, value);
+		}
+
+		public static implicit operator JsonValue(double? value)
+		{
+			if (value == null)
+			{
+				return JsonValue.Null;
+			}
+			else
+			{
+				return value.Value;
+			}
 		}
 
 		public static implicit operator JsonValue(string value)
