@@ -35,6 +35,11 @@ namespace LightJson
 			this.properties = new Dictionary<string, JsonValue>();
 		}
 
+		public JsonObject Add(string key)
+		{
+			return Add(key, JsonValue.Null);
+		}
+
 		public JsonObject Add(string key, JsonValue value)
 		{
 			this.properties.Add(key, value);
