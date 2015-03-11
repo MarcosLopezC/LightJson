@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace LightJson
 {
-	[DebuggerDisplay("{ToString(),nq}")]
+	[DebuggerDisplay("{ToString(),nq}", Type = "JsonValue({Type})")]
 	[DebuggerTypeProxy(typeof(JsonValueDebugView))]
 	public struct JsonValue
 	{
@@ -363,6 +363,38 @@ namespace LightJson
 		{
 			private JsonValue jsonValue;
 
+			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+			public JsonObject ObjectView
+			{
+				get
+				{
+					if (jsonValue.IsObject)
+					{
+						return (JsonObject)jsonValue;
+					}
+					else
+					{
+						return null;
+					}
+				}
+			}
+
+			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+			public JsonArray ArrayView
+			{
+				get
+				{
+					if (jsonValue.IsArray)
+					{
+						return (JsonArray)jsonValue;
+					}
+					else
+					{
+						return null;
+					}
+				}
+			}
+
 			public JsonValueType Type
 			{
 				get
@@ -375,7 +407,18 @@ namespace LightJson
 			{
 				get
 				{
-					return jsonValue.value;
+					if (jsonValue.IsObject)
+					{
+						return (JsonObject)jsonValue;
+					}
+					else if (jsonValue.IsArray)
+					{
+						return (JsonArray)jsonValue;
+					}
+					else
+					{
+						return jsonValue;
+					}
 				}
 			}
 

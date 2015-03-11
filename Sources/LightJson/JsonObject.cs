@@ -102,7 +102,7 @@ namespace LightJson
 				this.jsonObject = jsonObject;
 			}
 
-			[DebuggerDisplay("{value.ToString(),nq}", Name = "{key}", Type = "{Type,nq}")]
+			[DebuggerDisplay("{value.ToString(),nq}", Name = "{key}", Type = "JsonValue({Type})")]
 			internal class KeyValuePair
 			{
 				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -112,11 +112,11 @@ namespace LightJson
 				private JsonValue value;
 
 				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-				private string Type
+				private JsonValueType Type
 				{
 					get
 					{
-						return typeof(JsonValue).ToString();
+						return value.Type;
 					}
 				}
 
