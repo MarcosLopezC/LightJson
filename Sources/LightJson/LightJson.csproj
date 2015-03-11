@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="JsonArray.cs" />
     <Compile Include="JsonObject.cs" />
+    <Compile Include="JsonParseException.cs" />
+    <Compile Include="JsonReader.cs" />
     <Compile Include="JsonValue.cs" />
     <Compile Include="JsonValueType.cs" />
     <Compile Include="JsonWriter.cs" />
