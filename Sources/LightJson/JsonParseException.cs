@@ -2,7 +2,7 @@
 
 namespace LightJson
 {
-	public class JsonParseException : Exception
+	public sealed class JsonParseException : Exception
 	{
 		public long Line { get; private set; }
 		public long Column { get; private set; }
