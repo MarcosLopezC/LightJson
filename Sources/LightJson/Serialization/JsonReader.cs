@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace LightJson
+namespace LightJson.Serialization
 {
 	public sealed class JsonReader
 	{

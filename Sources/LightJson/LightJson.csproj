@@ -42,12 +42,12 @@
   <ItemGroup>
     <Compile Include="JsonArray.cs" />
     <Compile Include="JsonObject.cs" />
-    <Compile Include="JsonParseException.cs" />
-    <Compile Include="JsonReader.cs" />
-    <Compile Include="JsonSerializationException.cs" />
+    <Compile Include="Serialization\JsonParseException.cs" />
+    <Compile Include="Serialization\JsonReader.cs" />
+    <Compile Include="Serialization\JsonSerializationException.cs" />
     <Compile Include="JsonValue.cs" />
     <Compile Include="JsonValueType.cs" />
-    <Compile Include="JsonWriter.cs" />
+    <Compile Include="Serialization\JsonWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

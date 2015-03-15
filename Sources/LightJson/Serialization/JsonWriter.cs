@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 
-namespace LightJson
+namespace LightJson.Serialization
 {
 	using ErrorCode = JsonSerializationException.ErrorCode;
 

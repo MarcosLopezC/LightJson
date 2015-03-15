@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LightJson
+namespace LightJson.Serialization
 {
 	public sealed class JsonParseException : Exception
 	{
