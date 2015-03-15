@@ -200,6 +200,15 @@ namespace LightJson
 			return writer.ToString();
 		}
 
+		public string Serialize(JsonArray jsonArray)
+		{
+			Initialize();
+
+			Render(jsonArray);
+
+			return writer.ToString();
+		}
+
 		private static string EncodeStringValue(string value)
 		{
 			var builder = new StringBuilder(value);
