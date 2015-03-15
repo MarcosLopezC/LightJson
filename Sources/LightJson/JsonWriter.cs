@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 namespace LightJson
 {
+	using ErrorCode = JsonSerializationException.ErrorCode;
+
 	public sealed class JsonWriter
 	{
 		private int indent;
@@ -79,7 +81,7 @@ namespace LightJson
 		{
 			if (renderedValues.Contains(value))
 			{
-				throw new ArgumentException("The object being serialized contains circular references.");
+				throw new JsonSerializationException(ErrorCode.CircularReference, value);
 			}
 			else
 			{
@@ -93,8 +95,18 @@ namespace LightJson
 			{
 				case JsonValueType.Null:
 				case JsonValueType.Boolean:
-				case JsonValueType.Number:
 					Write(value.ToString());
+					break;
+
+				case JsonValueType.Number:
+					if (IsValidNumber((double)value))
+					{
+						Write(value.ToString());
+					}
+					else
+					{
+						throw new JsonSerializationException(ErrorCode.InvalidNumber, value);
+					}
 					break;
 
 				case JsonValueType.String:
@@ -110,7 +122,7 @@ namespace LightJson
 					break;
 
 				default:
-					throw new InvalidOperationException("Invalid value type.");
+					throw new JsonSerializationException(ErrorCode.InvalidValueType, value);
 			}
 		}
 
@@ -202,6 +214,11 @@ namespace LightJson
 			builder.Replace("\t", "\\t");
 
 			return string.Format("\"{0}\"", builder.ToString());
+		}
+
+		private static bool IsValidNumber(double number)
+		{
+			return !(double.IsNaN(number) || double.IsInfinity(number));
 		}
 	}
 }
