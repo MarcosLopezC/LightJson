@@ -8,7 +8,7 @@ namespace LightJson
 		public long Column { get; private set; }
 
 		public JsonParseException() { }
-		public JsonParseException( string message ) : base( message ) { }
+		public JsonParseException(string message) : base(message) { }
 		public JsonParseException(string message, Exception inner) : base(message, inner) { }
 
 		public JsonParseException(string message, long line, long column)
