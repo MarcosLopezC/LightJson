@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="JsonArray.cs" />
     <Compile Include="JsonObject.cs" />
+    <Compile Include="Serialization\CircularReferenceException.cs" />
     <Compile Include="Serialization\JsonParseException.cs" />
     <Compile Include="Serialization\JsonReader.cs" />
     <Compile Include="Serialization\JsonSerializationException.cs" />

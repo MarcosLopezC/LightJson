@@ -81,7 +81,7 @@ namespace LightJson.Serialization
 		{
 			if (renderedValues.Contains(value))
 			{
-				throw new JsonSerializationException(ErrorCode.CircularReference, value);
+				throw new CircularReferenceException();
 			}
 			else
 			{
