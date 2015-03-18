@@ -122,7 +122,7 @@ namespace LightJson.Serialization
 					break;
 
 				default:
-					throw new JsonSerializationException(ErrorCode.InvalidValueType, value);
+					throw new InvalidOperationException("Invalid value type.");
 			}
 		}
 
