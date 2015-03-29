@@ -24,8 +24,7 @@ namespace LightJson.Serialization
 
 			if (next == -1)
 			{
-				// TODO: Add message.
-				throw new EndOfStreamException();
+				throw new IncompleteJsonMessageException();
 			}
 			else
 			{
@@ -39,8 +38,7 @@ namespace LightJson.Serialization
 
 			if (next == -1)
 			{
-				// TODO: Add message.
-				throw new EndOfStreamException();
+				throw new IncompleteJsonMessageException();
 			}
 			else
 			{
