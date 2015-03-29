@@ -191,20 +191,11 @@ namespace LightJson.Serialization
 			Write("}");
 		}
 
-		public string Serialize(JsonObject jsonObject)
+		public string Serialize(JsonValue jsonValue)
 		{
 			Initialize();
 
-			Render(jsonObject);
-
-			return writer.ToString();
-		}
-
-		public string Serialize(JsonArray jsonArray)
-		{
-			Initialize();
-
-			Render(jsonArray);
+			Render(jsonValue);
 
 			return writer.ToString();
 		}
