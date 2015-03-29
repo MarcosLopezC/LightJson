@@ -153,12 +153,15 @@ namespace LightJson.Serialization
 					{
 						WriteLine(",");
 					}
+					else
+					{
+						WriteLine();
+					}
 				}
 			}
 
 			indent -= 1;
 
-			WriteLine();
 			Write("]");
 
 			RemoveRenderingValue(value);
@@ -189,12 +192,15 @@ namespace LightJson.Serialization
 					{
 						WriteLine(",");
 					}
+					else
+					{
+						WriteLine();
+					}
 				}
 			}
 
 			indent -= 1;
 
-			WriteLine();
 			Write("}");
 
 			RemoveRenderingValue(value);
