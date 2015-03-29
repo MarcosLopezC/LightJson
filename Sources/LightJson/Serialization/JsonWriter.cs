@@ -105,7 +105,7 @@ namespace LightJson.Serialization
 					}
 					else
 					{
-						throw new JsonSerializationException(ErrorCode.InvalidNumber, value);
+						throw new InvalidJsonNumberException();
 					}
 					break;
 
