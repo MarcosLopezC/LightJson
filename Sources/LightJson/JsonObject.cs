@@ -127,7 +127,7 @@ namespace LightJson
 				}
 
 				[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-				public dynamic View
+				public object View
 				{
 					get
 					{

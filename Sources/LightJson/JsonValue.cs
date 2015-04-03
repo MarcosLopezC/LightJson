@@ -8,7 +8,7 @@ namespace LightJson
 	public struct JsonValue
 	{
 		private readonly JsonValueType type;
-		private readonly dynamic value;
+		private readonly object value;
 
 		public static readonly JsonValue Null = new JsonValue(JsonValueType.Null, null);
 
@@ -74,7 +74,7 @@ namespace LightJson
 			{
 				if (this.IsObject)
 				{
-					return this.value[key];
+					return ((JsonObject)this)[key];
 				}
 				else
 				{
@@ -85,7 +85,7 @@ namespace LightJson
 			{
 				if (this.IsObject)
 				{
-					this.value[key] = value;
+					((JsonObject)this)[key] = value;
 				}
 				else
 				{
@@ -100,7 +100,7 @@ namespace LightJson
 			{
 				if (this.IsArray)
 				{
-					return this.value[index];
+					return ((JsonArray)this)[index];
 				}
 				else
 				{
@@ -111,7 +111,7 @@ namespace LightJson
 			{
 				if (this.IsArray)
 				{
-					this.value[index] = value;
+					((JsonArray)this)[index] = value;
 				}
 				else
 				{
@@ -120,7 +120,7 @@ namespace LightJson
 			}
 		}
 
-		private JsonValue(JsonValueType type, dynamic value)
+		private JsonValue(JsonValueType type, object value)
 		{
 			this.type  = value == null ? JsonValueType.Null : type;
 			this.value = value;
@@ -183,13 +183,13 @@ namespace LightJson
 					return false;
 
 				case JsonValueType.Boolean:
-					return jsonValue.value;
+					return (bool)jsonValue;
 
 				case JsonValueType.Number:
-					return jsonValue.value != 0;
+					return (double)jsonValue != 0;
 
 				case JsonValueType.String:
-					return jsonValue.value != "";
+					return (string)jsonValue != "";
 
 				case JsonValueType.Object:
 				case JsonValueType.Array:
@@ -220,10 +220,10 @@ namespace LightJson
 					return 0;
 
 				case JsonValueType.Boolean:
-					return jsonValue.value ? 1 : 0;
+					return (bool)jsonValue ? 1 : 0;
 
 				case JsonValueType.Number:
-					return jsonValue.value;
+					return (double)jsonValue;
 
 				case JsonValueType.String:
 				case JsonValueType.Object:
@@ -255,13 +255,13 @@ namespace LightJson
 					return null;
 
 				case JsonValueType.Boolean:
-					return jsonValue.value ? "true" : "false";
+					return (bool)jsonValue ? "true" : "false";
 
 				case JsonValueType.Number:
-					return jsonValue.value.ToString();
+					return ((double)jsonValue).ToString();
 
 				case JsonValueType.String:
-					return jsonValue.value;
+					return (string)jsonValue;
 
 				case JsonValueType.Object:
 				case JsonValueType.Array:
@@ -276,7 +276,7 @@ namespace LightJson
 		{
 			if (jsonValue.IsObject || jsonValue.IsNull)
 			{
-				return jsonValue.value;
+				return jsonValue.value as JsonObject;
 			}
 			else
 			{
@@ -288,7 +288,7 @@ namespace LightJson
 		{
 			if (jsonValue.IsArray || jsonValue.IsNull)
 			{
-				return jsonValue.value;
+				return jsonValue.value as JsonArray;
 			}
 			else
 			{
@@ -340,7 +340,7 @@ namespace LightJson
 					return "null";
 
 				case JsonValueType.Boolean:
-					return this.value ? "true" : "false";
+					return (bool)this ? "true" : "false";
 
 				case JsonValueType.Number:
 					return this.value.ToString();
@@ -349,10 +349,10 @@ namespace LightJson
 					return string.Format("\"{0}\"", this.value);
 
 				case JsonValueType.Object:
-					return string.Format("Object[{0}]", this.value.Count);
+					return string.Format("Object[{0}]", ((JsonObject)this).Count);
 
 				case JsonValueType.Array:
-					return string.Format("Array[{0}]", this.value.Count);
+					return string.Format("Array[{0}]", ((JsonArray)this).Count);
 
 				default:
 					throw new InvalidProgramException("Invalid value type.");
@@ -403,7 +403,7 @@ namespace LightJson
 				}
 			}
 
-			public dynamic Value
+			public object Value
 			{
 				get
 				{
