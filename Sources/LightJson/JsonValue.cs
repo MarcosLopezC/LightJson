@@ -183,7 +183,7 @@ namespace LightJson
 					return false;
 
 				case JsonValueType.Boolean:
-					return (bool)jsonValue;
+					return (bool)jsonValue.value;
 
 				case JsonValueType.Number:
 					return (double)jsonValue != 0;
@@ -223,7 +223,7 @@ namespace LightJson
 					return (bool)jsonValue ? 1 : 0;
 
 				case JsonValueType.Number:
-					return (double)jsonValue;
+					return (double)jsonValue.value;
 
 				case JsonValueType.String:
 				case JsonValueType.Object:
@@ -261,7 +261,7 @@ namespace LightJson
 					return ((double)jsonValue).ToString();
 
 				case JsonValueType.String:
-					return (string)jsonValue;
+					return (string)jsonValue.value;
 
 				case JsonValueType.Object:
 				case JsonValueType.Array:
