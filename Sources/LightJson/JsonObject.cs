@@ -7,7 +7,7 @@ namespace LightJson
 {
 	[DebuggerDisplay("Count = {Count}")]
 	[DebuggerTypeProxy(typeof(JsonObjectDebugView))]
-	public sealed class JsonObject : IEnumerable<KeyValuePair<string, JsonValue>>
+	public sealed class JsonObject : IEnumerable<KeyValuePair<string, JsonValue>>, IEnumerable<JsonValue>
 	{
 		private IDictionary<string, JsonValue> properties;
 
@@ -79,6 +79,11 @@ namespace LightJson
 		public IEnumerator<KeyValuePair<string, JsonValue>> GetEnumerator()
 		{
 			return this.properties.GetEnumerator();
+		}
+
+		IEnumerator<JsonValue> IEnumerable<JsonValue>.GetEnumerator()
+		{
+			return this.properties.Values.GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
