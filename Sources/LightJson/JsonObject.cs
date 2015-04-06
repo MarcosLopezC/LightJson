@@ -64,7 +64,12 @@ namespace LightJson
 			return this.properties.ContainsKey(key);
 		}
 
-		public string Serialize(bool pretty = false)
+		public string Serialize()
+		{
+			return Serialize(false);
+		}
+
+		public string Serialize(bool pretty)
 		{
 			var writer = new JsonWriter(pretty);
 

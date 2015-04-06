@@ -18,7 +18,9 @@ namespace LightJson.Serialization
 		public string SpacingString { get; set; }
 		public string NewLineString { get; set; }
 
-		public JsonWriter(bool pretty = false)
+		public JsonWriter() : this(false) { }
+
+		public JsonWriter(bool pretty)
 		{
 			if (pretty)
 			{
