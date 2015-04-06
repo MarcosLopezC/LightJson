@@ -126,11 +126,6 @@ namespace LightJson
 			this.value = value;
 		}
 
-		public static implicit operator JsonValue(bool value)
-		{
-			return new JsonValue(JsonValueType.Boolean, value);
-		}
-
 		public static implicit operator JsonValue(bool? value)
 		{
 			if (value == null)
@@ -141,11 +136,6 @@ namespace LightJson
 			{
 				return value.Value;
 			}
-		}
-
-		public static implicit operator JsonValue(double value)
-		{
-			return new JsonValue(JsonValueType.Number, value);
 		}
 
 		public static implicit operator JsonValue(double? value)
