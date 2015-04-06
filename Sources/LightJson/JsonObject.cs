@@ -5,12 +5,18 @@ using LightJson.Serialization;
 
 namespace LightJson
 {
+	/// <summary>
+	/// Represents a key-value pair collection of JsonValue objects.
+	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
 	[DebuggerTypeProxy(typeof(JsonObjectDebugView))]
 	public sealed class JsonObject : IEnumerable<KeyValuePair<string, JsonValue>>, IEnumerable<JsonValue>
 	{
 		private IDictionary<string, JsonValue> properties;
 
+		/// <summary>
+		/// Gets the number of properties in this JsonObject.
+		/// </summary>
 		public int Count
 		{
 			get
@@ -19,6 +25,10 @@ namespace LightJson
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the property with the given key.
+		/// </summary>
+		/// <param name="key">The key of the property to get or set.</param>
 		public JsonValue this[string key]
 		{
 			get
@@ -31,44 +41,80 @@ namespace LightJson
 			}
 		}
 
+		/// <summary>
+		/// Initializes a new instance of JsonObject.
+		/// </summary>
 		public JsonObject()
 		{
 			this.properties = new Dictionary<string, JsonValue>();
 		}
 
+		/// <summary>
+		/// Adds a key with a null value to this collection.
+		/// </summary>
+		/// <param name="key">The key of the property to be added.</param>
+		/// <remarks>Returns this JsonObject.</remarks>
 		public JsonObject Add(string key)
 		{
 			return Add(key, JsonValue.Null);
 		}
 
+		/// <summary>
+		/// Adds a value associated with a key to this collection.
+		/// </summary>
+		/// <param name="key">The key of the property to be added.</param>
+		/// <param name="value">The value of the property to be added.</param>
+		/// <returns>Returns this JsonObject.</returns>
 		public JsonObject Add(string key, JsonValue value)
 		{
 			this.properties.Add(key, value);
 			return this;
 		}
 
+		/// <summary>
+		/// Removes a property with the given key.
+		/// </summary>
+		/// <param name="key">The key of the property to be removed.</param>
 		public JsonObject Remove(string key)
 		{
 			this.properties.Remove(key);
 			return this;
 		}
 
+		/// <summary>
+		/// Clears the contents of this collection.
+		/// </summary>
+		/// <returns>Returns this JsonObject.</returns>
 		public JsonObject Clear()
 		{
 			this.properties.Clear();
 			return this;
 		}
 
+		/// <summary>
+		/// Determines whether the given key is in this collection.
+		/// </summary>
+		/// <param name="key">The key to locate in this collection.</param>
+		/// <returns>Returns true if the key is found; otherwise, false.</returns>
 		public bool Contains(string key)
 		{
 			return this.properties.ContainsKey(key);
 		}
 
+		/// <summary>
+		/// Serializes the contents of this object into a JSON formatted string.
+		/// </summary>
+		/// <returns>Return a string representation of this JsonObject.</returns>
 		public string Serialize()
 		{
 			return Serialize(false);
 		}
 
+		/// <summary>
+		/// Serializes the contents of this object into a JSON formatted string.
+		/// </summary>
+		/// <param name="pretty">Indicates whether the output should be formatted to be human-readable.</param>
+		/// <returns>Return a string representation of this JsonObject.</returns>
 		public string Serialize(bool pretty)
 		{
 			using (var writer = new JsonWriter(pretty))
@@ -77,21 +123,37 @@ namespace LightJson
 			}
 		}
 
+		/// <summary>
+		/// Returns an enumerator that iterates through this collection.
+		/// </summary>
 		public IEnumerator<KeyValuePair<string, JsonValue>> GetEnumerator()
 		{
 			return this.properties.GetEnumerator();
 		}
 
+		/// <summary>
+		/// Returns an enumerator that iterates through this collection.
+		/// </summary>
 		IEnumerator<JsonValue> IEnumerable<JsonValue>.GetEnumerator()
 		{
 			return this.properties.Values.GetEnumerator();
 		}
 
+		/// <summary>
+		/// Returns an enumerator that iterates through this collection.
+		/// </summary>
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return this.GetEnumerator();
 		}
 
+		/// <summary>
+		/// Returns a string representation of this JsonObject.
+		/// </summary>
+		/// <remarks>
+		/// This method will not return a JSON representation of the object.
+		/// Use Serialize method instead for that purpose.
+		/// </remarks>
 		public override string ToString()
 		{
 			return string.Format("Object[{0}]", this.Count);
