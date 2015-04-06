@@ -296,8 +296,11 @@ namespace LightJson.Serialization
 
 		private JsonObject ReadObject()
 		{
-			var jsonObject = new JsonObject();
+			return ReadObject(new JsonObject());
+		}
 
+		private JsonObject ReadObject(JsonObject jsonObject)
+		{
 			AssertNextChar('{');
 
 			SkipWhitespaces();
@@ -355,8 +358,11 @@ namespace LightJson.Serialization
 
 		private JsonArray ReadArray()
 		{
-			var jsonArray = new JsonArray();
+			return ReadArray(new JsonArray());
+		}
 
+		private JsonArray ReadArray(JsonArray jsonArray)
+		{
 			AssertNextChar('[');
 
 			SkipWhitespaces();
@@ -399,11 +405,8 @@ namespace LightJson.Serialization
 
 		private JsonValue Parse()
 		{
-			using (this.reader)
-			{
-				SkipWhitespaces();
-				return ReadJsonValue();
-			}
+			SkipWhitespaces();
+			return ReadJsonValue();
 		}
 
 		public static JsonValue Parse(TextReader reader)
@@ -423,7 +426,10 @@ namespace LightJson.Serialization
 				throw new ArgumentNullException("source");
 			}
 
-			return new JsonReader(new StringReader(source)).Parse();
+			using (var reader = new StringReader(source))
+			{
+				return new JsonReader(reader).Parse();
+			}
 		}
 
 		public static JsonValue ParseFile(string path)
@@ -433,7 +439,10 @@ namespace LightJson.Serialization
 				throw new ArgumentNullException("path");
 			}
 
-			return new JsonReader(new StreamReader(path)).Parse();
+			using (var reader = new StreamReader(path))
+			{
+				return new JsonReader(reader).Parse();
+			}
 		}
 	}
 }
