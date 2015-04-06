@@ -190,7 +190,7 @@ namespace LightJson
 			}
 		}
 
-		public static explicit operator bool?(JsonValue jsonValue)
+		public static implicit operator bool?(JsonValue jsonValue)
 		{
 			if (jsonValue.IsNull)
 			{
@@ -225,7 +225,7 @@ namespace LightJson
 			}
 		}
 
-		public static explicit operator double?(JsonValue jsonValue)
+		public static implicit operator double?(JsonValue jsonValue)
 		{
 			if (jsonValue.IsNull)
 			{
@@ -237,7 +237,7 @@ namespace LightJson
 			}
 		}
 
-		public static explicit operator string(JsonValue jsonValue)
+		public static implicit operator string(JsonValue jsonValue)
 		{
 			switch (jsonValue.Type)
 			{
@@ -262,7 +262,7 @@ namespace LightJson
 			}
 		}
 
-		public static explicit operator JsonObject(JsonValue jsonValue)
+		public static implicit operator JsonObject(JsonValue jsonValue)
 		{
 			if (jsonValue.IsObject || jsonValue.IsNull)
 			{
@@ -274,7 +274,7 @@ namespace LightJson
 			}
 		}
 
-		public static explicit operator JsonArray(JsonValue jsonValue)
+		public static implicit operator JsonArray(JsonValue jsonValue)
 		{
 			if (jsonValue.IsArray || jsonValue.IsNull)
 			{
