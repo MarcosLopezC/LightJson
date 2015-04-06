@@ -75,10 +75,12 @@ namespace LightJson
 		/// Removes a property with the given key.
 		/// </summary>
 		/// <param name="key">The key of the property to be removed.</param>
-		public JsonObject Remove(string key)
+		/// <returns>
+		/// Returns true if the given key is found and removed; otherwise, false.
+		/// </returns>
+		public bool Remove(string key)
 		{
-			this.properties.Remove(key);
-			return this;
+			return this.properties.Remove(key);
 		}
 
 		/// <summary>
