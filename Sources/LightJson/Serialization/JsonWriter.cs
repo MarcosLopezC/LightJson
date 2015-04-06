@@ -7,7 +7,7 @@ namespace LightJson.Serialization
 {
 	using ErrorCode = JsonSerializationException.ErrorCode;
 
-	public sealed class JsonWriter
+	public sealed class JsonWriter : IDisposable
 	{
 		private int indent;
 		private bool isNewLine;
@@ -215,6 +215,14 @@ namespace LightJson.Serialization
 			Render(jsonValue);
 
 			return writer.ToString();
+		}
+
+		public void Dispose()
+		{
+			if (this.writer != null)
+			{
+				this.writer.Dispose();
+			}
 		}
 
 		private static string EncodeStringValue(string value)

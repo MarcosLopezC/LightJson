@@ -71,9 +71,10 @@ namespace LightJson
 
 		public string Serialize(bool pretty)
 		{
-			var writer = new JsonWriter(pretty);
-
-			return writer.Serialize(this);
+			using (var writer = new JsonWriter(pretty))
+			{
+				return writer.Serialize(this);
+			}
 		}
 
 		public IEnumerator<KeyValuePair<string, JsonValue>> GetEnumerator()
