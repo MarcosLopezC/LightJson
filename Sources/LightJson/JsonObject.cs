@@ -81,6 +81,11 @@ namespace LightJson
 			return this.GetEnumerator();
 		}
 
+		public override string ToString()
+		{
+			return string.Format("Object[{0}]", this.Count);
+		}
+
 		internal class JsonObjectDebugView
 		{
 			private JsonObject jsonObject;
@@ -108,7 +113,7 @@ namespace LightJson
 				this.jsonObject = jsonObject;
 			}
 
-			[DebuggerDisplay("{value.ToString(),nq}", Name = "{key}", Type = "JsonValue({Type})")]
+			[DebuggerDisplay("{value.DebuggerDisplay(),nq}", Name = "{key}", Type = "JsonValue({Type})")]
 			internal class KeyValuePair
 			{
 				[DebuggerBrowsable(DebuggerBrowsableState.Never)]

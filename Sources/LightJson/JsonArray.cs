@@ -77,6 +77,11 @@ namespace LightJson
 			return this.GetEnumerator();
 		}
 
+		public override string ToString()
+		{
+			return string.Format("Array[{0}]", this.Count);
+		}
+
 		internal class JsonArrayDebugView
 		{
 			private JsonArray jsonArray;

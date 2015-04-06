@@ -6,7 +6,7 @@ namespace LightJson
 	/// <summary>
 	/// A wrapper object that contains a valid JSON value.
 	/// </summary>
-	[DebuggerDisplay("{ToString(),nq}", Type = "JsonValue({Type})")]
+	[DebuggerDisplay("{DebuggerDisplay(),nq}", Type = "JsonValue({Type})")]
 	[DebuggerTypeProxy(typeof(JsonValueDebugView))]
 	public struct JsonValue
 	{
@@ -184,7 +184,7 @@ namespace LightJson
 			}
 			else
 			{
-				return value.Value;
+				return new JsonValue(JsonValueType.Boolean, value.Value);
 			}
 		}
 
@@ -200,7 +200,7 @@ namespace LightJson
 			}
 			else
 			{
-				return value.Value;
+				return new JsonValue(JsonValueType.Number, value.Value);
 			}
 		}
 
@@ -436,11 +436,19 @@ namespace LightJson
 		/// <summary>
 		/// Converts this JsonValue into a human-readable string.
 		/// </summary>
-		/// <remarks>
-		/// This method is intended to produced user-readable string for the debugger.
-		/// To a string representation of a JsonValue, use the cast operator instead.
-		/// </remarks>
 		public override string ToString()
+		{
+			if (this.Type == JsonValueType.Null)
+			{
+				return "null";
+			}
+			else
+			{
+				return this.value.ToString();
+			}
+		}
+
+		internal string DebuggerDisplay()
 		{
 			switch (this.Type)
 			{
@@ -450,17 +458,13 @@ namespace LightJson
 				case JsonValueType.Boolean:
 					return (bool)this ? "true" : "false";
 
-				case JsonValueType.Number:
-					return this.value.ToString();
-
 				case JsonValueType.String:
 					return string.Format("\"{0}\"", this.value);
 
+				case JsonValueType.Number:
 				case JsonValueType.Object:
-					return string.Format("Object[{0}]", ((JsonObject)this).Count);
-
 				case JsonValueType.Array:
-					return string.Format("Array[{0}]", ((JsonArray)this).Count);
+					return this.value.ToString();
 
 				default:
 					throw new InvalidProgramException("Invalid value type.");
