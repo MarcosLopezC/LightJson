@@ -359,26 +359,13 @@ namespace LightJson
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
 		public static explicit operator bool(JsonValue jsonValue)
 		{
-			switch (jsonValue.Type)
+			if (jsonValue.IsBoolean)
 			{
-				case JsonValueType.Null:
-					return false;
-
-				case JsonValueType.Boolean:
-					return (bool)jsonValue.value;
-
-				case JsonValueType.Number:
-					return (double)jsonValue != 0;
-
-				case JsonValueType.String:
-					return (string)jsonValue != "";
-
-				case JsonValueType.Object:
-				case JsonValueType.Array:
-					return true;
-
-				default:
-					throw new InvalidOperationException("Invalid value type.");
+				return (bool)jsonValue.value;
+			}
+			else
+			{
+				throw new InvalidCastException("This JsonValue is not a Boolean.");
 			}
 		}
 
@@ -404,24 +391,13 @@ namespace LightJson
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
 		public static explicit operator double(JsonValue jsonValue)
 		{
-			switch (jsonValue.Type)
+			if (jsonValue.IsNumber)
 			{
-				case JsonValueType.Null:
-					return 0;
-
-				case JsonValueType.Boolean:
-					return (bool)jsonValue ? 1 : 0;
-
-				case JsonValueType.Number:
-					return (double)jsonValue.value;
-
-				case JsonValueType.String:
-				case JsonValueType.Object:
-				case JsonValueType.Array:
-					throw new InvalidCastException("This value cannot be converted into a double.");
-
-				default:
-					throw new InvalidOperationException("Invalid value type.");
+				return (double)jsonValue.value;
+			}
+			else
+			{
+				throw new InvalidCastException("This value is not a Number.");
 			}
 		}
 
@@ -447,26 +423,13 @@ namespace LightJson
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
 		public static implicit operator string(JsonValue jsonValue)
 		{
-			switch (jsonValue.Type)
+			if (jsonValue.IsString || jsonValue.IsNull)
 			{
-				case JsonValueType.Null:
-					return null;
-
-				case JsonValueType.Boolean:
-					return (bool)jsonValue ? "true" : "false";
-
-				case JsonValueType.Number:
-					return ((double)jsonValue).ToString();
-
-				case JsonValueType.String:
-					return (string)jsonValue.value;
-
-				case JsonValueType.Object:
-				case JsonValueType.Array:
-					throw new InvalidCastException("This value cannot be converted into a string.");
-
-				default:
-					throw new InvalidOperationException("Invalid value type.");
+				return jsonValue.value as string;
+			}
+			else
+			{
+				throw new InvalidCastException("This value is not a String.");
 			}
 		}
 
@@ -482,7 +445,7 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This value cannot be converted into an JsonObject.");
+				throw new InvalidCastException("This value is not an Object.");
 			}
 		}
 
@@ -498,7 +461,7 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This value cannot be converted into a JsonArray.");
+				throw new InvalidCastException("This value is not an Array.");
 			}
 		}
 
