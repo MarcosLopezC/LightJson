@@ -96,6 +96,112 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Gets this value as a Boolean type.
+		/// </summary>
+		public bool Boolean
+		{
+			get
+			{
+				switch (this.Type)
+				{
+					case JsonValueType.Boolean:
+						return (bool)this;
+
+					case JsonValueType.Number:
+						return (double)this != 0;
+
+					case JsonValueType.String:
+						return (string)this != "";
+
+					case JsonValueType.Object:
+					case JsonValueType.Array:
+						return true;
+
+					default:
+						return false;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Gets this value as a Number type.
+		/// </summary>
+		public double? Number
+		{
+			get
+			{
+				switch (this.Type)
+				{
+					case JsonValueType.Boolean:
+						return (bool)this ? 1 : 0;
+
+					case JsonValueType.Number:
+						return (double)this;
+
+					case JsonValueType.String:
+						double number;
+						if (double.TryParse((string)this, out number))
+						{
+							return number;
+						}
+						else
+						{
+							goto default;
+						}
+
+					default:
+						return null;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Gets this value as a String type.
+		/// </summary>
+		public string String
+		{
+			get
+			{
+				switch (this.Type)
+				{
+					case JsonValueType.Boolean:
+						return (bool)this ? "true" : "false";
+
+					case JsonValueType.Number:
+						return ((double)this).ToString();
+
+					case JsonValueType.String:
+						return (string)this;
+
+					default:
+						return null;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Gets this value as an Object.
+		/// </summary>
+		public JsonObject Object
+		{
+			get
+			{
+				return this.IsObject ? (JsonObject)this : null;
+			}
+		}
+
+		/// <summary>
+		/// Gets this value as an Array.
+		/// </summary>
+		public JsonArray Array
+		{
+			get
+			{
+				return this.IsArray ? (JsonArray)this : null;
+			}
+		}
+
+		/// <summary>
 		/// Gets or sets the value associated with the specified key.
 		/// </summary>
 		/// <param name="key">The key of the value to get or set.</param>
