@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using LightJson.Serialization;
 
 namespace LightJson
 {
@@ -102,6 +103,28 @@ namespace LightJson
 		{
 			this.items.Clear();
 			return this;
+		}
+
+		/// <summary>
+		/// Serializes the contents of this object into a JSON formatted string.
+		/// </summary>
+		/// <returns>Return a string representation of this JsonObject.</returns>
+		public string Serialize()
+		{
+			return Serialize(false);
+		}
+
+		/// <summary>
+		/// Serializes the contents of this object into a JSON formatted string.
+		/// </summary>
+		/// <param name="pretty">Indicates whether the output should be formatted to be human-readable.</param>
+		/// <returns>Return a string representation of this object.</returns>
+		public string Serialize(bool pretty)
+		{
+			using (var writer = new JsonWriter(pretty))
+			{
+				return writer.Serialize(this);
+			}
 		}
 
 		/// <summary>
