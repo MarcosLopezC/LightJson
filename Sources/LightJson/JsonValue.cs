@@ -173,19 +173,42 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the JsonValue struct, representing a Boolean value.
+		/// </summary>
+		/// <param name="value">The value to be wrapped.</param>
+		public JsonValue(bool? value) : this(JsonValueType.Boolean, value) { }
+
+		/// <summary>
+		/// Initializes a new instance of the JsonValue struct, representing a Number value.
+		/// </summary>
+		/// <param name="value">The value to be wrapped.</param>
+		public JsonValue(double? value) : this(JsonValueType.Number, value) { }
+
+		/// <summary>
+		/// Initializes a new instance of the JsonValue struct, representing a String value.
+		/// </summary>
+		/// <param name="value">The value to be wrapped.</param>
+		public JsonValue(string value) : this(JsonValueType.String, value) { }
+
+		/// <summary>
+		/// Initializes a new instance of the JsonValue struct, representing an Object reference value.
+		/// </summary>
+		/// <param name="value">The value to be wrapped.</param>
+		public JsonValue(JsonObject value) : this(JsonValueType.Object, value) { }
+
+		/// <summary>
+		/// Initializes a new instance of the JsonValue struct, representing a Array reference value.
+		/// </summary>
+		/// <param name="value">The value to be wrapped.</param>
+		public JsonValue(JsonArray value) : this(JsonValueType.Array, value) { }
+
+		/// <summary>
 		/// Converts the given nullable boolean into a JsonValue.
 		/// </summary>
 		/// <param name="value">The value to be converted.</param>
 		public static implicit operator JsonValue(bool? value)
 		{
-			if (value == null)
-			{
-				return JsonValue.Null;
-			}
-			else
-			{
-				return new JsonValue(JsonValueType.Boolean, value.Value);
-			}
+			return new JsonValue(value);
 		}
 
 		/// <summary>
@@ -194,14 +217,7 @@ namespace LightJson
 		/// <param name="value">The value to be converted.</param>
 		public static implicit operator JsonValue(double? value)
 		{
-			if (value == null)
-			{
-				return JsonValue.Null;
-			}
-			else
-			{
-				return new JsonValue(JsonValueType.Number, value.Value);
-			}
+			return new JsonValue(value);
 		}
 
 		/// <summary>
@@ -210,7 +226,7 @@ namespace LightJson
 		/// <param name="value">The value to be converted.</param>
 		public static implicit operator JsonValue(string value)
 		{
-			return new JsonValue(JsonValueType.String, value);
+			return new JsonValue(value);
 		}
 
 		/// <summary>
@@ -219,16 +235,16 @@ namespace LightJson
 		/// <param name="value">The value to be converted.</param>
 		public static implicit operator JsonValue(JsonObject value)
 		{
-			return new JsonValue(JsonValueType.Object, value);
+			return new JsonValue(value);
 		}
 
-		 /// <summary>
+		/// <summary>
 		/// Converts the given JsonArray into a JsonValue.
 		/// </summary>
 		/// <param name="value">The value to be converted.</param>
 		public static implicit operator JsonValue(JsonArray value)
 		{
-			return new JsonValue(JsonValueType.Array, value);
+			return new JsonValue(value);
 		}
 
 		/// <summary>
