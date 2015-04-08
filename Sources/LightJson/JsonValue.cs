@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using LightJson.Serialization;
 
 namespace LightJson
 {
@@ -483,6 +484,15 @@ namespace LightJson
 		public static bool operator !=(JsonValue a, JsonValue b)
 		{
 			return !(a == b);
+		}
+
+		/// <summary>
+		/// Returns a JsonValue by parsing the given string.
+		/// </summary>
+		/// <param name="text">The JSON-formatted string to be parsed.</param>
+		public static JsonValue Parse(string text)
+		{
+			return JsonReader.Parse(text);
 		}
 
 		/// <summary>
