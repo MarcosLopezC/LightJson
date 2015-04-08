@@ -29,11 +29,21 @@ namespace LightJson
 		/// Gets or sets the value at the given index.
 		/// </summary>
 		/// <param name="index">The zero-based index of the value to get or set.</param>
+		/// <remarks>
+		/// The getter will return JsonValue.Null if the given index is out of range.
+		/// </remarks>
 		public JsonValue this[int index]
 		{
 			get
 			{
-				return this.items[index];
+				if (index >= 0 && index < this.items.Count)
+				{
+					return this.items[index];
+				}
+				else
+				{
+					return JsonValue.Null;
+				}
 			}
 			set
 			{
@@ -70,6 +80,15 @@ namespace LightJson
 		{
 			this.items.Add(value);
 			return this;
+		}
+
+		/// <summary>
+		/// Gets the JsonValue at the given index.
+		/// </summary>
+		/// <param name="index">The zero-based index of the value to get.</param>
+		public JsonValue Get(int index)
+		{
+			return this.items[index];
 		}
 
 		/// <summary>

@@ -29,11 +29,21 @@ namespace LightJson
 		/// Gets or sets the property with the given key.
 		/// </summary>
 		/// <param name="key">The key of the property to get or set.</param>
+		/// <remarks>
+		/// The getter will return JsonValue.Null if the given key is not assosiated with any value.
+		/// </remarks>
 		public JsonValue this[string key]
 		{
 			get
 			{
-				return this.properties[key];
+				if (this.properties.ContainsKey(key))
+				{
+					return this.properties[key];
+				}
+				else
+				{
+					return JsonValue.Null;
+				}
 			}
 			set
 			{
@@ -69,6 +79,15 @@ namespace LightJson
 		{
 			this.properties.Add(key, value);
 			return this;
+		}
+
+		/// <summary>
+		/// Gets the JsonValue assosiated with the given key.
+		/// </summary>
+		/// <param name="key">The key of the value to get.</param>
+		public JsonValue Get(string key)
+		{
+			return this.properties[key];
 		}
 
 		/// <summary>
