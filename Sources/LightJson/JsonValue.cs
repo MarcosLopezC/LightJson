@@ -545,25 +545,7 @@ namespace LightJson
 
 		private string DebuggerDisplay()
 		{
-			switch (this.Type)
-			{
-				case JsonValueType.Null:
-					return "null";
-
-				case JsonValueType.Boolean:
-					return (bool)this ? "true" : "false";
-
-				case JsonValueType.String:
-					return string.Format("\"{0}\"", this.value);
-
-				case JsonValueType.Number:
-				case JsonValueType.Object:
-				case JsonValueType.Array:
-					return this.value.ToString();
-
-				default:
-					throw new InvalidProgramException("Invalid value type.");
-			}
+			return JsonWriter.EncodeJsonValue(this);
 		}
 
 		private class JsonValueDebugView

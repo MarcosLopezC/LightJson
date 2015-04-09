@@ -102,22 +102,9 @@ namespace LightJson.Serialization
 			{
 				case JsonValueType.Null:
 				case JsonValueType.Boolean:
-					Write(value.ToString());
-					break;
-
 				case JsonValueType.Number:
-					if (IsValidNumber((double)value))
-					{
-						Write(value.ToString());
-					}
-					else
-					{
-						throw new InvalidJsonNumberException();
-					}
-					break;
-
 				case JsonValueType.String:
-					WriteEncodedString((string)value);
+					Write(EncodeJsonValue(value));
 					break;
 
 				case JsonValueType.Object:
@@ -222,6 +209,27 @@ namespace LightJson.Serialization
 			if (this.writer != null)
 			{
 				this.writer.Dispose();
+			}
+		}
+
+		public static string EncodeJsonValue(JsonValue value)
+		{
+			switch (value.Type)
+			{
+				case JsonValueType.Null:
+					return "null";
+
+				case JsonValueType.Boolean:
+					return (bool)value ? "true" : "false";
+
+				case JsonValueType.Number:
+					return ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+				case JsonValueType.String:
+					return EncodeStringValue((string)value);
+
+				default:
+					return value.ToString();
 			}
 		}
 
