@@ -170,7 +170,7 @@ namespace LightJson
 			return string.Format("Array[{0}]", this.Count);
 		}
 
-		internal class JsonArrayDebugView
+		private class JsonArrayDebugView
 		{
 			private JsonArray jsonArray;
 

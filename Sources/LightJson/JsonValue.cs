@@ -543,7 +543,7 @@ namespace LightJson
 			}
 		}
 
-		internal string DebuggerDisplay()
+		private string DebuggerDisplay()
 		{
 			switch (this.Type)
 			{
@@ -566,7 +566,7 @@ namespace LightJson
 			}
 		}
 
-		internal class JsonValueDebugView
+		private class JsonValueDebugView
 		{
 			private JsonValue jsonValue;
 

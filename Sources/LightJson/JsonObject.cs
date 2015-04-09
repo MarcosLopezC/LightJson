@@ -180,7 +180,7 @@ namespace LightJson
 			return string.Format("Object[{0}]", this.Count);
 		}
 
-		internal class JsonObjectDebugView
+		private class JsonObjectDebugView
 		{
 			private JsonObject jsonObject;
 
@@ -208,7 +208,7 @@ namespace LightJson
 			}
 
 			[DebuggerDisplay("{value.DebuggerDisplay(),nq}", Name = "{key}", Type = "JsonValue({Type})")]
-			internal class KeyValuePair
+			public class KeyValuePair
 			{
 				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 				private string key;
