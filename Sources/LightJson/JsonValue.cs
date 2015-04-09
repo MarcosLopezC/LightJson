@@ -310,6 +310,28 @@ namespace LightJson
 		public JsonValue(JsonArray value) : this(JsonValueType.Array, value) { }
 
 		/// <summary>
+		/// Serializes the contents of this value into a JSON formatted string.
+		/// </summary>
+		/// <returns>Return a string representation of this value.</returns>
+		public string Serialize()
+		{
+			return Serialize(false);
+		}
+
+		/// <summary>
+		/// Serializes the contents of this value into a JSON formatted string.
+		/// </summary>
+		/// <param name="pretty">Indicates whether the output should be formatted to be human-readable.</param>
+		/// <returns>Return a string representation of this value.</returns>
+		public string Serialize(bool pretty)
+		{
+			using (var writer = new JsonWriter(pretty))
+			{
+				return writer.Serialize(this);
+			}
+		}
+
+		/// <summary>
 		/// Converts the given nullable boolean into a JsonValue.
 		/// </summary>
 		/// <param name="value">The value to be converted.</param>
