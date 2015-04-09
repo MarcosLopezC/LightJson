@@ -235,8 +235,13 @@ namespace LightJson.Serialization
 
 		private static string EncodeStringValue(string value)
 		{
-			var builder = new StringBuilder(value);
+			var builder = new StringBuilder(value.Length + 2);
 
+			// Leaving a place holder for the initial quote.
+			builder.Append((char)0);
+
+			// Escaping characters.
+			builder.Append(value);
 			builder.Replace("\\", "\\\\"); // \ -> \\
 			builder.Replace("\"", "\\\""); // " -> \"
 			builder.Replace("/", "\\/");   // / -> \/
@@ -246,7 +251,11 @@ namespace LightJson.Serialization
 			builder.Replace("\r", "\\r");
 			builder.Replace("\t", "\\t");
 
-			return string.Format("\"{0}\"", builder.ToString());
+			// Surounding text with double quotes.
+			builder[0] = '\"';
+			builder.Append("\"");
+
+			return builder.ToString();
 		}
 
 		private static bool IsValidNumber(double number)
