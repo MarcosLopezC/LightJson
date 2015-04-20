@@ -31,6 +31,17 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Gets the wrapped value as an object.
+		/// </summary>
+		public object Value
+		{
+			get
+			{
+				return this.value;
+			}
+		}
+
+		/// <summary>
 		/// Gets a value indicating whether this JsonValue is Null.
 		/// </summary>
 		public bool IsNull
