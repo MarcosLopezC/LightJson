@@ -127,7 +127,7 @@ namespace LightJson
 		/// <summary>
 		/// Determines whether the given item is in the JsonArray.
 		/// </summary>
-		/// <param name="value">The item to locate in the JsonArray.</param>
+		/// <param name="item">The item to locate in the JsonArray.</param>
 		/// <returns>Returns true if the item is found; otherwise, false.</returns>
 		public bool Contains(JsonValue item)
 		{
