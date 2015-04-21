@@ -125,6 +125,16 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Determines whether the given item is in the JsonArray.
+		/// </summary>
+		/// <param name="value">The item to locate in the JsonArray.</param>
+		/// <returns>Returns true if the item is found; otherwise, false.</returns>
+		public bool Contains(JsonValue item)
+		{
+			return this.items.Contains(item);
+		}
+
+		/// <summary>
 		/// Serializes the contents of this object into a JSON formatted string.
 		/// </summary>
 		/// <returns>Return a string representation of this JsonObject.</returns>

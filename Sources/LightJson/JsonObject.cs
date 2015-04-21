@@ -113,13 +113,23 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Determines whether the given key is in this collection.
+		/// Determines whether this collection contains an item assosiated with the given key.
 		/// </summary>
 		/// <param name="key">The key to locate in this collection.</param>
 		/// <returns>Returns true if the key is found; otherwise, false.</returns>
-		public bool Contains(string key)
+		public bool ContainsKey(string key)
 		{
 			return this.properties.ContainsKey(key);
+		}
+
+		/// <summary>
+		/// Determines whether this collection contains the given JsonValue.
+		/// </summary>
+		/// <param name="value">The value to locate in this collection.</param>
+		/// <returns>Returns true if the value is found; otherwise, false.</returns>
+		public bool Contains(JsonValue value)
+		{
+			return this.properties.Values.Contains(value);
 		}
 
 		/// <summary>
