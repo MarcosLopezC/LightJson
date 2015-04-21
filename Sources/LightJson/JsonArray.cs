@@ -135,6 +135,16 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Determines the index of the given item in this JsonArray.
+		/// </summary>
+		/// <param name="item">The item to locate in this JsonArray.</param>
+		/// <returns>The index of the item, if found. Otherwise, returns -1.</returns>
+		public int IndexOf(JsonValue item)
+		{
+			return this.items.IndexOf(item);
+		}
+
+		/// <summary>
 		/// Serializes the contents of this object into a JSON formatted string.
 		/// </summary>
 		/// <returns>Return a string representation of this JsonObject.</returns>
