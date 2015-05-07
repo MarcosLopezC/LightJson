@@ -138,7 +138,7 @@ namespace LightJson
 		/// <summary>
 		/// Gets this value as a Number type.
 		/// </summary>
-		public double? Number
+		public double Number
 		{
 			get
 			{
@@ -162,7 +162,7 @@ namespace LightJson
 						}
 
 					default:
-						return null;
+						return 0;
 				}
 			}
 		}
