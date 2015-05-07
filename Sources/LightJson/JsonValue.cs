@@ -64,6 +64,32 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Gets a value indicating whether this JsonValue is an Integer.
+		/// </summary>
+		public bool IsInteger
+		{
+			get
+			{
+				if (this.IsNumber)
+				{
+					var value = (double)this;
+
+					if (value <= int.MaxValue && value >= int.MinValue)
+					{
+						var intValue = (int)value;
+
+						if (value == intValue)
+						{
+							return true;
+						}
+					}
+				}
+
+				return false;
+			}
+		}
+
+		/// <summary>
 		/// Gets a value indicating whether this JsonValue is a Number.
 		/// </summary>
 		public bool IsNumber
@@ -132,6 +158,17 @@ namespace LightJson
 					default:
 						return false;
 				}
+			}
+		}
+
+		/// <summary>
+		/// Gets this value as an Integer type.
+		/// </summary>
+		public int Integer
+		{
+			get
+			{
+				return (int)this.Number;
 			}
 		}
 
