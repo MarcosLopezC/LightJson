@@ -5,8 +5,11 @@ using System.Collections.Generic;
 
 namespace LightJson.Serialization
 {
-	using ErrorCode = JsonSerializationException.ErrorCode;
+	using ErrorType = JsonSerializationException.ErrorType;
 
+	/// <summary>
+	/// Represents a writer that can write string representations of JsonValues.
+	/// </summary>
 	public sealed class JsonWriter : IDisposable
 	{
 		private int indent;
@@ -14,12 +17,32 @@ namespace LightJson.Serialization
 		private TextWriter writer;
 		private HashSet<JsonValue> RenderingValues;
 
+		/// <summary>
+		/// Gets or sets the string representing a indent in the output.
+		/// </summary>
 		public string IndentString { get; set; }
+
+		/// <summary>
+		/// Gets or sets the string representing a space in the output.
+		/// </summary>
 		public string SpacingString { get; set; }
+
+		/// <summary>
+		/// Gets or sets the string representing a new line on the output.
+		/// </summary>
 		public string NewLineString { get; set; }
 
+		/// <summary>
+		/// Initializes a new instance of JsonWriter.
+		/// </summary>
 		public JsonWriter() : this(false) { }
 
+		/// <summary>
+		/// Initializes a new instance of JsonWriter.
+		/// </summary>
+		/// <param name="pretty">
+		/// A value indicating whether the output of the writer should be human-readable.
+		/// </param>
 		public JsonWriter(bool pretty)
 		{
 			if (pretty)
@@ -83,7 +106,7 @@ namespace LightJson.Serialization
 		{
 			if (RenderingValues.Contains(value))
 			{
-				throw new CircularReferenceException();
+				throw new JsonSerializationException(ErrorType.CircularReference);
 			}
 			else
 			{
@@ -116,7 +139,7 @@ namespace LightJson.Serialization
 					break;
 
 				default:
-					throw new InvalidOperationException("Invalid value type.");
+					throw new JsonSerializationException(ErrorType.InvalidValueType);
 			}
 		}
 
@@ -195,6 +218,10 @@ namespace LightJson.Serialization
 			RemoveRenderingValue(value);
 		}
 
+		/// <summary>
+		/// Returns a string representation of the given JsonValue.
+		/// </summary>
+		/// <param name="jsonValue">The JsonValue to serialize.</param>
 		public string Serialize(JsonValue jsonValue)
 		{
 			Initialize();
@@ -204,6 +231,9 @@ namespace LightJson.Serialization
 			return writer.ToString();
 		}
 
+		/// <summary>
+		/// Releases all the resources used by this object.
+		/// </summary>
 		public void Dispose()
 		{
 			if (this.writer != null)
@@ -212,6 +242,10 @@ namespace LightJson.Serialization
 			}
 		}
 
+		/// <summary>
+		/// Returns a string representation of the given JsonValue.
+		/// </summary>
+		/// <param name="value">The value to encode.</param>
 		public static string EncodeJsonValue(JsonValue value)
 		{
 			switch (value.Type)

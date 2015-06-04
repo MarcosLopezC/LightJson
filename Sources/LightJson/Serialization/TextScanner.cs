@@ -4,6 +4,8 @@ using System.Text;
 
 namespace LightJson.Serialization
 {
+	using ErrorType = JsonParseException.ErrorType;
+
 	/// <summary>
 	/// Represents a text scanner that reads one character at a time.
 	/// </summary>
@@ -41,8 +43,10 @@ namespace LightJson.Serialization
 
 			if (next == -1)
 			{
-				// TODO: Throw incomplete message error.
-				throw new NotImplementedException();
+				throw new JsonParseException(
+					ErrorType.IncompleteMessage,
+					this.position
+				);
 			}
 			else
 			{
@@ -59,8 +63,10 @@ namespace LightJson.Serialization
 
 			if (next == -1)
 			{
-				// TODO: Throw incomplete message error.
-				throw new NotImplementedException();
+				throw new JsonParseException(
+					ErrorType.IncompleteMessage,
+					this.position
+				);
 			}
 			else
 			{
@@ -98,8 +104,11 @@ namespace LightJson.Serialization
 		{
 			if (Read() != next)
 			{
-				// TODO: Throw unexpected character error.
-				throw new NotImplementedException();
+				throw new JsonParseException(
+					string.Format("Parser expected '{0}'", next),
+					ErrorType.InvalidOrUnexpectedCharacter,
+					this.position
+				);
 			}
 		}
 

@@ -4,90 +4,18 @@ using System.Text;
 
 namespace LightJson.Serialization
 {
+	using ErrorType = JsonParseException.ErrorType;
+
+	/// <summary>
+	/// Represents a reader that can read JsonValues.
+	/// </summary>
 	public sealed class JsonReader
 	{
-		private TextReader reader;
-
-		private long line;
-		private long column;
+		private TextScanner scanner;
 
 		private JsonReader(TextReader reader)
 		{
-			this.reader = reader;
-			this.line = 1;
-			this.column = 1;
-		}
-
-		private char Peek()
-		{
-			var next = reader.Peek();
-
-			if (next == -1)
-			{
-				throw new IncompleteJsonMessageException();
-			}
-			else
-			{
-				return (char)next;
-			}
-		}
-
-		private char Read()
-		{
-			var next = reader.Read();
-
-			if (next == -1)
-			{
-				throw new IncompleteJsonMessageException();
-			}
-			else
-			{
-				if (next == '\n')
-				{
-					line += 1;
-					column = 1;
-				}
-				else
-				{
-					column += 1;
-				}
-				return (char)next;
-			}
-		}
-
-		private void SkipWhitespaces()
-		{
-			while (char.IsWhiteSpace(Peek()))
-			{
-				Read();
-			}
-		}
-
-		private void AssertNextChar(char next)
-		{
-			if (Read() != next)
-			{
-				throw new JsonParseException(
-					string.Format("Expecting '{0}' on line {1}.", next, this.line),
-					this.line,
-					this.column
-				);
-			}
-		}
-
-		private void AssertString(string s)
-		{
-			for (var i = 0; i < s.Length; i += 1)
-			{
-				if (char.ToLower(s[i]) != char.ToLower(Read()))
-				{
-					throw new JsonParseException(
-						string.Format("Expecting '{0}' on line {1}", s, this.line),
-						this.line,
-						this.column
-					);
-				}
-			}
+			this.scanner = new TextScanner(reader);
 		}
 
 		private string ReadJsonKey()
@@ -97,14 +25,16 @@ namespace LightJson.Serialization
 
 		private JsonValue ReadJsonValue()
 		{
-			SkipWhitespaces();
+			this.scanner.SkipWhitespace();
 
-			if (char.IsNumber(Peek()))
+			var next = this.scanner.Peek();
+
+			if (char.IsNumber(next))
 			{
 				return ReadNumber();
 			}
 
-			switch (char.ToLower(Peek()))
+			switch (next)
 			{
 				case '{':
 					return ReadObject();
@@ -127,56 +57,43 @@ namespace LightJson.Serialization
 
 				default:
 					throw new JsonParseException(
-						string.Format("Unexpected character on line {0}, column {1}", line, column),
-						this.line,
-						this.column
+						ErrorType.InvalidOrUnexpectedCharacter,
+						this.scanner.Position
 					);
 			}
 		}
 
 		private JsonValue ReadNull()
 		{
-			AssertString("null");
+			this.scanner.Assert("null");
 			return JsonValue.Null;
 		}
 
 		private JsonValue ReadBoolean()
 		{
-			switch (char.ToLower(Peek()))
+			switch (this.scanner.Peek())
 			{
 				case 't':
-					AssertString("true");
+					this.scanner.Assert("true");
 					return true;
 
 				case 'f':
-					AssertString("false");
+					this.scanner.Assert("false");
 					return false;
 
 				default:
 					throw new JsonParseException(
-						string.Format("Expecting boolean on line {0}", line),
-						this.line,
-						this.column
+						ErrorType.InvalidOrUnexpectedCharacter,
+						this.scanner.Position
 					);
 			}
 		}
 
 		private void ReadDigits(StringBuilder builder)
 		{
-			if (char.IsNumber(Peek()))
+			while (char.IsNumber(this.scanner.Peek()))
 			{
-				while (char.IsNumber(Peek()))
-				{
-					builder.Append(Read());
-				}
-			}
-			else
-			{
-				throw new JsonParseException(
-					string.Format("Expecting digit on line {0}, column {1}", line, column),
-					this.line,
-					this.column
-				);
+				builder.Append(this.scanner.Read());
 			}
 		}
 
@@ -184,34 +101,40 @@ namespace LightJson.Serialization
 		{
 			var builder = new StringBuilder();
 
-			if (Peek() == '-')
+			if (this.scanner.Peek() == '-')
 			{
-				builder.Append(Read());
+				builder.Append(this.scanner.Read());
 			}
 
-			if (Peek() == '0')
+			if (this.scanner.Peek() == '0')
 			{
-				builder.Append(Read());
+				builder.Append(this.scanner.Read());
 			}
 			else
 			{
 				ReadDigits(builder);
 			}
 
-			if (Peek() == '.')
+			if (this.scanner.Peek() == '.')
 			{
-				builder.Append(Read());
+				builder.Append(this.scanner.Read());
 				ReadDigits(builder);
 			}
 
-			if (char.ToLower(Peek()) == 'e')
+			if (char.ToLower(this.scanner.Peek()) == 'e')
 			{
-				builder.Append(Read());
-				var next = Peek();
-				if (next == '+' || next == '-')
+				builder.Append(this.scanner.Read());
+
+				var next = this.scanner.Peek();
+
+				switch (next)
 				{
-					builder.Append(Read());
+					case '+':
+					case '-':
+						builder.Append(this.scanner.Read());
+						break;
 				}
+
 				ReadDigits(builder);
 			}
 
@@ -222,15 +145,15 @@ namespace LightJson.Serialization
 		{
 			var builder = new StringBuilder();
 
-			AssertNextChar('"');
+			this.scanner.Assert('"');
 
 			while (true)
 			{
-				var c = Read();
+				var c = this.scanner.Read();
 
 				if (c == '\\')
 				{
-					c = Read();
+					c = this.scanner.Read();
 
 					switch (char.ToLower(c))
 					{
@@ -259,9 +182,8 @@ namespace LightJson.Serialization
 							break;
 						default:
 							throw new JsonParseException(
-								string.Format("Unexpected string escape character on line {0}", this.line),
-								this.line,
-								this.column
+								ErrorType.InvalidOrUnexpectedCharacter,
+								this.scanner.Position
 							);
 					}
 				}
@@ -274,9 +196,8 @@ namespace LightJson.Serialization
 					if (char.IsControl(c))
 					{
 						throw new JsonParseException(
-							string.Format("Control character in string literal on line {0}", this.line),
-							this.line,
-							this.column
+							ErrorType.InvalidOrUnexpectedCharacter,
+							this.scanner.Position
 						);
 					}
 					else
@@ -291,7 +212,7 @@ namespace LightJson.Serialization
 
 		private int ReadHexDigit()
 		{
-			switch (char.ToUpper(Read()))
+			switch (char.ToUpper(this.scanner.Read()))
 			{
 				case '0':
 					return 0;
@@ -342,7 +263,10 @@ namespace LightJson.Serialization
 					return 15;
 
 				default:
-					throw new ArgumentException("The given string does not represent a hex value.", "hex");
+					throw new JsonParseException(
+						ErrorType.InvalidOrUnexpectedCharacter,
+						this.scanner.Position
+					);
 			}
 		}
 
@@ -365,39 +289,44 @@ namespace LightJson.Serialization
 
 		private JsonObject ReadObject(JsonObject jsonObject)
 		{
-			AssertNextChar('{');
+			this.scanner.Assert('{');
 
-			SkipWhitespaces();
-			if (Peek() == '}')
+			this.scanner.SkipWhitespace();
+
+			if (this.scanner.Peek() == '}')
 			{
-				Read();
+				this.scanner.Read();
 			}
 			else
 			{
 				while (true)
 				{
-					SkipWhitespaces();
+					this.scanner.SkipWhitespace();
+
 					var key = ReadJsonKey();
 
 					if (jsonObject.Contains(key))
 					{
 						throw new JsonParseException(
-							string.Format("Duplicate object key on line {0}", this.line),
-							this.line,
-							this.column
+							ErrorType.DuplicateObjectKeys,
+							this.scanner.Position
 						);
 					}
 
-					SkipWhitespaces();
-					AssertNextChar(':');
+					this.scanner.SkipWhitespace();
 
-					SkipWhitespaces();
+					this.scanner.Assert(':');
+
+					this.scanner.SkipWhitespace();
+
 					var value = ReadJsonValue();
 
 					jsonObject.Add(key, value);
 
-					SkipWhitespaces();
-					var next = Read();
+					this.scanner.SkipWhitespace();
+
+					var next = this.scanner.Read();
+
 					if (next == '}')
 					{
 						break;
@@ -409,9 +338,8 @@ namespace LightJson.Serialization
 					else
 					{
 						throw new JsonParseException(
-							string.Format("Expecting ',' or '}}' on line {0}", this.line),
-							this.line,
-							this.column
+							ErrorType.InvalidOrUnexpectedCharacter,
+							this.scanner.Position
 						);
 					}
 				}
@@ -427,24 +355,28 @@ namespace LightJson.Serialization
 
 		private JsonArray ReadArray(JsonArray jsonArray)
 		{
-			AssertNextChar('[');
+			this.scanner.Assert('[');
 
-			SkipWhitespaces();
-			if (Peek() == ']')
+			this.scanner.SkipWhitespace();
+
+			if (this.scanner.Peek() == ']')
 			{
-				Read();
+				this.scanner.Read();
 			}
 			else
 			{
 				while (true)
 				{
-					SkipWhitespaces();
+					this.scanner.SkipWhitespace();
+
 					var value = ReadJsonValue();
 
 					jsonArray.Add(value);
 
-					SkipWhitespaces();
-					var next = Read();
+					this.scanner.SkipWhitespace();
+
+					var next = this.scanner.Read();
+
 					if (next == ']')
 					{
 						break;
@@ -456,9 +388,8 @@ namespace LightJson.Serialization
 					else
 					{
 						throw new JsonParseException(
-							string.Format("Expecting ',' or ']' on line {0} ", this.line),
-							this.line,
-							this.column
+							ErrorType.InvalidOrUnexpectedCharacter,
+							this.scanner.Position
 						);
 					}
 				}
@@ -469,10 +400,14 @@ namespace LightJson.Serialization
 
 		private JsonValue Parse()
 		{
-			SkipWhitespaces();
+			this.scanner.SkipWhitespace();
 			return ReadJsonValue();
 		}
 
+		/// <summary>
+		/// Creates a JsonValue by using the given TextReader.
+		/// </summary>
+		/// <param name="reader">The TextReader used to read a JSON message.</param>
 		public static JsonValue Parse(TextReader reader)
 		{
 			if (reader == null)
@@ -483,6 +418,10 @@ namespace LightJson.Serialization
 			return new JsonReader(reader).Parse();
 		}
 
+		/// <summary>
+		/// Creates a JsonValue by reader the JSON message in the given string.
+		/// </summary>
+		/// <param name="source">The string containing the JSON message.</param>
 		public static JsonValue Parse(string source)
 		{
 			if (source == null)
@@ -496,6 +435,10 @@ namespace LightJson.Serialization
 			}
 		}
 
+		/// <summary>
+		/// Creates a JsonValue by reading the given file.
+		/// </summary>
+		/// <param name="path">The file path to be read.</param>
 		public static JsonValue ParseFile(string path)
 		{
 			if (path == null)
