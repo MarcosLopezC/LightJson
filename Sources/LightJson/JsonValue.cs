@@ -361,6 +361,7 @@ namespace LightJson
 		/// Serializes the contents of this value into a JSON formatted string.
 		/// </summary>
 		/// <returns>Return a string representation of this value.</returns>
+		[Obsolete("Use ToString() instead.")]
 		public string Serialize()
 		{
 			return Serialize(false);
@@ -371,6 +372,7 @@ namespace LightJson
 		/// </summary>
 		/// <param name="pretty">Indicates whether the output should be formatted to be human-readable.</param>
 		/// <returns>Return a string representation of this value.</returns>
+		[Obsolete("Use ToString() instead.")]
 		public string Serialize(bool pretty)
 		{
 			using (var writer = new JsonWriter(pretty))
@@ -599,17 +601,32 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Converts this JsonValue into a human-readable string.
+		/// Returns a JSON string representing the state of the object.
 		/// </summary>
+		/// <remarks>
+		/// The resulting string is safe to be inserted as is into dynamically
+		/// generated JavaScript or JSON code.
+		/// </remarks>
 		public override string ToString()
 		{
-			if (this.Type == JsonValueType.Null)
+			return ToString(false);
+		}
+
+		/// <summary>
+		/// Returns a JSON string representing the state of the object.
+		/// </summary>
+		/// <remarks>
+		/// The resulting string is safe to be inserted as is into dynamically
+		/// generated JavaScript or JSON code.
+		/// </remarks>
+		/// <param name="pretty">
+		/// Indicates whether the resulting string should be formatted for human-readability.
+		/// </param>
+		public string ToString(bool pretty)
+		{
+			using (var reader = new JsonWriter(pretty))
 			{
-				return "null";
-			}
-			else
-			{
-				return this.value.ToString();
+				return reader.Serialize(this);
 			}
 		}
 

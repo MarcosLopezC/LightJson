@@ -136,6 +136,7 @@ namespace LightJson
 		/// Serializes the contents of this object into a JSON formatted string.
 		/// </summary>
 		/// <returns>Return a string representation of this object.</returns>
+		[Obsolete("Use ToString() instead.")]
 		public string Serialize()
 		{
 			return Serialize(false);
@@ -146,12 +147,10 @@ namespace LightJson
 		/// </summary>
 		/// <param name="pretty">Indicates whether the output should be formatted to be human-readable.</param>
 		/// <returns>Return a string representation of this object.</returns>
+		[Obsolete("Use ToString() instead.")]
 		public string Serialize(bool pretty)
 		{
-			using (var writer = new JsonWriter(pretty))
-			{
-				return writer.Serialize(this);
-			}
+			return ToString(pretty);
 		}
 
 		/// <summary>
@@ -179,15 +178,33 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Returns a string representation of this JsonObject.
+		/// Returns a JSON string representing the state of the object.
 		/// </summary>
 		/// <remarks>
-		/// This method will not return a JSON representation of the object.
-		/// Use Serialize method instead for that purpose.
+		/// The resulting string is safe to be inserted as is into dynamically
+		/// generated JavaScript or JSON code.
 		/// </remarks>
 		public override string ToString()
 		{
-			return string.Format("Object[{0}]", this.Count);
+			return ToString(false);
+		}
+
+		/// <summary>
+		/// Returns a JSON string representing the state of the object.
+		/// </summary>
+		/// <remarks>
+		/// The resulting string is safe to be inserted as is into dynamically
+		/// generated JavaScript or JSON code.
+		/// </remarks>
+		/// <param name="pretty">
+		/// Indicates whether the resulting string should be formatted for human-readability.
+		/// </param>
+		public string ToString(bool pretty)
+		{
+			using (var writer = new JsonWriter(pretty))
+			{
+				return writer.Serialize(this);
+			}
 		}
 
 		private class JsonObjectDebugView

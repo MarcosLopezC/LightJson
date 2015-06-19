@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace LightJson.Serialization
 {
@@ -257,13 +258,19 @@ namespace LightJson.Serialization
 					return (bool)value ? "true" : "false";
 
 				case JsonValueType.Number:
-					return ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+					return ((double)value).ToString(CultureInfo.InvariantCulture);
 
 				case JsonValueType.String:
 					return EncodeStringValue((string)value);
 
+				case JsonValueType.Object:
+					return string.Format("JsonObject[{0}]", value.Object.Count);
+
+				case JsonValueType.Array:
+					return string.Format("JsonArray[{0}]", value.Array.Count);
+
 				default:
-					return value.ToString();
+					throw new InvalidOperationException("Invalid value type.");
 			}
 		}
 
@@ -285,7 +292,7 @@ namespace LightJson.Serialization
 			builder.Replace("\r", "\\r");
 			builder.Replace("\t", "\\t");
 
-			// Surounding text with double quotes.
+			// Surrounding text with double quotes.
 			builder[0] = '\"';
 			builder.Append("\"");
 
