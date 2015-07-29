@@ -36,9 +36,11 @@ namespace LightJson
 		{
 			get
 			{
-				if (this.properties.ContainsKey(key))
+				JsonValue value;
+
+				if (this.properties.TryGetValue(key, out value))
 				{
-					return this.properties[key];
+					return value;
 				}
 				else
 				{
