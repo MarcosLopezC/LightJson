@@ -87,6 +87,7 @@ namespace LightJson
 		/// Gets the JsonValue assosiated with the given key.
 		/// </summary>
 		/// <param name="key">The key of the value to get.</param>
+		[Obsolete("Use JsonObject's indexer instead.", true)]
 		public JsonValue Get(string key)
 		{
 			return this.properties[key];

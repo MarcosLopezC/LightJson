@@ -86,6 +86,7 @@ namespace LightJson
 		/// Gets the JsonValue at the given index.
 		/// </summary>
 		/// <param name="index">The zero-based index of the value to get.</param>
+		[Obsolete("Use JsonArray's indexer instead.", true)]
 		public JsonValue Get(int index)
 		{
 			return this.items[index];
