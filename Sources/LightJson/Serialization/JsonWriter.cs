@@ -264,10 +264,10 @@ namespace LightJson.Serialization
 					return EncodeStringValue((string)value);
 
 				case JsonValueType.Object:
-					return string.Format("JsonObject[{0}]", value.Object.Count);
+					return string.Format("JsonObject[{0}]", value.AsJsonObject.Count);
 
 				case JsonValueType.Array:
-					return string.Format("JsonArray[{0}]", value.Array.Count);
+					return string.Format("JsonArray[{0}]", value.AsJsonArray.Count);
 
 				default:
 					throw new InvalidOperationException("Invalid value type.");

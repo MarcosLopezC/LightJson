@@ -31,17 +31,6 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Gets the wrapped value as an object.
-		/// </summary>
-		public object Value
-		{
-			get
-			{
-				return this.value;
-			}
-		}
-
-		/// <summary>
 		/// Gets a value indicating whether this JsonValue is Null.
 		/// </summary>
 		public bool IsNull
@@ -129,7 +118,7 @@ namespace LightJson
 		/// <summary>
 		/// Gets this value as a Boolean type.
 		/// </summary>
-		public bool Boolean
+		public bool AsBoolean
 		{
 			get
 			{
@@ -157,18 +146,18 @@ namespace LightJson
 		/// <summary>
 		/// Gets this value as an Integer type.
 		/// </summary>
-		public int Integer
+		public int AsInteger
 		{
 			get
 			{
-				return (int)this.Number;
+				return (int)this.AsNumber;
 			}
 		}
 
 		/// <summary>
 		/// Gets this value as a Number type.
 		/// </summary>
-		public double Number
+		public double AsNumber
 		{
 			get
 			{
@@ -200,7 +189,7 @@ namespace LightJson
 		/// <summary>
 		/// Gets this value as a String type.
 		/// </summary>
-		public string String
+		public string AsString
 		{
 			get
 			{
@@ -222,9 +211,9 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Gets this value as an Object.
+		/// Gets this value as an JsonObject.
 		/// </summary>
-		public JsonObject Object
+		public JsonObject AsJsonObject
 		{
 			get
 			{
@@ -233,13 +222,24 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Gets this value as an Array.
+		/// Gets this value as an JsonArray.
 		/// </summary>
-		public JsonArray Array
+		public JsonArray AsJsonArray
 		{
 			get
 			{
 				return this.IsArray ? (JsonArray)this : null;
+			}
+		}
+
+		/// <summary>
+		/// Gets this value as a System.object.
+		/// </summary>
+		public object AsObject
+		{
+			get
+			{
+				return this.value;
 			}
 		}
 
