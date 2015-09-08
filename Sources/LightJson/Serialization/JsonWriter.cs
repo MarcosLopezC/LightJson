@@ -79,9 +79,89 @@ namespace LightJson.Serialization
 			writer.Write(text);
 		}
 
+		private void WriteEncodedJsonValue(JsonValue value)
+		{
+			switch (value.Type)
+			{
+				case JsonValueType.Null:
+					this.writer.Write("null");
+					break;
+
+				case JsonValueType.Boolean:
+					this.writer.Write((bool)value ? "true" : "false");
+					break;
+
+				case JsonValueType.Number:
+					this.writer.Write(((double)value).ToString(CultureInfo.InvariantCulture));
+					break;
+
+				case JsonValueType.String:
+					WriteEncodedString((string)value);
+					break;
+
+				case JsonValueType.Object:
+					this.writer.Write(string.Format("JsonObject[{0}]", value.AsJsonObject.Count));
+					break;
+
+				case JsonValueType.Array:
+					this.writer.Write(string.Format("JsonArray[{0}]", value.AsJsonArray.Count));
+					break;
+
+				default:
+					throw new InvalidOperationException("Invalid value type.");
+			}
+		}
+
 		private void WriteEncodedString(string text)
 		{
-			Write(EncodeStringValue(text));
+			this.writer.Write("\"");
+
+			for (int i = 0; i < text.Length; i += 1)
+			{
+				var currentChar = text[i];
+
+				// Encoding special characters.
+				switch (currentChar)
+				{
+					case '\\':
+						this.writer.Write("\\\\");
+						break;
+
+					case '\"':
+						this.writer.Write("\\\"");
+						break;
+
+					case '/':
+						this.writer.Write("\\/");
+						break;
+
+					case '\b':
+						this.writer.Write("\\b");
+						break;
+
+					case '\f':
+						this.writer.Write("\\f");
+						break;
+
+					case '\n':
+						this.writer.Write("\\n");
+						break;
+
+					case '\r':
+						this.writer.Write("\\r");
+						break;
+
+					case '\t':
+						this.writer.Write("\\t");
+						break;
+
+					default:
+						this.writer.Write(currentChar);
+						break;
+				}
+			}
+
+			this.writer.Write("\"");
 		}
 
 		private void WriteIndentation()
@@ -130,7 +210,7 @@ namespace LightJson.Serialization
 				case JsonValueType.Boolean:
 				case JsonValueType.Number:
 				case JsonValueType.String:
-					Write(EncodeJsonValue(value));
+					WriteEncodedJsonValue(value);
 					break;
 
 				case JsonValueType.Object:
@@ -243,62 +323,6 @@ namespace LightJson.Serialization
 			{
 				this.writer.Dispose();
 			}
-		}
-
-		/// <summary>
-		/// Returns a string representation of the given JsonValue.
-		/// </summary>
-		/// <param name="value">The value to encode.</param>
-		public static string EncodeJsonValue(JsonValue value)
-		{
-			switch (value.Type)
-			{
-				case JsonValueType.Null:
-					return "null";
-
-				case JsonValueType.Boolean:
-					return (bool)value ? "true" : "false";
-
-				case JsonValueType.Number:
-					return ((double)value).ToString(CultureInfo.InvariantCulture);
-
-				case JsonValueType.String:
-					return EncodeStringValue((string)value);
-
-				case JsonValueType.Object:
-					return string.Format("JsonObject[{0}]", value.AsJsonObject.Count);
-
-				case JsonValueType.Array:
-					return string.Format("JsonArray[{0}]", value.AsJsonArray.Count);
-
-				default:
-					throw new InvalidOperationException("Invalid value type.");
-			}
-		}
-
-		private static string EncodeStringValue(string value)
-		{
-			var builder = new StringBuilder(value.Length + 2);
-
-			// Leaving a place holder for the initial quote.
-			builder.Append((char)0);
-
-			// Escaping characters.
-			builder.Append(value);
-			builder.Replace("\\", "\\\\"); // \ -> \\
-			builder.Replace("\"", "\\\""); // " -> \"
-			builder.Replace("/", "\\/");   // / -> \/
-			builder.Replace("\b", "\\b");
-			builder.Replace("\f", "\\f");
-			builder.Replace("\n", "\\n");
-			builder.Replace("\r", "\\r");
-			builder.Replace("\t", "\\t");
-
-			// Surrounding text with double quotes.
-			builder[0] = '\"';
-			builder.Append("\"");
-
-			return builder.ToString();
 		}
 
 		private static bool IsValidNumber(double number)
