@@ -16,6 +16,12 @@ namespace LightJson.Serialization
 		private int indent;
 		private bool isNewLine;
 		private TextWriter writer;
+
+		/// <summary>
+		/// A set of containing all the collection objects (JsonObject/JsonArray) being rendered.
+		/// It is used to prevent circular references; since collections that contain themselves
+		/// will never finish rendering.
+		/// </summary>
 		private HashSet<IEnumerable<JsonValue>> renderingCollections;
 
 		/// <summary>
