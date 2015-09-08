@@ -16,7 +16,7 @@ namespace LightJson.Serialization
 		private int indent;
 		private bool isNewLine;
 		private TextWriter writer;
-		private HashSet<JsonValue> renderingCollections;
+		private HashSet<IEnumerable<JsonValue>> renderingCollections;
 
 		/// <summary>
 		/// Gets or sets the string representing a indent in the output.
@@ -59,7 +59,7 @@ namespace LightJson.Serialization
 			this.indent = 0;
 			this.isNewLine = true;
 			this.writer = new StringWriter();
-			this.renderingCollections = new HashSet<JsonValue>();
+			this.renderingCollections = new HashSet<IEnumerable<JsonValue>>();
 		}
 
 		private void Write(string text)
@@ -103,7 +103,7 @@ namespace LightJson.Serialization
 			WriteLine();
 		}
 
-		private void AddRenderingCollection(JsonValue value)
+		private void AddRenderingCollection(IEnumerable<JsonValue> value)
 		{
 			if (!renderingCollections.Add(value))
 			{
@@ -111,7 +111,7 @@ namespace LightJson.Serialization
 			}
 		}
 
-		private void RemoveRenderingCollection(JsonValue value)
+		private void RemoveRenderingCollection(IEnumerable<JsonValue> value)
 		{
 			renderingCollections.Remove(value);
 		}
