@@ -7,7 +7,7 @@ namespace LightJson
 	/// <summary>
 	/// A wrapper object that contains a valid JSON value.
 	/// </summary>
-	[DebuggerDisplay("{DebuggerDisplay(),nq}", Type = "JsonValue({Type})")]
+	[DebuggerDisplay("{ToString(),nq}", Type = "JsonValue({Type})")]
 	[DebuggerTypeProxy(typeof(JsonValueDebugView))]
 	public struct JsonValue
 	{
@@ -597,11 +597,6 @@ namespace LightJson
 			{
 				return reader.Serialize(this);
 			}
-		}
-
-		private string DebuggerDisplay()
-		{
-			return JsonWriter.EncodeJsonValue(this);
 		}
 
 		private class JsonValueDebugView

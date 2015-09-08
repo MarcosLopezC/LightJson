@@ -206,7 +206,7 @@ namespace LightJson
 				this.jsonObject = jsonObject;
 			}
 
-			[DebuggerDisplay("{value.DebuggerDisplay(),nq}", Name = "{key}", Type = "JsonValue({Type})")]
+			[DebuggerDisplay("{value.ToString(),nq}", Name = "{key}", Type = "JsonValue({Type})")]
 			public class KeyValuePair
 			{
 				[DebuggerBrowsable(DebuggerBrowsableState.Never)]
