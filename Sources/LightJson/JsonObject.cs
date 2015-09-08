@@ -84,16 +84,6 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Gets the JsonValue assosiated with the given key.
-		/// </summary>
-		/// <param name="key">The key of the value to get.</param>
-		[Obsolete("Use JsonObject's indexer instead.", true)]
-		public JsonValue Get(string key)
-		{
-			return this.properties[key];
-		}
-
-		/// <summary>
 		/// Removes a property with the given key.
 		/// </summary>
 		/// <param name="key">The key of the property to be removed.</param>
@@ -133,27 +123,6 @@ namespace LightJson
 		public bool Contains(JsonValue value)
 		{
 			return this.properties.Values.Contains(value);
-		}
-
-		/// <summary>
-		/// Serializes the contents of this object into a JSON formatted string.
-		/// </summary>
-		/// <returns>Return a string representation of this object.</returns>
-		[Obsolete("Use ToString() instead.")]
-		public string Serialize()
-		{
-			return Serialize(false);
-		}
-
-		/// <summary>
-		/// Serializes the contents of this object into a JSON formatted string.
-		/// </summary>
-		/// <param name="pretty">Indicates whether the output should be formatted to be human-readable.</param>
-		/// <returns>Return a string representation of this object.</returns>
-		[Obsolete("Use ToString() instead.")]
-		public string Serialize(bool pretty)
-		{
-			return ToString(pretty);
 		}
 
 		/// <summary>

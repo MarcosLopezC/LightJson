@@ -83,16 +83,6 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Gets the JsonValue at the given index.
-		/// </summary>
-		/// <param name="index">The zero-based index of the value to get.</param>
-		[Obsolete("Use JsonArray's indexer instead.", true)]
-		public JsonValue Get(int index)
-		{
-			return this.items[index];
-		}
-
-		/// <summary>
 		/// Inserts the given value at the given index in this collection.
 		/// </summary>
 		/// <param name="index">The index where the given value will be inserted.</param>
@@ -143,27 +133,6 @@ namespace LightJson
 		public int IndexOf(JsonValue item)
 		{
 			return this.items.IndexOf(item);
-		}
-
-		/// <summary>
-		/// Serializes the contents of this object into a JSON formatted string.
-		/// </summary>
-		/// <returns>Return a string representation of this JsonObject.</returns>
-		[Obsolete("Use ToString() instead.")]
-		public string Serialize()
-		{
-			return Serialize(false);
-		}
-
-		/// <summary>
-		/// Serializes the contents of this object into a JSON formatted string.
-		/// </summary>
-		/// <param name="pretty">Indicates whether the output should be formatted to be human-readable.</param>
-		/// <returns>Return a string representation of this object.</returns>
-		[Obsolete("Use ToString() instead.")]
-		public string Serialize(bool pretty)
-		{
-			return ToString(pretty);
 		}
 
 		/// <summary>
