@@ -72,17 +72,10 @@ namespace LightJson
 			{
 				if (this.IsNumber)
 				{
-					var value = (double)this;
+					var doubleRepresentation = (double)this;
+					var intRepresentation = Convert.ToInt32(doubleRepresentation);
 
-					if (value <= int.MaxValue && value >= int.MinValue)
-					{
-						var intValue = (int)value;
-
-						if (value == intValue)
-						{
-							return true;
-						}
-					}
+					return doubleRepresentation == intRepresentation;
 				}
 
 				return false;
