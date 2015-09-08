@@ -16,7 +16,7 @@ namespace LightJson.Serialization
 		private int indent;
 		private bool isNewLine;
 		private TextWriter writer;
-		private HashSet<JsonValue> RenderingValues;
+		private HashSet<JsonValue> renderingCollections;
 
 		/// <summary>
 		/// Gets or sets the string representing a indent in the output.
@@ -59,7 +59,7 @@ namespace LightJson.Serialization
 			this.indent = 0;
 			this.isNewLine = true;
 			this.writer = new StringWriter();
-			this.RenderingValues = new HashSet<JsonValue>();
+			this.renderingCollections = new HashSet<JsonValue>();
 		}
 
 		private void Write(string text)
@@ -103,21 +103,17 @@ namespace LightJson.Serialization
 			WriteLine();
 		}
 
-		private void AddRenderingValue(JsonValue value)
+		private void AddRenderingCollection(JsonValue value)
 		{
-			if (RenderingValues.Contains(value))
+			if (!renderingCollections.Add(value))
 			{
 				throw new JsonSerializationException(ErrorType.CircularReference);
 			}
-			else
-			{
-				RenderingValues.Add(value);
-			}
 		}
 
-		private void RemoveRenderingValue(JsonValue value)
+		private void RemoveRenderingCollection(JsonValue value)
 		{
-			RenderingValues.Remove(value);
+			renderingCollections.Remove(value);
 		}
 
 		private void Render(JsonValue value)
@@ -146,7 +142,7 @@ namespace LightJson.Serialization
 
 		private void Render(JsonArray value)
 		{
-			AddRenderingValue(value);
+			AddRenderingCollection(value);
 
 			WriteLine("[");
 
@@ -177,12 +173,12 @@ namespace LightJson.Serialization
 
 			Write("]");
 
-			RemoveRenderingValue(value);
+			RemoveRenderingCollection(value);
 		}
 
 		private void Render(JsonObject value)
 		{
-			AddRenderingValue(value);
+			AddRenderingCollection(value);
 
 			WriteLine("{");
 
@@ -216,7 +212,7 @@ namespace LightJson.Serialization
 
 			Write("}");
 
-			RemoveRenderingValue(value);
+			RemoveRenderingCollection(value);
 		}
 
 		/// <summary>
