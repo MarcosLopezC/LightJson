@@ -44,13 +44,13 @@ namespace LightJson.Serialization
 			switch (type)
 			{
 				case ErrorType.InvalidNumber:
-					return "The object been serialized contains an invalid number value (NAN, infinity).";
+					return "The value been serialized contains an invalid number value (NAN, infinity).";
 
 				case ErrorType.InvalidValueType:
-					return "The object been serialized contains (or is) an invalid JSON type.";
+					return "The value been serialized contains (or is) an invalid JSON type.";
 
 				case ErrorType.CircularReference:
-					return "The object been serialized contains circular references.";
+					return "The value been serialized contains circular references.";
 
 				default:
 					return "An error occurred during serialization.";

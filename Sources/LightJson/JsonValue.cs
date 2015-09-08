@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using LightJson.Serialization;
 
@@ -94,9 +94,9 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether this JsonValue is an Object.
+		/// Gets a value indicating whether this JsonValue is a JsonObject.
 		/// </summary>
-		public bool IsObject
+		public bool IsJsonObject
 		{
 			get
 			{
@@ -105,9 +105,9 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether this JsonValue is an Array.
+		/// Gets a value indicating whether this JsonValue is a JsonArray.
 		/// </summary>
-		public bool IsArray
+		public bool IsJsonArray
 		{
 			get
 			{
@@ -217,7 +217,7 @@ namespace LightJson
 		{
 			get
 			{
-				return this.IsObject ? (JsonObject)this : null;
+				return this.IsJsonObject ? (JsonObject)this : null;
 			}
 		}
 
@@ -228,7 +228,7 @@ namespace LightJson
 		{
 			get
 			{
-				return this.IsArray ? (JsonArray)this : null;
+				return this.IsJsonArray ? (JsonArray)this : null;
 			}
 		}
 
@@ -254,24 +254,24 @@ namespace LightJson
 		{
 			get
 			{
-				if (this.IsObject)
+				if (this.IsJsonObject)
 				{
 					return ((JsonObject)this)[key];
 				}
 				else
 				{
-					throw new InvalidOperationException("This value does not represent an Object.");
+					throw new InvalidOperationException("This value does not represent a JsonObject.");
 				}
 			}
 			set
 			{
-				if (this.IsObject)
+				if (this.IsJsonObject)
 				{
 					((JsonObject)this)[key] = value;
 				}
 				else
 				{
-					throw new InvalidOperationException("This value does not represent an Object.");
+					throw new InvalidOperationException("This value does not represent a JsonObject.");
 				}
 			}
 		}
@@ -287,24 +287,24 @@ namespace LightJson
 		{
 			get
 			{
-				if (this.IsArray)
+				if (this.IsJsonArray)
 				{
 					return ((JsonArray)this)[index];
 				}
 				else
 				{
-					throw new InvalidOperationException("This value does not represent an Array.");
+					throw new InvalidOperationException("This value does not represent a JsonArray.");
 				}
 			}
 			set
 			{
-				if (this.IsArray)
+				if (this.IsJsonArray)
 				{
 					((JsonArray)this)[index] = value;
 				}
 				else
 				{
-					throw new InvalidOperationException("This value does not represent an Array.");
+					throw new InvalidOperationException("This value does not represent a JsonArray.");
 				}
 			}
 		}
@@ -339,7 +339,7 @@ namespace LightJson
 		public JsonValue(string value) : this(JsonValueType.String, value) { }
 
 		/// <summary>
-		/// Initializes a new instance of the JsonValue struct, representing an Object reference value.
+		/// Initializes a new instance of the JsonValue struct, representing a JsonObject.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
 		public JsonValue(JsonObject value) : this(JsonValueType.Object, value) { }
@@ -481,13 +481,13 @@ namespace LightJson
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
 		public static implicit operator JsonObject(JsonValue jsonValue)
 		{
-			if (jsonValue.IsObject || jsonValue.IsNull)
+			if (jsonValue.IsJsonObject || jsonValue.IsNull)
 			{
 				return jsonValue.value as JsonObject;
 			}
 			else
 			{
-				throw new InvalidCastException("This value is not an Object.");
+				throw new InvalidCastException("This value is not a JsonObject.");
 			}
 		}
 
@@ -497,13 +497,13 @@ namespace LightJson
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
 		public static implicit operator JsonArray(JsonValue jsonValue)
 		{
-			if (jsonValue.IsArray || jsonValue.IsNull)
+			if (jsonValue.IsJsonArray || jsonValue.IsNull)
 			{
 				return jsonValue.value as JsonArray;
 			}
 			else
 			{
-				throw new InvalidCastException("This value is not an Array.");
+				throw new InvalidCastException("This value is not a JsonArray.");
 			}
 		}
 
@@ -608,7 +608,7 @@ namespace LightJson
 			{
 				get
 				{
-					if (jsonValue.IsObject)
+					if (jsonValue.IsJsonObject)
 					{
 						return (JsonObject)jsonValue;
 					}
@@ -624,7 +624,7 @@ namespace LightJson
 			{
 				get
 				{
-					if (jsonValue.IsArray)
+					if (jsonValue.IsJsonArray)
 					{
 						return (JsonArray)jsonValue;
 					}
@@ -647,11 +647,11 @@ namespace LightJson
 			{
 				get
 				{
-					if (jsonValue.IsObject)
+					if (jsonValue.IsJsonObject)
 					{
 						return (JsonObject)jsonValue;
 					}
-					else if (jsonValue.IsArray)
+					else if (jsonValue.IsJsonArray)
 					{
 						return (JsonArray)jsonValue;
 					}

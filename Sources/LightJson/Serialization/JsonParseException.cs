@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace LightJson.Serialization
 {
@@ -58,7 +58,7 @@ namespace LightJson.Serialization
 					return "The parser encountered an invalid or unexpected character.";
 
 				case ErrorType.DuplicateObjectKeys:
-					return "The parser encountered an object with duplicate keys.";
+					return "The parser encountered a JsonObject with duplicate keys.";
 
 				default:
 					return "An error occurred while parsing the JSON message.";
@@ -81,7 +81,7 @@ namespace LightJson.Serialization
 			IncompleteMessage,
 
 			/// <summary>
-			/// Indicates that an object contains more than one key with the same name.
+			/// Indicates that a JsonObject contains more than one key with the same name.
 			/// </summary>
 			DuplicateObjectKeys,
 

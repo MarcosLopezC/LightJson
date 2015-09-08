@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using LightJson.Serialization;
@@ -229,11 +229,11 @@ namespace LightJson
 				{
 					get
 					{
-						if (this.value.IsObject)
+						if (this.value.IsJsonObject)
 						{
 							return (JsonObject)this.value;
 						}
-						else if (this.value.IsArray)
+						else if (this.value.IsJsonArray)
 						{
 							return (JsonArray)this.value;
 						}
