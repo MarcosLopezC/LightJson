@@ -161,7 +161,19 @@ namespace LightJson
 		{
 			get
 			{
-				return (int)this.AsNumber;
+				var value = this.AsNumber;
+
+				// Prevent overflow if the value doesn't fit.
+				if (value >= int.MaxValue)
+				{
+					return int.MaxValue;
+				}
+				if (value <= int.MinValue)
+				{
+					return int.MinValue;
+				}
+
+				return (int)value;
 			}
 		}
 
