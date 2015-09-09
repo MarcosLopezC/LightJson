@@ -475,7 +475,7 @@ namespace LightJson
 		/// Converts the given JsonValue into a nullable bool.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static implicit operator bool?(JsonValue jsonValue)
+		public static explicit operator bool?(JsonValue jsonValue)
 		{
 			if (jsonValue.IsNull)
 			{
@@ -507,7 +507,7 @@ namespace LightJson
 		/// Converts the given JsonValue into a nullable double.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static implicit operator double?(JsonValue jsonValue)
+		public static explicit operator double?(JsonValue jsonValue)
 		{
 			if (jsonValue.IsNull)
 			{
@@ -523,7 +523,7 @@ namespace LightJson
 		/// Converts the given JsonValue into a string.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static implicit operator string(JsonValue jsonValue)
+		public static explicit operator string(JsonValue jsonValue)
 		{
 			if (jsonValue.IsString || jsonValue.IsNull)
 			{
@@ -539,7 +539,7 @@ namespace LightJson
 		/// Converts the given JsonValue into a JsonObject.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static implicit operator JsonObject(JsonValue jsonValue)
+		public static explicit operator JsonObject(JsonValue jsonValue)
 		{
 			if (jsonValue.IsJsonObject || jsonValue.IsNull)
 			{
@@ -555,7 +555,7 @@ namespace LightJson
 		/// Converts the given JsonValue into a JsonArray.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static implicit operator JsonArray(JsonValue jsonValue)
+		public static explicit operator JsonArray(JsonValue jsonValue)
 		{
 			if (jsonValue.IsJsonArray || jsonValue.IsNull)
 			{
