@@ -116,6 +116,17 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Gets a value indicating whether this JsonValue represents a DateTime.
+		/// </summary>
+		public bool IsDateTime
+		{
+			get
+			{
+				return this.AsDateTime != null;
+			}
+		}
+
+		/// <summary>
 		/// Gets this value as a Boolean type.
 		/// </summary>
 		public bool AsBoolean
@@ -237,6 +248,26 @@ namespace LightJson
 				return (this.IsJsonArray)
 					? (JsonArray)this
 					: null;
+			}
+		}
+
+		/// <summary>
+		/// Gets this value as a system.DateTime.
+		/// </summary>
+		public DateTime? AsDateTime
+		{
+			get
+			{
+				DateTime value;
+
+				if (this.IsString && DateTime.TryParse((string)this, out value))
+				{
+					return value;
+				}
+				else
+				{
+					return null;
+				}
 			}
 		}
 
@@ -404,6 +435,24 @@ namespace LightJson
 		public static implicit operator JsonValue(JsonArray value)
 		{
 			return new JsonValue(value);
+		}
+
+		/// <summary>
+		/// Converts the given DateTime? into a JsonValue.
+		/// </summary>
+		/// <remarks>
+		/// The DateTime value will be stored as a string using ISO 8601 format,
+		/// since JSON does not define a DateTime type.
+		/// </remarks>
+		/// <param name="value">The value to be converted.</param>
+		public static implicit operator JsonValue(DateTime? value)
+		{
+			if (value == null)
+			{
+				return JsonValue.Null;
+			}
+
+			return new JsonValue(value.Value.ToString("o"));
 		}
 
 		/// <summary>
