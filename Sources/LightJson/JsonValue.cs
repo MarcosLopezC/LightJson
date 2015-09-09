@@ -164,7 +164,9 @@ namespace LightJson
 				switch (this.Type)
 				{
 					case JsonValueType.Boolean:
-						return (bool)this ? 1 : 0;
+						return ((bool)this)
+							? 1
+							: 0;
 
 					case JsonValueType.Number:
 						return (double)this;
@@ -196,7 +198,9 @@ namespace LightJson
 				switch (this.Type)
 				{
 					case JsonValueType.Boolean:
-						return (bool)this ? "true" : "false";
+						return ((bool)this)
+							? "true"
+							: "false";
 
 					case JsonValueType.Number:
 						return ((double)this).ToString();
@@ -217,7 +221,9 @@ namespace LightJson
 		{
 			get
 			{
-				return this.IsJsonObject ? (JsonObject)this : null;
+				return (this.IsJsonObject)
+					? (JsonObject)this
+					: null;
 			}
 		}
 
@@ -228,7 +234,9 @@ namespace LightJson
 		{
 			get
 			{
-				return this.IsJsonArray ? (JsonArray)this : null;
+				return (this.IsJsonArray)
+					? (JsonArray)this
+					: null;
 			}
 		}
 
@@ -316,7 +324,10 @@ namespace LightJson
 		/// <param name="value">The value of the JsonValue.</param>
 		private JsonValue(JsonValueType type, object value)
 		{
-			this.type  = value == null ? JsonValueType.Null : type;
+			this.type  = (value == null)
+				? JsonValueType.Null
+				: type;
+
 			this.value = value;
 		}
 
