@@ -40,7 +40,7 @@ JSON output:
 In this example, the variable `json` contains the string generated in the previous example.
 
 ```C#
-var menu = JsonValue.Parse(json)["menu"].Array;
+var menu = JsonValue.Parse(json)["menu"].AsJsonArray;
 
 foreach (var item in menu)
 {
