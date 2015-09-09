@@ -88,7 +88,7 @@ namespace LightJson.Serialization
 					break;
 
 				case JsonValueType.Boolean:
-					this.writer.Write((bool)value ? "true" : "false");
+					this.writer.Write(value.AsString);
 					break;
 
 				case JsonValueType.Number:
