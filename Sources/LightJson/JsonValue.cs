@@ -499,7 +499,7 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This value is not a Number.");
+				throw new InvalidCastException("This JsonValue is not a Number.");
 			}
 		}
 
@@ -531,7 +531,7 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This value is not a String.");
+				throw new InvalidCastException("This JsonValue is not a String.");
 			}
 		}
 
@@ -547,7 +547,7 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This value is not a JsonObject.");
+				throw new InvalidCastException("This JsonValue is not a JsonObject.");
 			}
 		}
 
@@ -563,7 +563,7 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This value is not a JsonArray.");
+				throw new InvalidCastException("This JsonValue is not a JsonArray.");
 			}
 		}
 
