@@ -112,8 +112,8 @@ namespace LightJson
 		/// This method has no effects if the <i>oldKey</i> does not exists.
 		/// If the <i>newKey</i> already exists, the value will be overwritten.
 		/// </remarks>
-		/// <param name="oldName">The name of the key to be changed.</param>
-		/// <param name="newName">The new name of the key.</param>
+		/// <param name="oldKey">The name of the key to be changed.</param>
+		/// <param name="newKey">The new name of the key.</param>
 		/// <returns>Returns this JsonObject.</returns>
 		public JsonObject Rename(string oldKey, string newKey)
 		{
