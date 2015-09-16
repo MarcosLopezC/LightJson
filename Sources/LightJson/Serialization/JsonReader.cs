@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Globalization;
 
 namespace LightJson.Serialization
 {
@@ -138,7 +139,10 @@ namespace LightJson.Serialization
 				ReadDigits(builder);
 			}
 
-			return double.Parse(builder.ToString());
+			return double.Parse(
+				builder.ToString(),
+				CultureInfo.InvariantCulture
+			);
 		}
 
 		private string ReadString()
