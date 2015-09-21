@@ -592,7 +592,7 @@ namespace LightJson
 		/// <param name="b">A JsonValue to compare.</param>
 		public static bool operator ==(JsonValue a, JsonValue b)
 		{
-			return a.Type == b.Type && a.value == b.value;
+			return (a.Type == b.Type) && (a.value == b.value);
 		}
 
 		/// <summary>
