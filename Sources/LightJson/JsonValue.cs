@@ -59,15 +59,21 @@ namespace LightJson
 		{
 			get
 			{
-				if (this.IsNumber)
+				if (!this.IsNumber)
 				{
-					var doubleRepresentation = (double)this;
-					var intRepresentation = Convert.ToInt32(doubleRepresentation);
-
-					return doubleRepresentation == intRepresentation;
+					return false;
 				}
 
-				return false;
+				try
+				{
+					var value = (double)this.value;
+
+					return ((int)value) == value;
+				}
+				catch (OverflowException)
+				{
+					return false;
+				}
 			}
 		}
 
