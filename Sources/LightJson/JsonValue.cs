@@ -474,10 +474,14 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Converts the given JsonValue into a bool.
+		/// Converts the given JsonValue into a Bool.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static explicit operator bool(JsonValue jsonValue)
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner value type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator bool(JsonValue jsonValue)
 		{
 			if (jsonValue.IsBoolean)
 			{
@@ -485,15 +489,19 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This JsonValue is not a Boolean.");
+				throw new InvalidCastException("The JsonValue is not a Boolean.");
 			}
 		}
 
 		/// <summary>
-		/// Converts the given JsonValue into a nullable bool.
+		/// Converts the given JsonValue into a nullable Bool.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static explicit operator bool?(JsonValue jsonValue)
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner value type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator bool?(JsonValue jsonValue)
 		{
 			if (jsonValue.IsNull)
 			{
@@ -506,10 +514,14 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Converts the given JsonValue into a double.
+		/// Converts the given JsonValue into a Double.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static explicit operator double(JsonValue jsonValue)
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner value type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator double(JsonValue jsonValue)
 		{
 			if (jsonValue.IsNumber)
 			{
@@ -517,15 +529,19 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This JsonValue is not a Number.");
+				throw new InvalidCastException("The JsonValue is not a Double.");
 			}
 		}
 
 		/// <summary>
-		/// Converts the given JsonValue into a nullable double.
+		/// Converts the given JsonValue into a nullable Double.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static explicit operator double?(JsonValue jsonValue)
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner value type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator double?(JsonValue jsonValue)
 		{
 			if (jsonValue.IsNull)
 			{
@@ -538,10 +554,14 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Converts the given JsonValue into a string.
+		/// Converts the given JsonValue into a String.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static explicit operator string(JsonValue jsonValue)
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner value type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator string(JsonValue jsonValue)
 		{
 			if (jsonValue.IsString || jsonValue.IsNull)
 			{
@@ -549,7 +569,7 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This JsonValue is not a String.");
+				throw new InvalidCastException("The JsonValue is not a String.");
 			}
 		}
 
@@ -557,7 +577,11 @@ namespace LightJson
 		/// Converts the given JsonValue into a JsonObject.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static explicit operator JsonObject(JsonValue jsonValue)
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner value type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator JsonObject(JsonValue jsonValue)
 		{
 			if (jsonValue.IsJsonObject || jsonValue.IsNull)
 			{
@@ -565,7 +589,7 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This JsonValue is not a JsonObject.");
+				throw new InvalidCastException("The JsonValue is not a JsonObject.");
 			}
 		}
 
@@ -573,7 +597,11 @@ namespace LightJson
 		/// Converts the given JsonValue into a JsonArray.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
-		public static explicit operator JsonArray(JsonValue jsonValue)
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner value type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator JsonArray(JsonValue jsonValue)
 		{
 			if (jsonValue.IsJsonArray || jsonValue.IsNull)
 			{
@@ -581,7 +609,7 @@ namespace LightJson
 			}
 			else
 			{
-				throw new InvalidCastException("This JsonValue is not a JsonArray.");
+				throw new InvalidCastException("The JsonValue is not a JsonArray.");
 			}
 		}
 
