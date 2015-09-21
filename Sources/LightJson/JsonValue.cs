@@ -474,6 +474,46 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Converts the given JsonValue into an Int.
+		/// </summary>
+		/// <param name="jsonValue">The JsonValue to be converted.</param>
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator int(JsonValue jsonValue)
+		{
+			if (jsonValue.IsInteger)
+			{
+				return jsonValue.AsInteger;
+			}
+			else
+			{
+				throw new InvalidCastException("The JsonValue doesn't represent an Integer.");
+			}
+		}
+
+		/// <summary>
+		/// Converts the given JsonValue into a nullable Int.
+		/// </summary>
+		/// <param name="jsonValue">The JsonValue to be converted.</param>
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner value type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator int?(JsonValue jsonValue)
+		{
+			if (jsonValue.IsNull)
+			{
+				return null;
+			}
+			else
+			{
+				return (int)jsonValue;
+			}
+		}
+
+		/// <summary>
 		/// Converts the given JsonValue into a Bool.
 		/// </summary>
 		/// <param name="jsonValue">The JsonValue to be converted.</param>
@@ -610,6 +650,48 @@ namespace LightJson
 			else
 			{
 				throw new InvalidCastException("The JsonValue is not a JsonArray.");
+			}
+		}
+
+		/// <summary>
+		/// Converts the given JsonValue into a DateTime.
+		/// </summary>
+		/// <param name="jsonValue">The JsonValue to be converted.</param>
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner value type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator DateTime(JsonValue jsonValue)
+		{
+			var dateTime = jsonValue.AsDateTime;
+
+			if (dateTime.HasValue)
+			{
+				return dateTime.Value;
+			}
+			else
+			{
+				throw new InvalidCastException("The JsonValue doesn't represent a DateTime.");
+			}
+		}
+
+		/// <summary>
+		/// Converts the given JsonValue into a nullable DateTime.
+		/// </summary>
+		/// <param name="jsonValue">The JsonValue to be converted.</param>
+		/// <exception cref="System.InvalidCastException">
+		/// Throws System.InvalidCastException when the inner value type of the
+		/// JsonValue is not the desired type of the conversion.
+		/// </exception>
+		public static implicit operator DateTime?(JsonValue jsonValue)
+		{
+			if (jsonValue.IsDateTime || jsonValue.IsNull)
+			{
+				return jsonValue.AsDateTime;
+			}
+			else
+			{
+				throw new InvalidCastException("The JsonValue doesn't represent a DateTime.");
 			}
 		}
 
