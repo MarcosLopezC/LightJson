@@ -12,12 +12,13 @@ namespace LightJson
 	public struct JsonValue
 	{
 		private readonly JsonValueType type;
-		private readonly object value;
+		private readonly object reference;
+		private readonly double value;
 
 		/// <summary>
 		/// Represents a null JsonValue.
 		/// </summary>
-		public static readonly JsonValue Null = new JsonValue(JsonValueType.Null, null);
+		public static readonly JsonValue Null = new JsonValue(JsonValueType.Null, default(double), null);
 
 		/// <summary>
 		/// Gets the type of this JsonValue.
@@ -66,7 +67,7 @@ namespace LightJson
 
 				try
 				{
-					var value = (double)this.value;
+					var value = this.value;
 
 					return ((int)value) == value;
 				}
@@ -142,13 +143,13 @@ namespace LightJson
 				switch (this.Type)
 				{
 					case JsonValueType.Boolean:
-						return (bool)this;
+						return (this.value == 1);
 
 					case JsonValueType.Number:
-						return (double)this != 0;
+						return (this.value != 0);
 
 					case JsonValueType.String:
-						return (string)this != "";
+						return ((string)this.reference != "");
 
 					case JsonValueType.Object:
 					case JsonValueType.Array:
@@ -193,16 +194,16 @@ namespace LightJson
 				switch (this.Type)
 				{
 					case JsonValueType.Boolean:
-						return ((bool)this)
+						return (this.value == 1)
 							? 1
 							: 0;
 
 					case JsonValueType.Number:
-						return (double)this;
+						return this.value;
 
 					case JsonValueType.String:
 						double number;
-						if (double.TryParse((string)this, out number))
+						if (double.TryParse((string)this.reference, out number))
 						{
 							return number;
 						}
@@ -227,15 +228,15 @@ namespace LightJson
 				switch (this.Type)
 				{
 					case JsonValueType.Boolean:
-						return ((bool)this)
+						return (this.value == 1)
 							? "true"
 							: "false";
 
 					case JsonValueType.Number:
-						return ((double)this).ToString();
+						return this.value.ToString();
 
 					case JsonValueType.String:
-						return (string)this;
+						return (string)this.reference;
 
 					default:
 						return null;
@@ -251,7 +252,7 @@ namespace LightJson
 			get
 			{
 				return (this.IsJsonObject)
-					? (JsonObject)this
+					? (JsonObject)this.reference
 					: null;
 			}
 		}
@@ -264,7 +265,7 @@ namespace LightJson
 			get
 			{
 				return (this.IsJsonArray)
-					? (JsonArray)this
+					? (JsonArray)this.reference
 					: null;
 			}
 		}
@@ -278,7 +279,7 @@ namespace LightJson
 			{
 				DateTime value;
 
-				if (this.IsString && DateTime.TryParse((string)this, out value))
+				if (this.IsString && DateTime.TryParse((string)this.reference, out value))
 				{
 					return value;
 				}
@@ -290,13 +291,26 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Gets this value as a System.object.
+		/// Gets this (inner) value as a System.object.
 		/// </summary>
 		public object AsObject
 		{
 			get
 			{
-				return this.value;
+				switch (this.Type)
+				{
+					case JsonValueType.Boolean:
+					case JsonValueType.Number:
+						return this.value;
+
+					case JsonValueType.String:
+					case JsonValueType.Object:
+					case JsonValueType.Array:
+						return this.reference;
+
+					default:
+						return null;
+				}
 			}
 		}
 
@@ -313,7 +327,7 @@ namespace LightJson
 			{
 				if (this.IsJsonObject)
 				{
-					return ((JsonObject)this)[key];
+					return ((JsonObject)this.reference)[key];
 				}
 				else
 				{
@@ -324,7 +338,7 @@ namespace LightJson
 			{
 				if (this.IsJsonObject)
 				{
-					((JsonObject)this)[key] = value;
+					((JsonObject)this.reference)[key] = value;
 				}
 				else
 				{
@@ -346,7 +360,7 @@ namespace LightJson
 			{
 				if (this.IsJsonArray)
 				{
-					return ((JsonArray)this)[index];
+					return ((JsonArray)this.reference)[index];
 				}
 				else
 				{
@@ -357,7 +371,7 @@ namespace LightJson
 			{
 				if (this.IsJsonArray)
 				{
-					((JsonArray)this)[index] = value;
+					((JsonArray)this.reference)[index] = value;
 				}
 				else
 				{
@@ -369,46 +383,121 @@ namespace LightJson
 		/// <summary>
 		/// Initializes a new instance of the JsonValue struct.
 		/// </summary>
-		/// <param name="type">The type of the JsonValue.</param>
-		/// <param name="value">The value of the JsonValue.</param>
-		private JsonValue(JsonValueType type, object value)
+		/// <param name="type">The Json type of the JsonValue.</param>
+		/// <param name="value">
+		/// The internal value of the JsonValue.
+		/// This is used when the Json type is Number or Boolean.
+		/// </param>
+		/// <param name="reference">
+		/// The internal value reference of the JsonValue.
+		/// This value is used when the Json type is String, JsonObject, or JsonArray.
+		/// </param>
+		private JsonValue(JsonValueType type, double value, object reference)
 		{
-			this.type  = (value == null)
-				? JsonValueType.Null
-				: type;
-
-			this.value = value;
+			this.type      = type;
+			this.value     = value;
+			this.reference = reference;
 		}
 
 		/// <summary>
 		/// Initializes a new instance of the JsonValue struct, representing a Boolean value.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
-		public JsonValue(bool? value) : this(JsonValueType.Boolean, value) { }
+		public JsonValue(bool? value)
+		{
+			if (value.HasValue)
+			{
+				this.reference = null;
+
+				this.type = JsonValueType.Boolean;
+
+				this.value = value.Value ? 1 : 0;
+			}
+			else
+			{
+				this = JsonValue.Null;
+			}
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the JsonValue struct, representing a Number value.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
-		public JsonValue(double? value) : this(JsonValueType.Number, value) { }
+		public JsonValue(double? value)
+		{
+			if (value.HasValue)
+			{
+				this.reference = null;
+
+				this.type = JsonValueType.Number;
+
+				this.value = value.Value;
+			}
+			else
+			{
+				this = JsonValue.Null;
+			}
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the JsonValue struct, representing a String value.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
-		public JsonValue(string value) : this(JsonValueType.String, value) { }
+		public JsonValue(string value)
+		{
+			if (value != null)
+			{
+				this.value = default(double);
+
+				this.type = JsonValueType.String;
+
+				this.reference = value;
+			}
+			else
+			{
+				this = JsonValue.Null;
+			}
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the JsonValue struct, representing a JsonObject.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
-		public JsonValue(JsonObject value) : this(JsonValueType.Object, value) { }
+		public JsonValue(JsonObject value)
+		{
+			if (value != null)
+			{
+				this.value = default(double);
+
+				this.type = JsonValueType.Object;
+
+				this.reference = value;
+			}
+			else
+			{
+				this = JsonValue.Null;
+			}
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the JsonValue struct, representing a Array reference value.
 		/// </summary>
 		/// <param name="value">The value to be wrapped.</param>
-		public JsonValue(JsonArray value) : this(JsonValueType.Array, value) { }
+		public JsonValue(JsonArray value)
+		{
+			if (value != null)
+			{
+				this.value = default(double);
+
+				this.type = JsonValueType.Array;
+
+				this.reference = value;
+			}
+			else
+			{
+				this = JsonValue.Null;
+			}
+		}
 
 		/// <summary>
 		/// Converts the given nullable boolean into a JsonValue.
@@ -525,7 +614,7 @@ namespace LightJson
 		{
 			if (jsonValue.IsBoolean)
 			{
-				return (bool)jsonValue.value;
+				return (jsonValue.value == 1);
 			}
 			else
 			{
@@ -565,7 +654,7 @@ namespace LightJson
 		{
 			if (jsonValue.IsNumber)
 			{
-				return (double)jsonValue.value;
+				return jsonValue.value;
 			}
 			else
 			{
@@ -605,7 +694,7 @@ namespace LightJson
 		{
 			if (jsonValue.IsString || jsonValue.IsNull)
 			{
-				return jsonValue.value as string;
+				return jsonValue.reference as string;
 			}
 			else
 			{
@@ -625,7 +714,7 @@ namespace LightJson
 		{
 			if (jsonValue.IsJsonObject || jsonValue.IsNull)
 			{
-				return jsonValue.value as JsonObject;
+				return jsonValue.reference as JsonObject;
 			}
 			else
 			{
@@ -645,7 +734,7 @@ namespace LightJson
 		{
 			if (jsonValue.IsJsonArray || jsonValue.IsNull)
 			{
-				return jsonValue.value as JsonArray;
+				return jsonValue.reference as JsonArray;
 			}
 			else
 			{
@@ -702,7 +791,9 @@ namespace LightJson
 		/// <param name="b">A JsonValue to compare.</param>
 		public static bool operator ==(JsonValue a, JsonValue b)
 		{
-			return (a.Type == b.Type) && (a.value == b.value);
+			return (a.Type      == b.Type)
+				&& (a.value     == b.value)
+				&& (a.reference == b.reference);
 		}
 
 		/// <summary>
@@ -753,7 +844,9 @@ namespace LightJson
 			}
 			else
 			{
-				return this.Type.GetHashCode() ^ this.value.GetHashCode();
+				return this.Type.GetHashCode()
+					^ this.value.GetHashCode()
+					^ this.reference.GetHashCode();
 			}
 		}
 
