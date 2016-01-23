@@ -8,6 +8,7 @@ A minimalist JSON library designed to easily encode and decode JSON messages.
 - Strict adherence to JSON Standard as defined in [json.org](http://json.org/).
 - Expressive fluent API.
 - Configurable output (minified/pretty).
+- Enhanced debugging data for Visual Studio.
 
 ## Basic Usage
 
