@@ -891,7 +891,7 @@ namespace LightJson
 				{
 					if (jsonValue.IsJsonObject)
 					{
-						return (JsonObject)jsonValue;
+						return (JsonObject)jsonValue.reference;
 					}
 					else
 					{
@@ -907,7 +907,7 @@ namespace LightJson
 				{
 					if (jsonValue.IsJsonArray)
 					{
-						return (JsonArray)jsonValue;
+						return (JsonArray)jsonValue.reference;
 					}
 					else
 					{
@@ -930,11 +930,11 @@ namespace LightJson
 				{
 					if (jsonValue.IsJsonObject)
 					{
-						return (JsonObject)jsonValue;
+						return (JsonObject)jsonValue.reference;
 					}
 					else if (jsonValue.IsJsonArray)
 					{
-						return (JsonArray)jsonValue;
+						return (JsonArray)jsonValue.reference;
 					}
 					else
 					{
