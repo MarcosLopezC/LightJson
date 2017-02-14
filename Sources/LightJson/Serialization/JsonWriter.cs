@@ -40,6 +40,11 @@ namespace LightJson.Serialization
 		public string NewLineString { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether JsonObject properties should be written in a deterministic order.
+		/// </summary>
+		public bool SortObjects { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of JsonWriter.
 		/// </summary>
 		public JsonWriter() : this(false) { }
@@ -270,7 +275,7 @@ namespace LightJson.Serialization
 
 			indent += 1;
 
-			using(var enumerator = value.GetEnumerator())
+			using(var enumerator = GetJsonObjectEnumerator(value))
 			{
 				var hasNext = enumerator.MoveNext();
 
@@ -299,6 +304,31 @@ namespace LightJson.Serialization
 			Write("}");
 
 			RemoveRenderingCollection(value);
+		}
+
+		/// <summary>
+		/// Gets an JsonObject enumarator based on the configuration of this JsonWriter.
+		/// If JsonWriter.SortObjects is set to true, then a ordered enumerator is returned.
+		/// Otherwise, a faster non-deterministic enumerator is returned.
+		/// </summary>
+		/// <param name="jsonObject">The JsonObject for which to get an enumerator.</param>
+		private IEnumerator<KeyValuePair<string, JsonValue>> GetJsonObjectEnumerator(JsonObject jsonObject)
+		{
+			if (this.SortObjects)
+			{
+				var sortedDictionary = new SortedDictionary<string, JsonValue>(StringComparer.Ordinal);
+
+				foreach (var item in jsonObject)
+				{
+					sortedDictionary.Add(item.Key, item.Value);
+				}
+
+				return sortedDictionary.GetEnumerator();
+			}
+			else
+			{
+				return jsonObject.GetEnumerator();
+			}
 		}
 
 		/// <summary>
