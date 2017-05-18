@@ -119,7 +119,7 @@ namespace LightJson.Serialization
 
 		private void WriteEncodedString(string text)
 		{
-			this.writer.Write("\"");
+			Write("\"");
 
 			for (int i = 0; i < text.Length; i += 1)
 			{
