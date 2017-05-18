@@ -44,7 +44,7 @@ namespace LightJson.Serialization
 			: base(message)
 		{
 			this.Type = type;
-			this.Position = Position;
+			this.Position = position;
 		}
 
 		private static string GetDefaultMessage(ErrorType type)
