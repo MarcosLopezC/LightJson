@@ -309,7 +309,7 @@ namespace LightJson.Serialization
 
 					var key = ReadJsonKey();
 
-					if (jsonObject.Contains(key))
+					if (jsonObject.ContainsKey(key))
 					{
 						throw new JsonParseException(
 							ErrorType.DuplicateObjectKeys,
