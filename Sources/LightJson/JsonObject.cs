@@ -84,6 +84,22 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Adds a value associated with a key to this collection only if the value is not null.
+		/// </summary>
+		/// <param name="key">The key of the property to be added.</param>
+		/// <param name="value">The value of the property to be added.</param>
+		/// <returns>Returns this JsonObject.</returns>
+		public JsonObject AddIfNotNull(string key, JsonValue value)
+		{
+			if (!value.IsNull)
+			{
+				Add(key, value);
+			}
+
+			return this;
+		}
+
+		/// <summary>
 		/// Removes a property with the given key.
 		/// </summary>
 		/// <param name="key">The key of the property to be removed.</param>

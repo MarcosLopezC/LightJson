@@ -83,6 +83,21 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Adds the given value to this collection only if the value is not null.
+		/// </summary>
+		/// <param name="value">The value to be added.</param>
+		/// <returns>Returns this collection.</returns>
+		public JsonArray AddIfNotNull(JsonValue value)
+		{
+			if (!value.IsNull)
+			{
+				Add(value);
+			}
+
+			return this;
+		}
+
+		/// <summary>
 		/// Inserts the given value at the given index in this collection.
 		/// </summary>
 		/// <param name="index">The index where the given value will be inserted.</param>
@@ -91,6 +106,22 @@ namespace LightJson
 		public JsonArray Insert(int index, JsonValue value)
 		{
 			this.items.Insert(index, value);
+			return this;
+		}
+
+		/// <summary>
+		/// Inserts the given value at the given index in this collection.
+		/// </summary>
+		/// <param name="index">The index where the given value will be inserted.</param>
+		/// <param name="value">The value to be inserted into this collection.</param>
+		/// <returns>Returns this collection.</returns>
+		public JsonArray InsertIfNotNull(int index, JsonValue value)
+		{
+			if (!value.IsNull)
+			{
+				Insert(index, value);
+			}
+
 			return this;
 		}
 
