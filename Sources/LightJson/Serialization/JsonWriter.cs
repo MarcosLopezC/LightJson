@@ -89,15 +89,15 @@ namespace LightJson.Serialization
 			switch (value.Type)
 			{
 				case JsonValueType.Null:
-					this.writer.Write("null");
+					Write("null");
 					break;
 
 				case JsonValueType.Boolean:
-					this.writer.Write(value.AsString);
+					Write(value.AsString);
 					break;
 
 				case JsonValueType.Number:
-					this.writer.Write(((double)value).ToString(CultureInfo.InvariantCulture));
+					Write(((double)value).ToString(CultureInfo.InvariantCulture));
 					break;
 
 				case JsonValueType.String:
@@ -105,11 +105,11 @@ namespace LightJson.Serialization
 					break;
 
 				case JsonValueType.Object:
-					this.writer.Write(string.Format("JsonObject[{0}]", value.AsJsonObject.Count));
+					Write(string.Format("JsonObject[{0}]", value.AsJsonObject.Count));
 					break;
 
 				case JsonValueType.Array:
-					this.writer.Write(string.Format("JsonArray[{0}]", value.AsJsonArray.Count));
+					Write(string.Format("JsonArray[{0}]", value.AsJsonArray.Count));
 					break;
 
 				default:
