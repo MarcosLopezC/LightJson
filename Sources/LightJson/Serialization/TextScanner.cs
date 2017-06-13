@@ -70,17 +70,25 @@ namespace LightJson.Serialization
 			}
 			else
 			{
-				if (next == '\n')
+				switch (next)
 				{
-					this.position.line += 1;
-					this.position.column = 0;
-				}
-				else
-				{
-					this.position.column += 1;
-				}
+					case '\r':
+						// Normalize '\r\n' line encoding to '\n'.
+						if (reader.Peek() == '\n')
+						{
+							reader.Read();
+						}
+						goto case '\n';
 
-				return (char)next;
+					case '\n':
+						this.position.line += 1;
+						this.position.column = 0;
+						return '\n';
+
+					default:
+						this.position.column += 1;
+						return (char)next;
+				}
 			}
 		}
 
