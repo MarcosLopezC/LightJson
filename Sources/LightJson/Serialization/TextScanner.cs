@@ -48,10 +48,8 @@ namespace LightJson.Serialization
 					this.position
 				);
 			}
-			else
-			{
-				return (char)next;
-			}
+
+			return (char)next;
 		}
 
 		/// <summary>
@@ -68,27 +66,25 @@ namespace LightJson.Serialization
 					this.position
 				);
 			}
-			else
+
+			switch (next)
 			{
-				switch (next)
-				{
-					case '\r':
-						// Normalize '\r\n' line encoding to '\n'.
-						if (reader.Peek() == '\n')
-						{
-							reader.Read();
-						}
-						goto case '\n';
+				case '\r':
+					// Normalize '\r\n' line encoding to '\n'.
+					if (reader.Peek() == '\n')
+					{
+						reader.Read();
+					}
+					goto case '\n';
 
-					case '\n':
-						this.position.line += 1;
-						this.position.column = 0;
-						return '\n';
+				case '\n':
+					this.position.line += 1;
+					this.position.column = 0;
+					return '\n';
 
-					default:
-						this.position.column += 1;
-						return (char)next;
-				}
+				default:
+					this.position.column += 1;
+					return (char)next;
 			}
 		}
 
