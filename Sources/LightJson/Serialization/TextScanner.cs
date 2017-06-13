@@ -127,9 +127,20 @@ namespace LightJson.Serialization
 		/// <param name="next">The expected string.</param>
 		public void Assert(string next)
 		{
-			for (var i = 0; i < next.Length; i += 1)
+			try
 			{
-				Assert(next[i]);
+				for (var i = 0; i < next.Length; i += 1)
+				{
+					Assert(next[i]);
+				}
+			}
+			catch (JsonParseException e) when (e.Type == ErrorType.InvalidOrUnexpectedCharacter)
+			{
+				throw new JsonParseException(
+					string.Format("Parser expected '{0}'", next),
+					ErrorType.InvalidOrUnexpectedCharacter,
+					this.position
+				);
 			}
 		}
 	}
