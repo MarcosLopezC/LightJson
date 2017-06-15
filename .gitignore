@@ -1,4 +1,4 @@
 [Bb]in/
 [Oo]bj/
-**.suo
-**.user
+*.suo
+*.user
