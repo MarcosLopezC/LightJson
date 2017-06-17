@@ -92,7 +92,7 @@ namespace LightJson.Serialization
 
 		private void ReadDigits(StringBuilder builder)
 		{
-			while (this.scanner.CanRead && char.IsNumber(this.scanner.Peek()))
+			while (this.scanner.CanRead && char.IsDigit(this.scanner.Peek()))
 			{
 				builder.Append(this.scanner.Read());
 			}
