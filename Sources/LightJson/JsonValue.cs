@@ -783,15 +783,20 @@ namespace LightJson
 		/// <param name="obj">The object to test.</param>
 		public override bool Equals(object obj)
 		{
-			var jsonValue = obj as JsonValue?;
-
-			if (jsonValue == null)
+			if (obj == null)
 			{
 				return this.IsNull;
 			}
-			else
+
+			var jsonValue = obj as JsonValue?;
+
+			if (jsonValue.HasValue)
 			{
 				return (this == jsonValue.Value);
+			}
+			else
+			{
+				return false;
 			}
 		}
 
