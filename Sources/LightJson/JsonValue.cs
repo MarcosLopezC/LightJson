@@ -66,16 +66,9 @@ namespace LightJson
 					return false;
 				}
 
-				try
-				{
-					var value = this.value;
+				var value = this.value;
 
-					return ((int)value) == value;
-				}
-				catch (OverflowException)
-				{
-					return false;
-				}
+				return (value >= Int32.MinValue) && (value <= Int32.MaxValue) && (value % 1 == 0);
 			}
 		}
 
