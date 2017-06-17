@@ -137,8 +137,8 @@ namespace LightJson
 
 			if (this.properties.TryGetValue(oldKey, out value))
 			{
-				this[newKey] = value;
 				Remove(oldKey);
+				this[newKey] = value;
 			}
 
 			return this;
