@@ -26,6 +26,17 @@ namespace LightJson.Serialization
 		}
 
 		/// <summary>
+		/// Gets a value indicating whether there are still characters to be read.
+		/// </summary>
+		public bool CanRead
+		{
+			get
+			{
+				return (this.reader.Peek() != -1);
+			}
+		}
+
+		/// <summary>
 		/// Initializes a new instance of TextScanner.
 		/// </summary>
 		/// <param name="reader">The TextReader to read the text.</param>

@@ -92,7 +92,7 @@ namespace LightJson.Serialization
 
 		private void ReadDigits(StringBuilder builder)
 		{
-			while (char.IsNumber(this.scanner.Peek()))
+			while (this.scanner.CanRead && char.IsNumber(this.scanner.Peek()))
 			{
 				builder.Append(this.scanner.Read());
 			}
@@ -116,13 +116,13 @@ namespace LightJson.Serialization
 				ReadDigits(builder);
 			}
 
-			if (this.scanner.Peek() == '.')
+			if (this.scanner.CanRead && this.scanner.Peek() == '.')
 			{
 				builder.Append(this.scanner.Read());
 				ReadDigits(builder);
 			}
 
-			if (char.ToLower(this.scanner.Peek()) == 'e')
+			if (this.scanner.CanRead && char.ToLower(this.scanner.Peek()) == 'e')
 			{
 				builder.Append(this.scanner.Read());
 
