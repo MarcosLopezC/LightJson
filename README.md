@@ -4,7 +4,7 @@ A minimalist JSON library designed to easily encode and decode JSON messages.
 
 ## Features
 
-- Written in C# 3.0 (Supports .NET Framework 3.5 or later).
+- Support for .NET Framework 3.5 or later.
 - Strict adherence to JSON Standard as defined in [json.org](http://json.org/).
 - Expressive fluent API.
 - Configurable output (minified/pretty).
