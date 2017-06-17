@@ -122,7 +122,7 @@ namespace LightJson.Serialization
 				ReadDigits(builder);
 			}
 
-			if (this.scanner.CanRead && char.ToLower(this.scanner.Peek()) == 'e')
+			if (this.scanner.CanRead && char.ToLowerInvariant(this.scanner.Peek()) == 'e')
 			{
 				builder.Append(this.scanner.Read());
 
