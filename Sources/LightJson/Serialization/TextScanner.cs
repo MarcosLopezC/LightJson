@@ -117,7 +117,11 @@ namespace LightJson.Serialization
 		/// <param name="next">The expected character.</param>
 		public void Assert(char next)
 		{
-			if (Read() != next)
+			if (Peek() == next)
+			{
+				Read();
+			}
+			else
 			{
 				throw new JsonParseException(
 					string.Format("Parser expected '{0}'", next),
