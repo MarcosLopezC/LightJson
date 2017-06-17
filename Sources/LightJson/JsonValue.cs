@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 using LightJson.Serialization;
 
 namespace LightJson
@@ -814,7 +815,7 @@ namespace LightJson
 			{
 				return this.Type.GetHashCode()
 					^ this.value.GetHashCode()
-					^ this.reference.GetHashCode();
+					^ EqualityComparer<object>.Default.GetHashCode(this.reference);
 			}
 		}
 
