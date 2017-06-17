@@ -65,6 +65,11 @@ namespace LightJson
 		/// <param name="values">The values to be added to this collection.</param>
 		public JsonArray(params JsonValue[] values) : this()
 		{
+			if (values == null)
+			{
+				throw new ArgumentNullException(nameof(values));
+			}
+
 			foreach (var value in values)
 			{
 				this.items.Add(value);
