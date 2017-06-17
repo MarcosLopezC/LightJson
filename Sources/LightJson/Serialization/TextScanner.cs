@@ -31,7 +31,7 @@ namespace LightJson.Serialization
 		/// <param name="reader">The TextReader to read the text.</param>
 		public TextScanner(TextReader reader)
 		{
-			this.reader = reader;
+			this.reader = reader ?? throw new ArgumentNullException(nameof(reader));
 		}
 
 		/// <summary>
