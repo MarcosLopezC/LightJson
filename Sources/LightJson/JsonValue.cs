@@ -68,7 +68,7 @@ namespace LightJson
 
 				var value = this.value;
 
-				return (value >= Int32.MinValue) && (value <= Int32.MaxValue) && (value % 1 == 0);
+				return (value >= Int32.MinValue) && (value <= Int32.MaxValue) && unchecked((Int32)value) == value;
 			}
 		}
 
