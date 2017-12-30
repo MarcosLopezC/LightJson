@@ -523,6 +523,11 @@ namespace LightJson
 	            }
 	            case JsonValueType.Number:
 	            {
+	                if (type == typeof(byte))
+	                {
+	                    return Convert.ToByte(value.AsNumber);
+	                }
+
 	                if (type == typeof(int))
 	                {
 	                    return Convert.ToInt32(value.AsNumber);

@@ -1,13 +1,13 @@
-﻿namespace LightJson.Test
+﻿using System;
+
+namespace LightJson.Test
 {
     public class PrimitiveObject
     {
         public byte Byte;
         public short Short;
         public int Int;
-        public long Long;
         public float Float;
-        public double Double;
         public bool Bool;
         public string String;
 
@@ -18,12 +18,20 @@
                 Byte = Randomizer.RandomByte(),
                 Short = Randomizer.RandomShort(),
                 Int = Randomizer.RandomInt(),
-                Long = Randomizer.RandomLong(),
                 Float = Randomizer.RandomFloat(),
-                Double = Randomizer.RandomDouble(),
                 Bool = Randomizer.RandomBool(),
                 String = Randomizer.RandomString()
             };
+        }
+
+        public static bool AreEqual(PrimitiveObject lhs, PrimitiveObject rhs)
+        {
+            return lhs.Byte == rhs.Byte
+                   && lhs.Short == rhs.Short
+                   && lhs.Int == rhs.Int
+                   && Math.Abs(lhs.Float - rhs.Float) < float.Epsilon
+                   && lhs.Bool == rhs.Bool
+                   && lhs.String == rhs.String;
         }
     }
 
@@ -46,10 +54,41 @@
                 Short = Randomizer.RandomArray(Randomizer.RandomShort),
                 Int = Randomizer.RandomArray(Randomizer.RandomInt),
                 Long = Randomizer.RandomArray(Randomizer.RandomLong),
+                Float = Randomizer.RandomArray(Randomizer.RandomFloat),
                 Double = Randomizer.RandomArray(Randomizer.RandomDouble),
                 Bool = Randomizer.RandomArray(Randomizer.RandomBool),
                 String = Randomizer.RandomArray(Randomizer.RandomString)
             };
+        }
+
+        public static bool AreEqual(PrimitiveArrayObject lhs, PrimitiveArrayObject rhs)
+        {
+            return AreEqual(lhs.Byte, rhs.Byte, (a, b) => a == b)
+                && AreEqual(lhs.Short, rhs.Short, (a, b) => a == b)
+                && AreEqual(lhs.Int, rhs.Int, (a, b) => a == b)
+                && AreEqual(lhs.Long, rhs.Long, (a, b) => a == b)
+                && AreEqual(lhs.Double, rhs.Double, (a, b) => Math.Abs(a - b) < double.Epsilon)
+                && AreEqual(lhs.Float, rhs.Float, (a, b) => Math.Abs(a - b) < float.Epsilon)
+                && AreEqual(lhs.Bool, rhs.Bool, (a, b) => a == b)
+                && AreEqual(lhs.String, rhs.String, (a, b) => a == b);
+        }
+
+        private static bool AreEqual<T>(T[] a, T[] b, Func<T, T, bool> comparator)
+        {
+            if (a.Length != b.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0, len = a.Length; i < len; i++)
+            {
+                if (!comparator(a[i], b[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 
@@ -66,6 +105,12 @@
                 Array = PrimitiveArrayObject.Instance()
             };
         }
+
+        public static bool AreEqual(CompositeObject lhs, CompositeObject rhs)
+        {
+            return PrimitiveObject.AreEqual(lhs.Primitive, rhs.Primitive)
+                   && PrimitiveArrayObject.AreEqual(lhs.Array, rhs.Array);
+        }
     }
 
     public class CompositeArrayObject
@@ -78,6 +123,27 @@
             {
                 Composites = Randomizer.RandomArray(CompositeObject.Instance)
             };
+        }
+
+        public static bool AreEqual(CompositeArrayObject lhs, CompositeArrayObject rhs)
+        {
+            var a = lhs.Composites;
+            var b = rhs.Composites;
+
+            if (a.Length != b.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0, len = a.Length; i < len; i++)
+            {
+                if (!CompositeObject.AreEqual(a[i], b[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
