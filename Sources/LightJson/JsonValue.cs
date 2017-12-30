@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Reflection;
 using LightJson.Serialization;
 
 namespace LightJson
@@ -492,6 +493,148 @@ namespace LightJson
 				this = JsonValue.Null;
 			}
 		}
+
+	    public object As(Type type)
+	    {
+	        return As(type, this);
+	    }
+
+	    private void ThrowCastException()
+	    {
+	        throw new Exception(string.Format(
+	            "Cannot convert {0} to {1}.",
+	            value,
+	            type));
+        }
+
+	    private object As(Type type, JsonValue value)
+	    {
+            // populate fields
+            switch (value.type)
+	        {
+	            case JsonValueType.Boolean:
+	            {
+	                if (type != typeof(bool))
+	                {
+	                    ThrowCastException();
+	                }
+
+	                return value.AsBoolean;
+	            }
+	            case JsonValueType.Number:
+	            {
+	                if (type == typeof(int))
+	                {
+	                    return Convert.ToInt32(value.AsNumber);
+	                }
+
+	                if (type == typeof(short))
+	                {
+	                    return Convert.ToInt16(value.AsNumber);
+	                }
+
+	                if (type == typeof(long))
+	                {
+	                    return Convert.ToInt64(value.AsNumber);
+	                }
+
+                    if (type == typeof(float))
+	                {
+	                    return Convert.ToSingle(value.AsNumber);
+	                }
+
+	                if (type == typeof(double))
+	                {
+	                    return value.AsNumber;
+	                }
+
+	                ThrowCastException();
+
+	                break;
+	            }
+	            case JsonValueType.String:
+	            {
+	                if (type != typeof(string))
+	                {
+                        ThrowCastException();
+	                }
+
+	                return value.AsString;
+	            }
+	            case JsonValueType.Array:
+	            {
+	                if (!type.IsArray)
+	                {
+                        ThrowCastException();
+	                }
+
+	                var asArray = value.AsJsonArray;
+	                var len = asArray.Count;
+	                var array = (Array) Activator.CreateInstance(type, new object[] { len });
+	                for (var i = 0; i < len; i++)
+	                {
+	                    array.SetValue(
+	                        As(type.GetElementType(), asArray[i]),
+	                        i);
+	                }
+
+	                return array;
+	            }
+                case JsonValueType.Object:
+	            {
+	                if (type.IsPrimitive)
+	                {
+                        ThrowCastException();
+	                }
+
+	                var instance = Activator.CreateInstance(type);
+	                var asObject = value.AsJsonObject;
+	                foreach (var record in asObject)
+	                {
+	                    var key = record.Key;
+	                    var fieldValue = record.Value;
+
+	                    var field = type.GetField(
+	                        key,
+	                        BindingFlags.Instance | BindingFlags.Public);
+	                    if (null == field)
+	                    {
+                            // check for fields with attributes
+	                        var allFields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+	                        for (int i = 0, len = allFields.Length; i < len; i++)
+	                        {
+	                            var allField = allFields[i];
+	                            var attributes = allField.GetCustomAttributes(typeof(JsonProperty), true);
+	                            if (attributes.Length > 0)
+	                            {
+	                                if (((JsonProperty) attributes[0]).Name == key)
+	                                {
+	                                    field = allField;
+	                                    break;
+	                                }
+	                            }
+
+	                        }
+
+	                        if (null == field)
+	                        {
+	                            throw new Exception(string.Format(
+	                                "Cannot find field {0} on {1}.",
+	                                key,
+	                                type));
+                            }
+	                    }
+
+	                    var fieldAsValue = As(field.FieldType, fieldValue);
+                        field.SetValue(instance, fieldAsValue);
+	                }
+
+	                return instance;
+	            }
+	        }
+
+	        return null;
+	    }
 
 		/// <summary>
 		/// Converts the given nullable boolean into a JsonValue.

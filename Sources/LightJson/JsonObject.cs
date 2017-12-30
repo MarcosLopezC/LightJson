@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using LightJson.Serialization;
 
 namespace LightJson
@@ -12,7 +13,7 @@ namespace LightJson
 	[DebuggerTypeProxy(typeof(JsonObjectDebugView))]
 	public sealed class JsonObject : IEnumerable<KeyValuePair<string, JsonValue>>, IEnumerable<JsonValue>
 	{
-		private IDictionary<string, JsonValue> properties;
+		private readonly IDictionary<string, JsonValue> properties = new Dictionary<string, JsonValue>();
 
 		/// <summary>
 		/// Gets the number of properties in this JsonObject.
@@ -53,12 +54,50 @@ namespace LightJson
 			}
 		}
 
+	    public JsonObject(object value)
+	    {
+            // add each field
+	        var type = value.GetType();
+	        var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+	        for (int i = 0, len = fields.Length; i < len; i++)
+	        {
+	            var field = fields[i];
+	            var fieldType = field.FieldType;
+
+	            if (fieldType == typeof(long)
+                    || fieldType == typeof(int)
+	                || fieldType == typeof(short)
+	                || fieldType == typeof(byte)
+	                || fieldType == typeof(float)
+	                || fieldType == typeof(double))
+	            {
+	                properties[field.Name] = new JsonValue(Convert.ToDouble(field.GetValue(value)));
+                }
+                else if (fieldType == typeof(bool))
+	            {
+                    properties[field.Name] = new JsonValue(Convert.ToBoolean(field.GetValue(value)));
+	            }
+                else if (fieldType == typeof(string))
+	            {
+                    properties[field.Name] = new JsonValue(Convert.ToString(field.GetValue(value)));
+	            }
+                else if (fieldType.IsArray)
+	            {
+                    
+	            }
+	            else
+	            {
+	                properties[field.Name] = new JsonValue(new JsonObject(field.GetValue(value)));
+                }
+	        }
+	    }
+
 		/// <summary>
 		/// Initializes a new instance of JsonObject.
 		/// </summary>
 		public JsonObject()
 		{
-			this.properties = new Dictionary<string, JsonValue>();
+			//
 		}
 
 		/// <summary>
