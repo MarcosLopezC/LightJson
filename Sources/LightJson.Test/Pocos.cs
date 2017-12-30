@@ -40,9 +40,7 @@ namespace LightJson.Test
         public byte[] Byte;
         public short[] Short;
         public int[] Int;
-        public long[] Long;
         public float[] Float;
-        public double[] Double;
         public bool[] Bool;
         public string[] String;
 
@@ -53,9 +51,7 @@ namespace LightJson.Test
                 Byte = Randomizer.RandomArray(Randomizer.RandomByte),
                 Short = Randomizer.RandomArray(Randomizer.RandomShort),
                 Int = Randomizer.RandomArray(Randomizer.RandomInt),
-                Long = Randomizer.RandomArray(Randomizer.RandomLong),
                 Float = Randomizer.RandomArray(Randomizer.RandomFloat),
-                Double = Randomizer.RandomArray(Randomizer.RandomDouble),
                 Bool = Randomizer.RandomArray(Randomizer.RandomBool),
                 String = Randomizer.RandomArray(Randomizer.RandomString)
             };
@@ -66,8 +62,6 @@ namespace LightJson.Test
             return AreEqual(lhs.Byte, rhs.Byte, (a, b) => a == b)
                 && AreEqual(lhs.Short, rhs.Short, (a, b) => a == b)
                 && AreEqual(lhs.Int, rhs.Int, (a, b) => a == b)
-                && AreEqual(lhs.Long, rhs.Long, (a, b) => a == b)
-                && AreEqual(lhs.Double, rhs.Double, (a, b) => Math.Abs(a - b) < double.Epsilon)
                 && AreEqual(lhs.Float, rhs.Float, (a, b) => Math.Abs(a - b) < float.Epsilon)
                 && AreEqual(lhs.Bool, rhs.Bool, (a, b) => a == b)
                 && AreEqual(lhs.String, rhs.String, (a, b) => a == b);
