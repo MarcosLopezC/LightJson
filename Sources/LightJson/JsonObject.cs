@@ -64,31 +64,7 @@ namespace LightJson
 	            var field = fields[i];
 	            var fieldType = field.FieldType;
 
-	            if (fieldType == typeof(long)
-                    || fieldType == typeof(int)
-	                || fieldType == typeof(short)
-	                || fieldType == typeof(byte)
-	                || fieldType == typeof(float)
-	                || fieldType == typeof(double))
-	            {
-	                properties[field.Name] = new JsonValue(Convert.ToDouble(field.GetValue(value)));
-                }
-                else if (fieldType == typeof(bool))
-	            {
-                    properties[field.Name] = new JsonValue(Convert.ToBoolean(field.GetValue(value)));
-	            }
-                else if (fieldType == typeof(string))
-	            {
-                    properties[field.Name] = new JsonValue(Convert.ToString(field.GetValue(value)));
-	            }
-                else if (fieldType.IsArray)
-	            {
-                    
-	            }
-	            else
-	            {
-	                properties[field.Name] = new JsonValue(new JsonObject(field.GetValue(value)));
-                }
+	            properties[field.Name] = ToJsonValue(fieldType, field.GetValue(value));
 	        }
 	    }
 
@@ -257,7 +233,49 @@ namespace LightJson
 			}
 		}
 
-		private class JsonObjectDebugView
+        /// <summary>
+        /// TODO: Move to JsValue?
+        /// </summary>
+	    private JsonValue ToJsonValue(Type type, object value)
+	    {
+	        if (type == typeof(long)
+	            || type == typeof(int)
+	            || type == typeof(short)
+	            || type == typeof(byte)
+	            || type == typeof(float)
+	            || type == typeof(double))
+	        {
+	            return new JsonValue(Convert.ToDouble(value));
+	        }
+
+	        if (type == typeof(bool))
+	        {
+	            return new JsonValue(Convert.ToBoolean(value));
+	        }
+
+	        if (type == typeof(string))
+	        {
+	            return new JsonValue(Convert.ToString(value));
+	        }
+
+	        if (type.IsArray)
+	        {
+	            var fieldValues = (Array) value;
+	            var values = new JsonValue[fieldValues.Length];
+	            for (int j = 0, jlen = values.Length; j < jlen; j++)
+	            {
+	                values[j] = ToJsonValue(
+	                    type.GetElementType(),
+	                    fieldValues.GetValue(j));
+	            }
+
+	            return new JsonValue(new JsonArray(values));
+	        }
+
+	        return new JsonValue(new JsonObject(value));
+	    }
+
+        private class JsonObjectDebugView
 		{
 			private JsonObject jsonObject;
 
