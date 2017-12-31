@@ -143,7 +143,15 @@ namespace LightJson.Test
 
     public class PrimitiveNamed
     {
-        [Named("bar")]
+        [JsonName("bar")]
         public int Foo;
+    }
+
+    public class PrimitiveIgnored
+    {
+        public int Foo;
+
+        [JsonIgnore]
+        public float Bar;
     }
 }

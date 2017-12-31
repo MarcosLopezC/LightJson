@@ -65,10 +65,10 @@ namespace LightJson
 	            var name = field.Name;
 	            var fieldType = field.FieldType;
 
-	            var attributes = field.GetCustomAttributes(typeof(NamedAttribute), true);
+	            var attributes = field.GetCustomAttributes(typeof(JsonNameAttribute), true);
 	            if (attributes.Length > 0)
 	            {
-	                name = ((NamedAttribute) attributes[0]).Name;
+	                name = ((JsonNameAttribute) attributes[0]).Name;
 	            }
 
 	            properties[name] = ToJsonValue(fieldType, field.GetValue(value));
