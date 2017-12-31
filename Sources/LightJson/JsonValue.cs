@@ -609,10 +609,10 @@ namespace LightJson
 	                        for (int i = 0, len = allFields.Length; i < len; i++)
 	                        {
 	                            var allField = allFields[i];
-	                            var attributes = allField.GetCustomAttributes(typeof(JsonProperty), true);
+	                            var attributes = allField.GetCustomAttributes(typeof(NamedAttribute), true);
 	                            if (attributes.Length > 0)
 	                            {
-	                                if (((JsonProperty) attributes[0]).Name == key)
+	                                if (((NamedAttribute) attributes[0]).Name == key)
 	                                {
 	                                    field = allField;
 	                                    break;

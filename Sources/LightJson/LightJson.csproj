@@ -35,7 +35,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attribute\JsonProperty.cs" />
+    <Compile Include="Attribute\Named.cs" />
     <Compile Include="JsonArray.cs" />
     <Compile Include="JsonObject.cs" />
     <Compile Include="Serialization\JsonParseException.cs" />

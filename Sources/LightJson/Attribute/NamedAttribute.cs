@@ -3,11 +3,11 @@
 namespace LightJson
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class JsonProperty : Attribute
+    public class NamedAttribute : Attribute
     {
         public readonly string Name;
 
-        public JsonProperty(string name)
+        public NamedAttribute(string name)
         {
             Name = name;
         }

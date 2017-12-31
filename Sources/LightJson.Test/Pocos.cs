@@ -143,7 +143,7 @@ namespace LightJson.Test
 
     public class PrimitiveNamed
     {
-        [JsonProperty("bar")]
+        [Named("bar")]
         public int Foo;
     }
 }
