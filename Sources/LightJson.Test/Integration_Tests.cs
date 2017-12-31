@@ -66,5 +66,16 @@ namespace LightJson.Test
             Assert.IsTrue(json.Contains("bar"));
             Assert.IsFalse(json.Contains("Foo"));
         }
+
+        [Test]
+        public void IgnoreField()
+        {
+            var before = new PrimitiveIgnored();
+
+            var json = new JsonObject(before).ToString();
+
+            Assert.IsTrue(json.Contains("Foo"));
+            Assert.IsFalse(json.Contains("Bar"));
+        }
     }
 }

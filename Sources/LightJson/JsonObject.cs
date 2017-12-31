@@ -63,15 +63,22 @@ namespace LightJson
 	        {
 	            var field = fields[i];
 	            var name = field.Name;
-	            var fieldType = field.FieldType;
 
-	            var attributes = field.GetCustomAttributes(typeof(JsonNameAttribute), true);
-	            if (attributes.Length > 0)
+	            var ignoreAttributes = field.GetCustomAttributes(typeof(JsonIgnoreAttribute), true);
+	            if (ignoreAttributes.Length > 0)
 	            {
-	                name = ((JsonNameAttribute) attributes[0]).Name;
+	                continue;
 	            }
 
-	            properties[name] = ToJsonValue(fieldType, field.GetValue(value));
+                var nameAttributes = field.GetCustomAttributes(typeof(JsonNameAttribute), true);
+	            if (nameAttributes.Length > 0)
+	            {
+	                name = ((JsonNameAttribute) nameAttributes[0]).Name;
+	            }
+
+                properties[name] = ToJsonValue(
+                    field.FieldType,
+                    field.GetValue(value));
 	        }
 	    }
 
