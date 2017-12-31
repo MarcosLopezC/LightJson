@@ -77,7 +77,7 @@ namespace LightJson
 	            var nameAttributes = field.Attributes<JsonNameAttribute>();
 	            if (nameAttributes.Length > 0)
 	            {
-	                name = ((JsonNameAttribute) nameAttributes[0]).Name;
+	                name = nameAttributes[0].Name;
 	            }
 
                 properties[name] = ToJsonValue(
