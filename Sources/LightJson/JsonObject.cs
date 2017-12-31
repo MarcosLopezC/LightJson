@@ -54,6 +54,10 @@ namespace LightJson
 			}
 		}
 
+        /// <summary>
+        /// Creates a JsonObject from a C# object.
+        /// </summary>
+        /// <param name="value">Value to create an object for.</param>
 	    public JsonObject(object value)
 	    {
             // add each field
