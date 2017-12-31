@@ -140,4 +140,10 @@ namespace LightJson.Test
             return true;
         }
     }
+
+    public class PrimitiveNamed
+    {
+        [JsonProperty("bar")]
+        public int Foo;
+    }
 }

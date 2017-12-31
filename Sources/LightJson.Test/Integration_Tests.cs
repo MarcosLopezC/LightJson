@@ -52,5 +52,19 @@ namespace LightJson.Test
 
             Assert.IsTrue(CompositeArrayObject.AreEqual(before, after));
         }
+
+        [Test]
+        public void NamedField()
+        {
+            var before = new PrimitiveNamed();
+
+            var json = new JsonObject(before).ToString();
+
+            var after = (PrimitiveNamed) JsonValue.Parse(json).As(typeof(PrimitiveNamed));
+
+            Assert.AreEqual(before.Foo, after.Foo);
+            Assert.IsTrue(json.Contains("bar"));
+            Assert.IsFalse(json.Contains("Foo"));
+        }
     }
 }
