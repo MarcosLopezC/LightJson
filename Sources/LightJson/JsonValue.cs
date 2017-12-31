@@ -587,7 +587,7 @@ namespace LightJson
 	            }
                 case JsonValueType.Object:
 	            {
-	                if (type.IsPrimitive)
+	                if (type.IsPrimitiveType())
 	                {
                         ThrowCastException();
 	                }
@@ -609,10 +609,10 @@ namespace LightJson
 	                        for (int i = 0, len = allFields.Length; i < len; i++)
 	                        {
 	                            var allField = allFields[i];
-	                            var attributes = allField.GetCustomAttributes(typeof(JsonNameAttribute), true);
+	                            var attributes = allField.Attributes<JsonNameAttribute>();
 	                            if (attributes.Length > 0)
 	                            {
-	                                if (((JsonNameAttribute) attributes[0]).Name == key)
+	                                if (attributes[0].Name == key)
 	                                {
 	                                    field = allField;
 	                                    break;

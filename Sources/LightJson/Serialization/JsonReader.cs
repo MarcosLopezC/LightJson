@@ -450,9 +450,13 @@ namespace LightJson.Serialization
 				throw new ArgumentNullException("path");
 			}
 
-			using (var reader = new StreamReader(path))
-			{
-				return new JsonReader(reader).Parse();
+#if NETFX_CORE
+            using (var reader = new StreamReader(new FileStream(path, FileMode.Open)))
+#else
+		    using (var reader = new StreamReader(path))
+#endif
+            {
+                return new JsonReader(reader).Parse();
 			}
 		}
 	}
