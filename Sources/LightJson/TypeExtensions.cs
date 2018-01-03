@@ -9,6 +9,28 @@ namespace LightJson
     /// </summary>
     public static class TypeExtensions
     {
+#if NETFX_CORE
+        /// <summary>
+        /// True iff type is a primitive.
+        /// </summary>
+        /// <param name="this">Type.</param>
+        /// <returns></returns>
+        public static bool IsPrimitiveType(this Type @this)
+        {
+            return @this.GetTypeInfo().IsPrimitive;
+        }
+
+        /// <summary>
+        /// Retrives attributes of a specific type.
+        /// </summary>
+        /// <typeparam name="T">Type of attribute.</typeparam>
+        /// <param name="this">The field.</param>
+        /// <returns></returns>
+        public static T[] Attributes<T>(this FieldInfo @this) where T : Attribute
+        {
+            return @this.GetCustomAttributes<T>().ToArray();
+        }
+#else
         /// <summary>
         /// True iff type is a primitive type.
         /// </summary>
@@ -31,28 +53,6 @@ namespace LightJson
                 .GetCustomAttributes(typeof(T), true)
                 .Cast<T>()
                 .ToArray();
-        }
-
-#if NETFX_CORE
-        /// <summary>
-        /// True iff type is a primitive.
-        /// </summary>
-        /// <param name="this">Type.</param>
-        /// <returns></returns>
-        public static bool IsPrimitiveType(this Type @this)
-        {
-            return @this.GetTypeInfo().IsPrimitive;
-        }
-
-        /// <summary>
-        /// Retrives attributes of a specific type.
-        /// </summary>
-        /// <typeparam name="T">Type of attribute.</typeparam>
-        /// <param name="this">The field.</param>
-        /// <returns></returns>
-        public static T[] Attributes<T>(this FieldInfo @this) where T : Attribute
-        {
-            return @this.GetCustomAttributes<T>().ToArray();
         }
 #endif
     }
