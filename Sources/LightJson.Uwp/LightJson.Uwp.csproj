@@ -147,7 +147,9 @@
     <Compile Include="..\LightJson\Serialization\TextScanner.cs">
       <Link>Serialization\TextScanner.cs</Link>
     </Compile>
-    <Compile Include="TypeExtensions.cs" />
+	<Compile Include="..\LightJson\TypeExtensions.cs">
+      <Link>TypeExtensions.cs</Link>
+    </Compile>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
