@@ -279,7 +279,7 @@ namespace LightJson
 	        if (type.IsArray)
 	        {
 	            var fieldValues = (Array) value;
-	            var values = new JsonValue[fieldValues.Length];
+	            var values = new JsonValue[null == fieldValues ? 0 : fieldValues.Length];
 	            for (int j = 0, jlen = values.Length; j < jlen; j++)
 	            {
 	                values[j] = ToJsonValue(
