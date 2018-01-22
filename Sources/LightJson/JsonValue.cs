@@ -499,12 +499,12 @@ namespace LightJson
 	        return As(type, this);
 	    }
 
-	    private void ThrowCastException()
+	    private void ThrowCastException(JsonValue json, Type strictType)
 	    {
 	        throw new Exception(string.Format(
 	            "Cannot convert {0} to {1}.",
-	            value,
-	            type));
+	            json.ToString(true),
+	            strictType));
         }
 
 	    private object As(Type type, JsonValue value)
@@ -516,7 +516,7 @@ namespace LightJson
 	            {
 	                if (type != typeof(bool))
 	                {
-	                    ThrowCastException();
+	                    ThrowCastException(value, typeof(bool));
 	                }
 
 	                return value.AsBoolean;
@@ -530,7 +530,7 @@ namespace LightJson
 
 	                if (type == typeof(int))
 	                {
-	                    return Convert.ToInt32(value.AsNumber);
+	                    return value.AsInteger;
 	                }
 
 	                if (type == typeof(short))
@@ -553,15 +553,13 @@ namespace LightJson
 	                    return value.AsNumber;
 	                }
 
-	                ThrowCastException();
-
-	                break;
+	                return value.AsNumber;
 	            }
 	            case JsonValueType.String:
 	            {
 	                if (type != typeof(string))
 	                {
-                        ThrowCastException();
+                        ThrowCastException(value, typeof(string));
 	                }
 
 	                return value.AsString;
@@ -570,7 +568,7 @@ namespace LightJson
 	            {
 	                if (!type.IsArray)
 	                {
-                        ThrowCastException();
+                        ThrowCastException(value, typeof(Array));
 	                }
 
 	                var asArray = value.AsJsonArray;
@@ -589,7 +587,7 @@ namespace LightJson
 	            {
 	                if (type.IsPrimitiveType())
 	                {
-                        ThrowCastException();
+                        ThrowCastException(value, typeof(object));
 	                }
 
 	                var instance = Activator.CreateInstance(type);
@@ -631,7 +629,20 @@ namespace LightJson
 	                    }
 
 	                    var fieldAsValue = As(field.FieldType, fieldValue);
-                        field.SetValue(instance, fieldAsValue);
+
+	                    try
+	                    {
+	                        field.SetValue(instance, fieldAsValue);
+	                    }
+	                    catch (Exception exception)
+	                    {
+	                        throw new Exception(string.Format(
+	                            "Could not set field {0}:{1} with [{2}]:{3}.",
+	                            field.Name,
+	                            field.FieldType,
+	                            fieldAsValue,
+	                            (null == fieldAsValue ? "null" : fieldAsValue.GetType().Name)));
+	                    }
 	                }
 
 	                return instance;

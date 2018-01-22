@@ -7,8 +7,8 @@
     <ProjectGuid>{C417B25C-8711-49CE-B5AC-2E58C42561DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightJson.Uwp</RootNamespace>
-    <AssemblyName>LightJson.Uwp</AssemblyName>
+    <RootNamespace>LightJson</RootNamespace>
+    <AssemblyName>LightJson</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
@@ -147,7 +147,7 @@
     <Compile Include="..\LightJson\Serialization\TextScanner.cs">
       <Link>Serialization\TextScanner.cs</Link>
     </Compile>
-	<Compile Include="..\LightJson\TypeExtensions.cs">
+    <Compile Include="..\LightJson\TypeExtensions.cs">
       <Link>TypeExtensions.cs</Link>
     </Compile>
   </ItemGroup>
