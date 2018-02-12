@@ -24,9 +24,7 @@ namespace LightJson.Test
             var before = PrimitiveDictionaryObject.Instance();
 
             var json = new JsonObject(before).ToString();
-
-            Console.WriteLine(json);
-
+            
             var after = (PrimitiveDictionaryObject) JsonValue.Parse(json).As(typeof(PrimitiveDictionaryObject));
 
             Assert.IsTrue(PrimitiveDictionaryObject.AreEqual(before, after));
@@ -66,6 +64,18 @@ namespace LightJson.Test
             var after = (CompositeArrayObject) JsonValue.Parse(json).As(typeof(CompositeArrayObject));
 
             Assert.IsTrue(CompositeArrayObject.AreEqual(before, after));
+        }
+
+        [Test]
+        public void CompositeDict()
+        {
+            var before = CompositeDictionaryObject.Instance();
+
+            var json = new JsonObject(before).ToString();
+            
+            var after = (CompositeDictionaryObject) JsonValue.Parse(json).As(typeof(CompositeDictionaryObject));
+
+            Assert.IsTrue(CompositeDictionaryObject.AreEqual(before, after));
         }
 
         [Test]

@@ -164,6 +164,44 @@ namespace LightJson.Test
         }
     }
 
+    public class CompositeDictionaryObject
+    {
+        public Dictionary<string, CompositeObject> Composites;
+
+        public static CompositeDictionaryObject Instance()
+        {
+            return new CompositeDictionaryObject
+            {
+                Composites = Randomizer.RandomDict(
+                    Randomizer.RandomString,
+                    CompositeObject.Instance)
+            };
+        }
+
+        public static bool AreEqual(
+            CompositeDictionaryObject before,
+            CompositeDictionaryObject after)
+        {
+            var beforeComposites = before.Composites;
+            var afterComposites = after.Composites;
+            if (beforeComposites.Count == afterComposites.Count)
+            {
+                foreach (var pair in beforeComposites)
+                {
+                    if (!afterComposites.ContainsKey(pair.Key)
+                        || !CompositeObject.AreEqual(pair.Value, afterComposites[pair.Key]))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+    }
+
     public class CompositeArrayObject
     {
         public CompositeObject[] Composites;
