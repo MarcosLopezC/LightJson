@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
@@ -60,6 +61,34 @@ namespace LightJson
         /// <param name="value">Value to create an object for.</param>
 	    public JsonObject(object value)
 	    {
+            // special handling for dictionaries
+	        var dict = value as IDictionary;
+	        if (null != dict)
+	        {
+	            var genericArguments = dict.GetType().GetGenericArguments();
+	            if (2 == genericArguments.Length)
+	            {
+	                var keyType = dict.GetType().GetGenericArguments()[0];
+	                var valType = dict.GetType().GetGenericArguments()[1];
+	                if (keyType == typeof(string))
+	                {
+	                    foreach (var key in dict.Keys)
+	                    {
+	                        if (key.GetType() != typeof(string))
+	                        {
+	                            break;
+	                        }
+
+	                        properties[key.ToString()] = ToJsonValue(
+	                            valType,
+	                            dict[key]);
+	                    }
+                    }
+
+	                return;
+	            }
+	        }
+
             // add each field
 	        var type = value.GetType();
 	        var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace LightJson.Test
 {
@@ -15,6 +16,20 @@ namespace LightJson.Test
             var after = (PrimitiveObject) JsonValue.Parse(json).As(typeof(PrimitiveObject));
 
             Assert.IsTrue(PrimitiveObject.AreEqual(before, after));
+        }
+
+        [Test]
+        public void PrimitiveDict()
+        {
+            var before = PrimitiveDictionaryObject.Instance();
+
+            var json = new JsonObject(before).ToString();
+
+            Console.WriteLine(json);
+
+            var after = (PrimitiveDictionaryObject) JsonValue.Parse(json).As(typeof(PrimitiveDictionaryObject));
+
+            Assert.IsTrue(PrimitiveDictionaryObject.AreEqual(before, after));
         }
 
         [Test]

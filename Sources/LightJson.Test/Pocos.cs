@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace LightJson.Test
 {
@@ -32,6 +34,61 @@ namespace LightJson.Test
                    && Math.Abs(lhs.Float - rhs.Float) < float.Epsilon
                    && lhs.Bool == rhs.Bool
                    && lhs.String == rhs.String;
+        }
+    }
+
+    public class PrimitiveDictionaryObject
+    {
+        public Dictionary<string, byte> Bytes;
+        public Dictionary<string, short> Shorts;
+        public Dictionary<string, int> Ints;
+        public Dictionary<string, float> Floats;
+        public Dictionary<string, bool> Bools;
+        public Dictionary<string, string> Strings;
+
+        public static PrimitiveDictionaryObject Instance()
+        {
+            return new PrimitiveDictionaryObject
+            {
+                Bytes = Randomizer.RandomDict(Randomizer.RandomString, Randomizer.RandomByte),
+                Shorts = Randomizer.RandomDict(Randomizer.RandomString, Randomizer.RandomShort),
+                Ints = Randomizer.RandomDict(Randomizer.RandomString, Randomizer.RandomInt),
+                Floats = Randomizer.RandomDict(Randomizer.RandomString, Randomizer.RandomFloat),
+                Bools = Randomizer.RandomDict(Randomizer.RandomString, Randomizer.RandomBool),
+                Strings = Randomizer.RandomDict(Randomizer.RandomString, Randomizer.RandomString),
+            };
+        }
+
+        public static bool AreEqual(
+            PrimitiveDictionaryObject before,
+            PrimitiveDictionaryObject after)
+        {
+            return AreEqual(before.Bytes, after.Bytes)
+                && AreEqual(before.Shorts, after.Shorts)
+                && AreEqual(before.Floats, after.Floats)
+                && AreEqual(before.Bools, after.Bools)
+                && AreEqual(before.Strings, after.Strings)
+                && AreEqual(before.Ints, after.Ints);
+        }
+
+        public static bool AreEqual<K, V>(
+            Dictionary<K, V> before,
+            Dictionary<K, V> after)
+        {
+            if (before.Count == after.Count)
+            {
+                foreach (var pair in before)
+                {
+                    if (!after.ContainsKey(pair.Key) || !pair.Value.Equals(after[pair.Key]))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LightJson.Test
 {
@@ -16,6 +17,20 @@ namespace LightJson.Test
             }
 
             return arr;
+        }
+
+        public static Dictionary<K, V> RandomDict<K, V>(
+            Func<K> kfactory,
+            Func<V> vfactory)
+        {
+            var len = _random.Next(1, 6);
+            var dict = new Dictionary<K, V>();
+            while (len-- > 0)
+            {
+                dict[kfactory()] = vfactory();
+            }
+
+            return dict;
         }
 
         public static long RandomLong()
