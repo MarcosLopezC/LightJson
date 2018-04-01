@@ -151,6 +151,20 @@ namespace LightJson
 		}
 
 		/// <summary>
+		/// Determines whether this collection contains an item assosiated with the given key
+		/// </summary>
+		/// <param name="key">The key to locate in this collection.</param>
+		/// <param name="value">
+		/// When this method returns, this value gets assigned the JsonValue assosiated with
+		/// the key, if the key is found; otherwise, JsonValue.Null is assigned.
+		/// </param>
+		/// <returns>Returns true if the key is found; otherwise, false.</returns>
+		public bool ContainsKey(string key, out JsonValue value)
+		{
+			return this.properties.TryGetValue(key, out value);
+		}
+
+		/// <summary>
 		/// Determines whether this collection contains the given JsonValue.
 		/// </summary>
 		/// <param name="value">The value to locate in this collection.</param>
