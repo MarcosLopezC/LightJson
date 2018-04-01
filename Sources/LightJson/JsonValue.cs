@@ -839,10 +839,7 @@ namespace LightJson
 		/// </param>
 		public string ToString(bool pretty)
 		{
-			using (var reader = new JsonWriter(pretty))
-			{
-				return reader.Serialize(this);
-			}
+			return JsonWriter.Serialize(this, pretty);
 		}
 
 		private class JsonValueDebugView

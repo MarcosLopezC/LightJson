@@ -211,10 +211,7 @@ namespace LightJson
 		/// </param>
 		public string ToString(bool pretty)
 		{
-			using (var writer = new JsonWriter(pretty))
-			{
-				return writer.Serialize(this);
-			}
+			return JsonWriter.Serialize(this, pretty);
 		}
 
 		private class JsonArrayDebugView

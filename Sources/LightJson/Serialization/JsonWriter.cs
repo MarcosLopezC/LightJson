@@ -9,13 +9,12 @@ namespace LightJson.Serialization
 	using ErrorType = JsonSerializationException.ErrorType;
 
 	/// <summary>
-	/// Represents a writer that can write string representations of JsonValues.
+	/// Represents a TextWriter adapter that can write string representations of JsonValues.
 	/// </summary>
-	public sealed class JsonWriter : IDisposable
+	public sealed class JsonWriter
 	{
 		private int indent;
 		private bool isNewLine;
-		private TextWriter writer;
 
 		/// <summary>
 		/// A set of containing all the collection objects (JsonObject/JsonArray) being rendered.
@@ -45,17 +44,24 @@ namespace LightJson.Serialization
 		public bool SortObjects { get; set; }
 
 		/// <summary>
-		/// Initializes a new instance of JsonWriter.
+		/// Gets or sets the TextWriter to which this JsonWriter writes.
 		/// </summary>
-		public JsonWriter() : this(false) { }
+		public TextWriter InnerWriter { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of JsonWriter.
 		/// </summary>
+		/// <param name="innerWriter">The TextWriter used to write JsonValues.</param>
+		public JsonWriter(TextWriter innerWriter) : this(innerWriter, false) { }
+
+		/// <summary>
+		/// Initializes a new instance of JsonWriter.
+		/// </summary>
+		/// <param name="innerWriter">The TextWriter used to write JsonValues.</param>
 		/// <param name="pretty">
 		/// A value indicating whether the output of the writer should be human-readable.
 		/// </param>
-		public JsonWriter(bool pretty)
+		public JsonWriter(TextWriter innerWriter, bool pretty)
 		{
 			if (pretty)
 			{
@@ -63,14 +69,10 @@ namespace LightJson.Serialization
 				this.SpacingString = " ";
 				this.NewLineString = "\n";
 			}
-		}
 
-		private void Initialize()
-		{
-			this.indent = 0;
-			this.isNewLine = true;
-			this.writer = new StringWriter();
-			this.renderingCollections = new HashSet<IEnumerable<JsonValue>>();
+			renderingCollections = new HashSet<IEnumerable<JsonValue>>();
+
+			InnerWriter = innerWriter;
 		}
 
 		private void Write(string text)
@@ -81,7 +83,7 @@ namespace LightJson.Serialization
 				WriteIndentation();
 			}
 
-			writer.Write(text);
+			InnerWriter.Write(text);
 		}
 
 		private void WriteEncodedJsonValue(JsonValue value)
@@ -134,44 +136,44 @@ namespace LightJson.Serialization
 				switch (currentChar)
 				{
 					case '\\':
-						this.writer.Write("\\\\");
+						InnerWriter.Write("\\\\");
 						break;
 
 					case '\"':
-						this.writer.Write("\\\"");
+						InnerWriter.Write("\\\"");
 						break;
 
 					case '/':
-						this.writer.Write("\\/");
+						InnerWriter.Write("\\/");
 						break;
 
 					case '\b':
-						this.writer.Write("\\b");
+						InnerWriter.Write("\\b");
 						break;
 
 					case '\f':
-						this.writer.Write("\\f");
+						InnerWriter.Write("\\f");
 						break;
 
 					case '\n':
-						this.writer.Write("\\n");
+						InnerWriter.Write("\\n");
 						break;
 
 					case '\r':
-						this.writer.Write("\\r");
+						InnerWriter.Write("\\r");
 						break;
 
 					case '\t':
-						this.writer.Write("\\t");
+						InnerWriter.Write("\\t");
 						break;
 
 					default:
-						this.writer.Write(currentChar);
+						InnerWriter.Write(currentChar);
 						break;
 				}
 			}
 
-			this.writer.Write("\"");
+			InnerWriter.Write("\"");
 		}
 
 		private void WriteIndentation()
@@ -337,32 +339,48 @@ namespace LightJson.Serialization
 		}
 
 		/// <summary>
-		/// Returns a string representation of the given JsonValue.
+		/// Writes the given value to the InnerWriter.
 		/// </summary>
-		/// <param name="jsonValue">The JsonValue to serialize.</param>
-		public string Serialize(JsonValue jsonValue)
+		/// <param name="jsonValue">The JsonValue to write.</param>
+		public void Write(JsonValue jsonValue)
 		{
-			Initialize();
+			this.indent = 0;
+			this.isNewLine = true;
 
 			Render(jsonValue);
 
-			return writer.ToString();
-		}
-
-		/// <summary>
-		/// Releases all the resources used by this object.
-		/// </summary>
-		public void Dispose()
-		{
-			if (this.writer != null)
-			{
-				this.writer.Dispose();
-			}
+			this.renderingCollections.Clear();
 		}
 
 		private static bool IsValidNumber(double number)
 		{
 			return !(double.IsNaN(number) || double.IsInfinity(number));
+		}
+
+		/// <summary>
+		/// Generates a string representation of the given value.
+		/// </summary>
+		/// <param name="value">The value to serialize.</param>
+		public static string Serialize(JsonValue value)
+		{
+			return Serialize(value, false);
+		}
+
+		/// <summary>
+		/// Generates a string representation of the given value.
+		/// </summary>
+		/// <param name="value">The value to serialize.</param>
+		/// <param name="pretty">Indicates whether the resulting string should be formatted for human-readability.</param>
+		public static string Serialize(JsonValue value, bool pretty)
+		{
+			using (var stringWriter = new StringWriter())
+			{
+				var jsonWriter = new JsonWriter(stringWriter, pretty);
+
+				jsonWriter.Write(value);
+
+				return stringWriter.ToString();
+			}
 		}
 	}
 }
