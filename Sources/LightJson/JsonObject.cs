@@ -36,9 +36,7 @@ namespace LightJson
 		{
 			get
 			{
-				JsonValue value;
-
-				if (this.properties.TryGetValue(key, out value))
+				if (this.properties.TryGetValue(key, out var value))
 				{
 					return value;
 				}
@@ -133,9 +131,7 @@ namespace LightJson
 		/// <returns>Returns this JsonObject.</returns>
 		public JsonObject Rename(string oldKey, string newKey)
 		{
-			JsonValue value;
-
-			if (this.properties.TryGetValue(oldKey, out value))
+			if (this.properties.TryGetValue(oldKey, out var value))
 			{
 				Remove(oldKey);
 				this[newKey] = value;

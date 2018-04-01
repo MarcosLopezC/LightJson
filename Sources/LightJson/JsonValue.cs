@@ -271,9 +271,7 @@ namespace LightJson
 		{
 			get
 			{
-				DateTime value;
-
-				if (this.IsString && DateTime.TryParse((string)this.reference, out value))
+				if (this.IsString && DateTime.TryParse((string)this.reference, out DateTime value))
 				{
 					return value;
 				}
