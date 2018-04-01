@@ -97,6 +97,11 @@ namespace LightJson.Serialization
 					break;
 
 				case JsonValueType.Number:
+					if (!IsValidNumber(value))
+					{
+						throw new JsonSerializationException(ErrorType.InvalidNumber);
+					}
+
 					Write(((double)value).ToString(CultureInfo.InvariantCulture));
 					break;
 
