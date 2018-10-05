@@ -1,7 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightJson", "LightJson\LightJson.csproj", "{3BC85E8B-8A37-4015-B4A8-2D973F8622F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightJsonStandard", "LightJsonStandard\LightJsonStandard.csproj", "{78B83F12-403C-4D0A-B77C-19681DBFAA48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightJsonStandardTest", "LightJsonStandardTest\LightJsonStandardTest.csproj", "{E5756D76-E02C-497A-8866-BEDA8D26ED81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +19,19 @@ Global
 		{3BC85E8B-8A37-4015-B4A8-2D973F8622F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BC85E8B-8A37-4015-B4A8-2D973F8622F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BC85E8B-8A37-4015-B4A8-2D973F8622F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78B83F12-403C-4D0A-B77C-19681DBFAA48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78B83F12-403C-4D0A-B77C-19681DBFAA48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78B83F12-403C-4D0A-B77C-19681DBFAA48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78B83F12-403C-4D0A-B77C-19681DBFAA48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5756D76-E02C-497A-8866-BEDA8D26ED81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5756D76-E02C-497A-8866-BEDA8D26ED81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5756D76-E02C-497A-8866-BEDA8D26ED81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5756D76-E02C-497A-8866-BEDA8D26ED81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {546E2B96-CE8E-4063-8550-9B38E41D0D46}
 	EndGlobalSection
 EndGlobal
