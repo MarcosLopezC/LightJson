@@ -4,15 +4,14 @@ A minimalist JSON library designed to easily encode and decode JSON messages.
 
 ## Features
 
-- Support for .NET Framework 3.5 or later.
 - Strict adherence to JSON Standard as defined in [json.org](http://json.org/).
 - Expressive fluent API.
 - Configurable output (minified/pretty).
 - Enhanced debugging data for Visual Studio.
 
-## Basic Usage
+# Usage
 
-### Creating a JSON message
+## Creating a JSON message
 
 ```C#
 var json = new JsonObject()
@@ -36,7 +35,7 @@ JSON output:
 }
 ```
 
-### Reading a JSON message
+## Reading a JSON message
 
 In this example, the variable `json` contains the string generated in the previous example.
 
@@ -57,10 +56,16 @@ projects
 about
 ```
 
-## License
+# License
 
-- MIT License ([Read License](LICENSE.txt)).
+MIT License ([Read License](LICENSE.txt)).
 
-## Author
+# Author
 
 - Marcos López C. (MarcosLopezC) <MarcosLopezC@live.com>
+
+## Contributors
+
+- Trevor Stavropoulos (tstavropoulos) <Trevor.Stavropoulos@gmail.com>
+- Sam Harwell (sharwell)
+- saiedkia
