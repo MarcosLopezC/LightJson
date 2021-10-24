@@ -8,8 +8,13 @@
     <Copyright>Copyright © 2021 Marcos López C.</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>MarcosLopezC.LightJson</PackageId>
-    <RepositoryUrl>https://github.com/MarcosLopezC/LightJson</RepositoryUrl>
+    <RepositoryUrl>https://github.com/MarcosLopezC/LightJson.git</RepositoryUrl>
     <PackageTags>JSON</PackageTags>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\PROJECTS\Personal\LightJson\Sources\LightJson\LightJson.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
