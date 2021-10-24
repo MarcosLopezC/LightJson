@@ -3,3 +3,4 @@
 *.suo
 *.user
 .vs
+Sources/LightJson/*.xml
