@@ -14,13 +14,15 @@ A minimalist JSON library designed to easily encode and decode JSON messages.
 ## Creating a JSON message
 
 ```C#
-var json = new JsonObject()
-	.Add("menu", new JsonArray()
-		.Add("home")
-		.Add("projects")
-		.Add("about")
-	)
-	.ToString(true);
+var json = new JsonObject
+{
+	["menu"] = new JsonArray
+	{
+		"home",
+		"projects",
+		"about",
+	}
+}.ToString(pretty: true);
 ```
 
 JSON output:
