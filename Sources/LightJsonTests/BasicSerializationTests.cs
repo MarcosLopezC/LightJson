@@ -1,5 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LightJson;
+using LightJson.Serialization;
+using System.IO;
 
 namespace LightJsonTests
 {
@@ -53,6 +55,24 @@ namespace LightJsonTests
 			var expectedMessage = @"{""menu"":[""home"",""projects"",""about""]}";
 
 			Assert.AreEqual(expectedMessage, message);
+		}
+
+		[TestMethod]
+		public void ParseReadOnlyFile()
+		{
+			// Serialize an object to a file and make it read-only
+			var json = new JsonObject();
+			var message = json.ToString();
+			var filename = Path.GetTempFileName();
+			File.WriteAllText(filename, message);
+			File.SetAttributes(filename, FileAttributes.ReadOnly);
+
+			// Make sure that we don't get an exception when parsing it
+			JsonReader.ParseFile(filename);
+
+			// Clean up
+			File.SetAttributes(filename, FileAttributes.Normal);
+			File.Delete(filename);
 		}
 	}
 }
