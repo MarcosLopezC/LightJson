@@ -465,7 +465,9 @@ namespace LightJson.Serialization
 				throw new ArgumentNullException("path");
 			}
 
-			using (var reader = new StreamReader(path))
+			// NOTE: FileAccess.Read is needed to be able to open read-only files
+			using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+			using (var reader = new StreamReader(stream))
 			{
 				return new JsonReader(reader).Parse();
 			}
