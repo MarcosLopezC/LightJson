@@ -2,6 +2,8 @@
 
 A minimalist JSON library designed to easily encode and decode JSON messages.
 
+[![Build and Tests](https://github.com/MarcosLopezC/LightJson/actions/workflows/build-and-tests.yml/badge.svg)](https://github.com/MarcosLopezC/LightJson/actions/workflows/build-and-tests.yml)
+
 ## Features
 
 - Strict adherence to JSON Standard as defined in [json.org](http://json.org/).
