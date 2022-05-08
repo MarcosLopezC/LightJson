@@ -73,3 +73,4 @@ MIT License ([Read License](LICENSE.txt)).
 - Trevor Stavropoulos (tstavropoulos) <Trevor.Stavropoulos@gmail.com>
 - Sam Harwell (sharwell)
 - saiedkia
+- Björn Hellander (bjornhellander)
