@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightJson", "LightJson\LightJson.csproj", "{3BC85E8B-8A37-4015-B4A8-2D973F8622F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightJsonTests", "LightJsonTests\LightJsonTests.csproj", "{02C9F7A5-D779-4C98-8ABA-412D74D510FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightJsonTests", "LightJsonTests\LightJsonTests.csproj", "{02C9F7A5-D779-4C98-8ABA-412D74D510FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
