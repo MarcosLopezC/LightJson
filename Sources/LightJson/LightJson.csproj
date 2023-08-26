@@ -25,11 +25,14 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>MarcosLopezC.LightJson</PackageId>
     <RepositoryUrl>https://github.com/MarcosLopezC/LightJson.git</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageTags>JSON</PackageTags>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <IncludeSymbols>true</IncludeSymbols>
+
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSource>true</IncludeSource>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -38,7 +41,9 @@
 
   <ItemGroup>
     <None Remove="LightJson.xml" />
-    <None Include="../../README.md" Pack="true" PackagePath="/"/>
+    <None Include="../../README.md;../../LICENSE.txt" Pack="true" PackagePath="/"/>
+
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
   </ItemGroup>
 
 </Project>
