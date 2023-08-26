@@ -1,0 +1,5 @@
+<Project>
+	<ItemGroup Condition="'$(PackageLightJsonIncludeSource)' == 'true'">
+		<Compile Include="$(MSBuildThisFileDirectory)../src/**/*.cs" Visible="false"/>
+	</ItemGroup>
+</Project>
