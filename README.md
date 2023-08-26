@@ -74,3 +74,4 @@ MIT License ([Read License](LICENSE.txt)).
 - Sam Harwell (sharwell)
 - saiedkia
 - Björn Hellander (bjornhellander)
+- Vitor Rodrigues (vsilvar)
