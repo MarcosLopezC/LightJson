@@ -197,29 +197,27 @@ namespace LightJson.Serialization
 				}
 				else
 				{
-                    /*
-                     * According to the spec:
-                     * 
-                     * unescaped = %x20-21 / %x23-5B / %x5D-10FFFF
-                     * 
-                     * i.e. c cannot be < 0x20, be 0x22 (a double quote) or a 
-                     * backslash (0x5C).
-                     * 
-                     * c cannot be a back slash or double quote as the above 
-                     * would have hit. So just check for < 0x20.
-                     * 
-                     * > 0x10FFFF is unnecessary *I think* because it's obviously
-                     * out of the range of a character but we might need to look ahead
-                     * to get the whole utf-16 codepoint
-                     */
-                    if (c < '\u0020')
-                    {
-                        throw new JsonParseException(
-                            ErrorType.InvalidOrUnexpectedCharacter,
-                            this.scanner.Position
-                        );
-                    }
-                    else
+					// According to the spec:
+					//
+					// unescaped = %x20-21 / %x23-5B / %x5D-10FFFF
+					//
+					// i.e. c cannot be < 0x20, be 0x22 (a double quote) or a
+					// backslash (0x5C).
+					//
+					// c cannot be a back slash or double quote as the above
+					// would have hit. So just check for < 0x20.
+					//
+					// > 0x10FFFF is unnecessary *I think* because it's obviously
+					// out of the range of a character but we might need to look ahead
+					// to get the whole utf-16 codepoint.
+					if (c < '\u0020')
+					{
+						throw new JsonParseException(
+							ErrorType.InvalidOrUnexpectedCharacter,
+							this.scanner.Position
+						);
+					}
+					else
 					{
 						builder.Append(c);
 					}
