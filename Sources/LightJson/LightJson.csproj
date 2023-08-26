@@ -13,6 +13,10 @@
       net48;
       net6.0
     </TargetFrameworks>
+
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">True</ContinuousIntegrationBuild>
+
     <LangVersion>latest</LangVersion>
     <Version>0.5.0</Version>
     <Authors>Marcos López C.</Authors>
