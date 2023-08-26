@@ -4,3 +4,4 @@
 *.user
 .vs
 Sources/LightJson/*.xml
+.vscode/
