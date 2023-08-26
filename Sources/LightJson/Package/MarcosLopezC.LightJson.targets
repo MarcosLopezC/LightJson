@@ -1,4 +1,7 @@
 <Project>
+	<PropertyGroup Condition="'$(PackageLightJsonIncludeSource)' == 'true'">
+		<DefineConstants>$(DefineConstants);LIGHTJSON_INTERNAL</DefineConstants>
+	</PropertyGroup>
 	<ItemGroup Condition="'$(PackageLightJsonIncludeSource)' == 'true'">
 		<Compile Include="$(MSBuildThisFileDirectory)../src/**/*.cs" Visible="false"/>
 	</ItemGroup>

@@ -10,7 +10,12 @@ namespace LightJson
 	/// </summary>
 	[DebuggerDisplay("{ToString(),nq}", Type = "JsonValue({Type})")]
 	[DebuggerTypeProxy(typeof(JsonValueDebugView))]
-	public struct JsonValue
+#if LIGHTJSON_INTERNAL
+    internal
+#else
+    public
+#endif
+    struct JsonValue
 	{
 		private readonly JsonValueType type;
 		private readonly object reference;

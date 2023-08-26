@@ -9,7 +9,12 @@ namespace LightJson.Serialization
 	/// <summary>
 	/// Represents a text scanner that reads one character at a time.
 	/// </summary>
-	public sealed class TextScanner
+#if LIGHTJSON_INTERNAL
+    internal
+#else
+    public
+#endif
+    sealed class TextScanner
 	{
 		private TextReader reader;
 		private TextPosition position;

@@ -8,7 +8,12 @@ namespace LightJson.Serialization
 	/// <remarks>
 	/// This exception is only intended to be thrown by LightJson.
 	/// </remarks>
-	public sealed class JsonParseException : Exception
+#if LIGHTJSON_INTERNAL
+    internal
+#else
+    public
+#endif
+    sealed class JsonParseException : Exception
 	{
 		/// <summary>
 		/// Gets the text position where the error occurred.

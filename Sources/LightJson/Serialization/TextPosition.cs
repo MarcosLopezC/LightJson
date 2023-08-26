@@ -5,7 +5,12 @@ namespace LightJson.Serialization
 	/// <summary>
 	/// Represents a position within a plain text resource.
 	/// </summary>
-	public struct TextPosition
+#if LIGHTJSON_INTERNAL
+    internal
+#else
+    public
+#endif
+    struct TextPosition
 	{
 		/// <summary>
 		/// The column position, 0-based.

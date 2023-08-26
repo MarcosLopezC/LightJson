@@ -11,7 +11,12 @@ namespace LightJson.Serialization
 	/// <summary>
 	/// Represents a TextWriter adapter that can write string representations of JsonValues.
 	/// </summary>
-	public sealed class JsonWriter
+#if LIGHTJSON_INTERNAL
+    internal
+#else
+    public
+#endif
+    sealed class JsonWriter
 	{
 		private int indent;
 		private bool isNewLine;

@@ -10,7 +10,12 @@ namespace LightJson
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
 	[DebuggerTypeProxy(typeof(JsonArrayDebugView))]
-	public sealed class JsonArray : IEnumerable<JsonValue>
+#if LIGHTJSON_INTERNAL
+    internal
+#else
+    public
+#endif
+    sealed class JsonArray : IEnumerable<JsonValue>
 	{
 		private IList<JsonValue> items;
 

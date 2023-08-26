@@ -10,7 +10,12 @@ namespace LightJson.Serialization
 	/// <summary>
 	/// Represents a reader that can read JsonValues.
 	/// </summary>
-	public sealed class JsonReader
+#if LIGHTJSON_INTERNAL
+    internal
+#else
+    public
+#endif
+    sealed class JsonReader
 	{
 		private TextScanner scanner;
 
