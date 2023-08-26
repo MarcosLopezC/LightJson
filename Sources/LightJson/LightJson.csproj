@@ -43,6 +43,19 @@
     <None Remove="LightJson.xml" />
     <None Include="../../README.md;../../LICENSE.txt" Pack="true" PackagePath="/"/>
 
+    <!-- Pack sources in the nuget package -->
+    <Content Include="Package\**">
+	    <Pack>true</Pack>
+	    <PackagePath>build\</PackagePath>
+	    <PackageCopyToOutput>true</PackageCopyToOutput>
+    </Content>
+
+    <Content Include="**\*.cs" Exclude="**\obj\**;**\bin\**">
+	    <Pack>true</Pack>
+	    <PackagePath>src\LightJson\</PackagePath>
+	    <PackageCopyToOutput>true</PackageCopyToOutput>
+    </Content>
+
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
   </ItemGroup>
 
