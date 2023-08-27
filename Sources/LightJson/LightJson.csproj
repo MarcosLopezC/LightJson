@@ -52,7 +52,7 @@
 
     <Content Include="**\*.cs" Exclude="**\obj\**;**\bin\**">
       <Pack>true</Pack>
-      <PackagePath>src\LightJson\</PackagePath>
+      <PackagePath>src\LightJson\%(RecursiveDir)%(Filename).g%(Extension)</PackagePath>
       <PackageCopyToOutput>true</PackageCopyToOutput>
     </Content>
 
