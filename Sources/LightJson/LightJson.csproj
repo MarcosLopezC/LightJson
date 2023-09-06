@@ -18,7 +18,7 @@
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">True</ContinuousIntegrationBuild>
 
     <LangVersion>latest</LangVersion>
-    <Version>0.5.2</Version>
+    <Version>0.5.3</Version>
     <Authors>Marcos López C.</Authors>
     <Description>A minimalist JSON library designed to easily encode and decode JSON messages.</Description>
     <Copyright>Copyright © 2023 Marcos López C.</Copyright>
