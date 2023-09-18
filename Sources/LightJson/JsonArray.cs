@@ -6,7 +6,7 @@ using LightJson.Serialization;
 namespace LightJson
 {
 	/// <summary>
-	/// Represents an ordered collection of JsonValues.
+	/// Represents an ordered collection of <see cref="JsonValue"/> values.
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
 	[DebuggerTypeProxy(typeof(JsonArrayDebugView))]
@@ -15,7 +15,7 @@ namespace LightJson
 		private IList<JsonValue> items;
 
 		/// <summary>
-		/// Gets the number of values in this collection.
+		/// Gets the number of items in this collection.
 		/// </summary>
 		public int Count
 		{
@@ -26,11 +26,12 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Gets or sets the value at the given index.
+		/// Gets or sets the <see cref="JsonValue"/> at the given index.
 		/// </summary>
-		/// <param name="index">The zero-based index of the value to get or set.</param>
+		/// <param name="index">The zero-based index of the item to get or set.</param>
 		/// <remarks>
-		/// The getter will return JsonValue.Null if the given index is out of range.
+		/// The getter will return <see cref="JsonValue.Null"/> if the given index is out of range;
+		/// it does not throw an exception.
 		/// </remarks>
 		public JsonValue this[int index]
 		{
@@ -52,7 +53,7 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Initializes a new instance of JsonArray.
+		/// Initializes a new <see cref="JsonArray"/> instance.
 		/// </summary>
 		public JsonArray()
 		{
@@ -60,9 +61,11 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Initializes a new instance of JsonArray, adding the given values to the collection.
+		/// Initializes a new <see cref="JsonArray"/> instance, adding its items to the collection.
 		/// </summary>
-		/// <param name="values">The values to be added to this collection.</param>
+		/// <param name="values">
+		/// The values to be added to this collection.
+		/// </param>
 		public JsonArray(params JsonValue[] values) : this()
 		{
 			if (values == null)
@@ -77,10 +80,14 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Adds the given value to this collection.
+		/// Adds an item to this <see cref="JsonArray"/>.
 		/// </summary>
-		/// <param name="value">The value to be added.</param>
-		/// <returns>Returns this collection.</returns>
+		/// <param name="value">
+		/// The item to add to this <see cref="JsonArray"/>.
+		/// </param>
+		/// <returns>
+		/// Returns a reference this <see cref="JsonArray"/>.
+		/// </returns>
 		public JsonArray Add(JsonValue value)
 		{
 			this.items.Add(value);
@@ -88,10 +95,14 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Adds the given value to this collection only if the value is not null.
+		/// Adds an item to this <see cref="JsonArray"/> only if its value is not <see langword="null"/>.
 		/// </summary>
-		/// <param name="value">The value to be added.</param>
-		/// <returns>Returns this collection.</returns>
+		/// <param name="value">
+		/// The item to add to this <see cref="JsonArray"/>.
+		/// </param>
+		/// <returns>
+		/// Returns a reference this <see cref="JsonArray"/>.
+		/// </returns>
 		public JsonArray AddIfNotNull(JsonValue value)
 		{
 			if (!value.IsNull)
@@ -103,11 +114,17 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Inserts the given value at the given index in this collection.
+		/// Inserts an item to this <see cref="JsonArray"/> at the specified index.
 		/// </summary>
-		/// <param name="index">The index where the given value will be inserted.</param>
-		/// <param name="value">The value to be inserted into this collection.</param>
-		/// <returns>Returns this collection.</returns>
+		/// <param name="index">
+		/// The zero-based index where the item should be inserted.
+		/// </param>
+		/// <param name="value">
+		/// The item to be inserted into this <see cref="JsonArray"/>.
+		/// </param>
+		/// <returns>
+		/// Returns a reference this <see cref="JsonArray"/>.
+		/// </returns>
 		public JsonArray Insert(int index, JsonValue value)
 		{
 			this.items.Insert(index, value);
@@ -115,11 +132,17 @@ namespace LightJson
 		}
 
 		/// <summary>
-		/// Inserts the given value at the given index in this collection.
+		/// Inserts an item to this <see cref="JsonArray"/> at the specified index only if the value is not <see langword="null"/>.
 		/// </summary>
-		/// <param name="index">The index where the given value will be inserted.</param>
-		/// <param name="value">The value to be inserted into this collection.</param>
-		/// <returns>Returns this collection.</returns>
+		/// <param name="index">
+		/// The zero-based index where the item should be inserted.
+		/// </param>
+		/// <param name="value">
+		/// The item to be inserted into this <see cref="JsonArray"/>.
+		/// </param>
+		/// <returns>
+		/// Returns a reference this <see cref="JsonArray"/>.
+		/// </returns>
 		public JsonArray InsertIfNotNull(int index, JsonValue value)
 		{
 			if (!value.IsNull)
