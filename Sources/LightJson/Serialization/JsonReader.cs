@@ -427,7 +427,7 @@ namespace LightJson.Serialization
 		/// <param name="reader">The TextReader used to read a JSON message.</param>
 		public static JsonValue Parse(TextReader reader)
 		{
-			if (reader == null)
+			if (reader is null)
 			{
 				throw new ArgumentNullException("reader");
 			}
@@ -441,7 +441,7 @@ namespace LightJson.Serialization
 		/// <param name="source">The string containing the JSON message.</param>
 		public static JsonValue Parse(string source)
 		{
-			if (source == null)
+			if (source is null)
 			{
 				throw new ArgumentNullException("source");
 			}
@@ -458,7 +458,7 @@ namespace LightJson.Serialization
 		/// <param name="path">The file path to be read.</param>
 		public static JsonValue ParseFile(string path)
 		{
-			if (path == null)
+			if (path is null)
 			{
 				throw new ArgumentNullException("path");
 			}

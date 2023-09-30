@@ -123,7 +123,7 @@ namespace LightJson
 		{
 			get
 			{
-				return this.AsDateTime != null;
+				return this.AsDateTime is not null;
 			}
 		}
 
@@ -437,7 +437,7 @@ namespace LightJson
 		/// <param name="value">The value to be wrapped.</param>
 		public JsonValue(string value)
 		{
-			if (value != null)
+			if (value is not null)
 			{
 				this.value = default(double);
 
@@ -457,7 +457,7 @@ namespace LightJson
 		/// <param name="value">The value to be wrapped.</param>
 		public JsonValue(JsonObject value)
 		{
-			if (value != null)
+			if (value is not null)
 			{
 				this.value = default(double);
 
@@ -477,7 +477,7 @@ namespace LightJson
 		/// <param name="value">The value to be wrapped.</param>
 		public JsonValue(JsonArray value)
 		{
-			if (value != null)
+			if (value is not null)
 			{
 				this.value = default(double);
 
@@ -546,7 +546,7 @@ namespace LightJson
 		/// <param name="value">The value to be converted.</param>
 		public static implicit operator JsonValue(DateTime? value)
 		{
-			if (value == null)
+			if (value is null)
 			{
 				return JsonValue.Null;
 			}
@@ -781,7 +781,7 @@ namespace LightJson
 		/// <param name="obj">The object to test.</param>
 		public override bool Equals(object obj)
 		{
-			if (obj == null)
+			if (obj is null)
 			{
 				return this.IsNull;
 			}
